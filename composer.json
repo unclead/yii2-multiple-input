@@ -1,0 +1,30 @@
+{
+    "name": "unclead/yii2-multiple-input",
+    "description": "Multiple input widget for Yii2",
+    "keywords": ["yii2", "yii2-multiple-input", "multiple input", "multiple field"],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/unclead/yii2-multiple-input/issues?state=open",
+        "source": "https://github.com/unclead/yii2-multiple-input"
+    },
+    "authors": [
+        {
+            "name": "Eugene Tupikov",
+            "email": "unclead.nsk@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "2.0.3",
+        "yiisoft/yii2-bootstrap": "2.0.3",
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "unclead\\widgets\\": ""
+        }
+    }
+}
