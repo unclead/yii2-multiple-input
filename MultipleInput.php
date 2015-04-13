@@ -52,7 +52,6 @@ class MultipleInput extends InputWidget
      */
     protected $replacementKeys;
 
-
     public function init()
     {
         parent::init();
@@ -184,7 +183,7 @@ class MultipleInput extends InputWidget
                             $this->template .= $value;
                             break;
                         default:
-                            if (method_exists('albatross\commons\helpers\Html', $type)) {
+                            if (method_exists('yii\helpers\Html', $type)) {
                                 $this->template .= Html::$type($name, $value, $options);
                             } elseif (class_exists($type) && method_exists($type, 'widget')) {
                                 $this->template .= $type::widget(array_merge($options, [
@@ -301,7 +300,7 @@ class MultipleInput extends InputWidget
      */
     private function getGroupId()
     {
-        return $this->normalize($this->getName());
+        return $this->normalize($this->getName()) . static::$counter;
     }
 
     /**

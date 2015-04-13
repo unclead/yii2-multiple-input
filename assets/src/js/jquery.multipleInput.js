@@ -10,16 +10,25 @@
         }
     };
 
+    var defaultOptions = {
+        group_id: null,
+        template: null,
+        btn_action: null,
+        btn_type: null,
+        limit: 1,
+        replacement: []
+    };
+
     var methods = {
         init: function (options) {
-            var settings = $.extend({}, options || {});
+            var settings = $.extend(defaultOptions, options || {});
 
-            $(document).on('click', '.js-' + settings.group_id + '-input-remove', function (e) {
+            $(document).on('click.multipleinput', '.js-' + settings.group_id + '-input-remove', function (e) {
                 e.preventDefault();
                 methods.removeInput.apply(this);
             });
 
-            $(document).on('click', '.js-'+ settings.group_id + '-input-plus', function (e) {
+            $(document).on('click.multipleinput', '.js-'+ settings.group_id + '-input-plus', function (e) {
                 e.preventDefault();
                 methods.addInput.apply(this,[settings]);
             });
@@ -33,8 +42,8 @@
 
         addInput: function (settings) {
             var template = settings.template,
-                wrapper = $(this).parents('.multiple-input-list'),
-                index = wrapper.find('.multiple-input-list__item').length,
+                $wrapper = $(this).parents('.multiple-input-list').first(),
+                index = $wrapper.find('.multiple-input-list__item').length,
                 btn_action = settings.btn_action,
                 btn_type = settings.btn_type,
                 replacement = settings.replacement || [];
@@ -54,7 +63,8 @@
                 template = template.replaceAll('{' + j + '}', replacement[j]);
             }
 
-            $(template).hide().appendTo(wrapper).fadeIn(300);
+            console.log(template);
+            $(template).hide().appendTo($wrapper).fadeIn(300);
             $(template).find('input, select, textarea').each(function () {
                 methods.addAttribute.apply(this);
             });
