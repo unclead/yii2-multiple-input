@@ -1,0 +1,33 @@
+.multiple-input-list {}
+.multiple-input-list__item {
+    margin-bottom: 5px;
+}
+.multiple-input-list__input {
+    display: inline-block;
+    width: 80%;
+}
+
+.multiple-input-list.no-buttons .multiple-input-list__input {
+    display: block;
+    width: 100%;
+}
+table.multiple-input-list {
+    margin: 0;
+}
+table.multiple-input-list tr > td {
+    border: 0 !important;
+}
+table.multiple-input-list tr > th {
+    border-bottom: 1px solid #dddddd;
+}
+.multiple-input-list .form-group {
+    margin: 0 !important;
+}
+.multiple-input-list__item .label {
+    margin-top: 8px;
+    display: block;
+    font-size: 13px;
+}
+.multiple-input-list__item .list-cell__button {
+    width: 40px;
+}
