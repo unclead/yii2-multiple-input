@@ -70,7 +70,7 @@ class MultipleInput extends InputWidget
     public function run()
     {
         echo Html::beginTag('div', [
-            'class' => 'list-group list-group-' . $this->getGroupId(),
+            'class' => 'list-group list-group-' . $this->getId(),
         ]);
         echo Html::beginTag('table', [
             'class' => 'multiple-input-list table table-condensed'
@@ -210,7 +210,7 @@ class MultipleInput extends InputWidget
                         'type' => '{btn_type}',
                         'options' => [
                             'id' => $this->getElementId('button'),
-                            'class' => "ps-button multiple-input-list__btn btn js-{$this->getGroupId()}-input-{btn_action}",
+                            'class' => "ps-button multiple-input-list__btn btn js-{$this->getId()}-input-{btn_action}",
                         ]
                     ]
                 );
@@ -295,15 +295,7 @@ class MultipleInput extends InputWidget
         return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], strtolower($name));
     }
 
-    /**
-     * @return mixed
-     */
-    private function getGroupId()
-    {
-        return $this->normalize($this->getName()) . static::$counter;
-    }
-
-    /**
+     /**
      * @return string
      */
     private function getName()
@@ -336,7 +328,7 @@ class MultipleInput extends InputWidget
         MultipleInputAsset::register($view);
         $options = Json::encode(
             [
-                'group_id'    => $this->getGroupId(),
+                'group_id'    => $this->getId(),
                 'template'    => $this->getRowTemplate(),
                 'btn_action'  => self::ACTION_REMOVE,
                 'btn_type'    => Button::TYPE_DANGER,
