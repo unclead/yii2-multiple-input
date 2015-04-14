@@ -18,8 +18,12 @@ use unclead\widgets\examples\models\ExampleModel;
 ]);?>
 
 <?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
-    'limit' => 2,
+    'limit' => 4,
  ]);
+?>
+<?= $form->field($model, 'phones')->widget(MultipleInput::className(), [
+    'limit' => 4,
+]);
 ?>
 <?= Button::update();?>
 <?php ActiveForm::end();?>
