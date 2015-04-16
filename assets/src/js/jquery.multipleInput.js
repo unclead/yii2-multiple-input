@@ -11,7 +11,7 @@
     };
 
     var defaultOptions = {
-        group_id: null,
+        id: null,
         template: null,
         btn_action: null,
         btn_type: null,
@@ -19,25 +19,36 @@
         replacement: []
     };
 
+    var attributeDefaults = {};
+
     var methods = {
         init: function (options) {
             var settings = $.extend(defaultOptions, options || {});
 
-            $(document).on('click.multipleinput', '.js-' + settings.group_id + '-input-remove', function (e) {
+            $(document).on('click.multipleinput', '.js-' + settings.id + '-input-remove', function (e) {
                 e.preventDefault();
                 methods.removeInput.apply(this);
             });
 
-            $(document).on('click.multipleinput', '.js-'+ settings.group_id + '-input-plus', function (e) {
+            $(document).on('click.multipleinput', '.js-'+ settings.id + '-input-plus', function (e) {
                 e.preventDefault();
                 methods.addInput.apply(this,[settings]);
             });
 
-            $(function() {
-                $('.multiple-input-list').find('input, select, textarea').each(function () {
+            var wrapper = $('#' + settings.id),
+                form = wrapper.closest('form');
+
+            setTimeout(function() {
+                var attributes = form.data('yiiActiveForm').attributes;
+                $.each(attributes[0], function(key, value) {
+                    attributeDefaults[key] = value;
+                });
+                form.data('yiiActiveForm').attributes = [];
+
+                wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                     methods.addAttribute.apply(this);
                 });
-            });
+            }, 100);
         },
 
         addInput: function (settings) {
@@ -51,7 +62,6 @@
             if (settings.limit != null && index >= settings.limit) {
                 return;
             }
-
             var search = ['{index}', '{btn_action}', '{btn_type}', '{value}'],
                 replace = [index, btn_action, btn_type, ''];
 
@@ -63,7 +73,7 @@
                 template = template.replaceAll('{' + j + '}', replacement[j]);
             }
 
-            console.log(template);
+
             $(template).hide().appendTo($wrapper).fadeIn(300);
             $(template).find('input, select, textarea').each(function () {
                 methods.addAttribute.apply(this);
@@ -81,40 +91,22 @@
         },
 
         addAttribute: function () {
-            var id = $(this).attr('id');
-            var list = methods.getAttributesList.apply(this);
-            var isExists = false;
+            var id = $(this).attr('id'),
+                form = $('#' + $(this).attr('id')).closest('form');
 
-            for (var i in list) {
-                if (list[i]['id'] == id) {
-                    isExists = true;
-                }
-            }
-            if (!isExists) {
-                list.push({
-                    'id': id,
-                    'input': '#' + id,
-                    'container': '.field-' + id,
-                    'enableAjaxValidation': true
-                });
-            }
+            form.yiiActiveForm('add', $.extend(attributeDefaults, {
+                'id': id,
+                'input': '#' + id,
+                'container': '.field-' + id
+            }));
         },
 
         removeAttribute: function () {
             var id = $(this).attr('id');
-            var list = methods.getAttributesList.apply(this);
-            for (var i in list) {
-                if (list[i]['id'] == id) {
-                    delete list[id];
-                    return;
-                }
-            }
-        },
-
-        getAttributesList: function () {
             var form = $('#' + $(this).attr('id')).closest('form');
-            return form.data('yiiActiveForm')['attributes'];
+            form.yiiActiveForm('remove', id);
         }
+
     };
 
     String.prototype.replaceAll = function(search, replace){

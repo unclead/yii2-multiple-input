@@ -69,9 +69,7 @@ class MultipleInput extends InputWidget
      */
     public function run()
     {
-        echo Html::beginTag('div', [
-            'class' => 'list-group list-group-' . $this->getId(),
-        ]);
+        echo Html::beginTag('div', ['id' => $this->getId(), 'class' => 'list-group']);
         echo Html::beginTag('table', [
             'class' => 'multiple-input-list table table-condensed'
         ]);
@@ -229,7 +227,7 @@ class MultipleInput extends InputWidget
      */
     private function renderRow($index, $data = null)
     {
-        $btnAction = $index == 0 ? self::ACTION_ADD     : self::ACTION_REMOVE;
+        $btnAction = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
         $btnType   = $index == 0 ? Button::TYPE_DEFAULT : Button::TYPE_DANGER;
 
         $search = ['{index}', '{btn_action}', '{btn_type}'];
@@ -267,14 +265,18 @@ class MultipleInput extends InputWidget
 
     /**
      * @param $name
+     * @param string $index
      * @return string
      */
-    private function getElementName($name)
+    private function getElementName($name, $index = null)
     {
         $elementName = $this->getName();
+        if ($index === null) {
+            $index = '{index}';
+        }
         $elementName .= count($this->getColumns()) > 1
-            ? '[{index}][' . $name . ']'
-            : '[' . $name . '][{index}]';
+            ? '[' . $index . '][' . $name . ']'
+            : '[' . $name . '][' . $index . ']';
         return $elementName;
     }
 
@@ -328,7 +330,7 @@ class MultipleInput extends InputWidget
         MultipleInputAsset::register($view);
         $options = Json::encode(
             [
-                'group_id'    => $this->getId(),
+                'id'          => $this->getId(),
                 'template'    => $this->getRowTemplate(),
                 'btn_action'  => self::ACTION_REMOVE,
                 'btn_type'    => Button::TYPE_DANGER,

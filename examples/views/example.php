@@ -10,7 +10,7 @@ use unclead\widgets\examples\models\ExampleModel;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'enableAjaxValidation'      => false,
+    'enableAjaxValidation'      => true,
     'enableClientValidation'    => false,
     'validateOnChange'          => false,
     'validateOnSubmit'          => true,
@@ -21,9 +21,10 @@ use unclead\widgets\examples\models\ExampleModel;
     'limit' => 4,
  ]);
 ?>
-<?= $form->field($model, 'phones')->widget(MultipleInput::className(), [
-    'limit' => 4,
-]);
+<?php
+//    echo $form->field($model, 'phones')->widget(MultipleInput::className(), [
+//        'limit' => 4,
+//    ]);
 ?>
 <?= Button::update();?>
 <?php ActiveForm::end();?>
