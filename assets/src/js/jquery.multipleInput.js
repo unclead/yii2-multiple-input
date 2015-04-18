@@ -16,10 +16,14 @@
         btn_action: null,
         btn_type: null,
         limit: 1,
-        replacement: []
+        replacement: [],
+        currentIndex: 0
     };
 
     var attributeDefaults = {};
+
+    var currentIndex = 0;
+
 
     var methods = {
         init: function (options) {
@@ -41,29 +45,32 @@
             setTimeout(function() {
                 var attributes = form.data('yiiActiveForm').attributes;
                 $.each(attributes[0], function(key, value) {
-                    attributeDefaults[key] = value;
+                    if (['id', 'input', 'container'].indexOf(key) == -1) {
+                        attributeDefaults[key] = value;
+                    }
                 });
                 form.data('yiiActiveForm').attributes = [];
 
                 wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                     methods.addAttribute.apply(this);
                 });
+
+                currentIndex = $('#' + settings.id).find('.multiple-input-list__item').length;
             }, 100);
         },
 
         addInput: function (settings) {
             var template = settings.template,
-                $wrapper = $(this).parents('.multiple-input-list').first(),
-                index = $wrapper.find('.multiple-input-list__item').length,
-                btn_action = settings.btn_action,
-                btn_type = settings.btn_type,
+                parent = $('#' + settings.id),
+                inputList = parent.find('.multiple-input-list').first(),
+                count = parent.find('.multiple-input-list__item').length,
                 replacement = settings.replacement || [];
 
-            if (settings.limit != null && index >= settings.limit) {
+            if (settings.limit != null && count >= settings.limit) {
                 return;
             }
             var search = ['{index}', '{btn_action}', '{btn_type}', '{value}'],
-                replace = [index, btn_action, btn_type, ''];
+                replace = [currentIndex, settings.btn_action, settings.btn_type, ''];
 
             for (var i in search) {
                 template = template.replaceAll(search[i], replace[i]);
@@ -73,11 +80,12 @@
                 template = template.replaceAll('{' + j + '}', replacement[j]);
             }
 
-
-            $(template).hide().appendTo($wrapper).fadeIn(300);
+            $(template).hide().appendTo(inputList).fadeIn(300);
             $(template).find('input, select, textarea').each(function () {
                 methods.addAttribute.apply(this);
             });
+
+            currentIndex++;
         },
 
         removeInput: function () {

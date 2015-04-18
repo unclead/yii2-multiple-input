@@ -330,12 +330,12 @@ class MultipleInput extends InputWidget
         MultipleInputAsset::register($view);
         $options = Json::encode(
             [
-                'id'          => $this->getId(),
-                'template'    => $this->getRowTemplate(),
-                'btn_action'  => self::ACTION_REMOVE,
-                'btn_type'    => Button::TYPE_DANGER,
-                'limit'       => $this->limit,
-                'replacement' => $this->replacementKeys,
+                'id'            => $this->getId(),
+                'template'      => $this->getRowTemplate(),
+                'btn_action'    => self::ACTION_REMOVE,
+                'btn_type'      => Button::TYPE_DANGER,
+                'limit'         => $this->limit,
+                'replacement'   => $this->replacementKeys,
             ]
         );
         $id = $this->options['id'];
