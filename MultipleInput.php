@@ -21,6 +21,7 @@ use unclead\widgets\assets\MultipleInputAsset;
 /**
  * Widget for rendering multiple input for one attribute of model.
  *
+ * @author Eugene Tupikov <unclead.nsk@gmail.com>
  */
 class MultipleInput extends InputWidget
 {
