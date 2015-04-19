@@ -1,9 +1,9 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
-use unclead\widgets\Button;
 use unclead\widgets\MultipleInput;
 use unclead\widgets\examples\models\ExampleModel;
+use yii\helpers\Html;
 
 /* @var $this \yii\base\View */
 /* @var $model ExampleModel */
@@ -26,5 +26,5 @@ use unclead\widgets\examples\models\ExampleModel;
 //        'limit' => 4,
 //    ]);
 ?>
-<?= Button::update();?>
+<?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
 <?php ActiveForm::end();?>

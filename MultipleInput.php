@@ -206,11 +206,10 @@ class MultipleInput extends InputWidget
                     [
                         'tagName' => 'div',
                         'encodeLabel' => false,
-                        'label' => Html::tag('i', null, 'glyphicon glyphicon-{btn_action}'),
-                        'type' => '{btn_type}',
+                        'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-{btn_action}']),
                         'options' => [
                             'id' => $this->getElementId('button'),
-                            'class' => "ps-button multiple-input-list__btn btn js-{$this->getId()}-input-{btn_action}",
+                            'class' => "{btn_type} multiple-input-list__btn btn js-{$this->getId()}-input-{btn_action}",
                         ]
                     ]
                 );
