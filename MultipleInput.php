@@ -15,11 +15,12 @@ use yii\helpers\Json;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\bootstrap\Button;
 use unclead\widgets\assets\MultipleInputAsset;
 
 
 /**
- * Widget for rendering multiple input for one attribute of model.
+ * Widget for rendering multiple input for an attribute of model.
  *
  * @author Eugene Tupikov <unclead.nsk@gmail.com>
  */
@@ -204,8 +205,8 @@ class MultipleInput extends InputWidget
                 $this->template .= Button::widget(
                     [
                         'tagName' => 'div',
-                        'label' => false,
-                        'iconClass' => 'glyphicon glyphicon-{btn_action}',
+                        'encodeLabel' => false,
+                        'label' => Html::tag('i', null, 'glyphicon glyphicon-{btn_action}'),
                         'type' => '{btn_type}',
                         'options' => [
                             'id' => $this->getElementId('button'),
@@ -229,7 +230,7 @@ class MultipleInput extends InputWidget
     private function renderRow($index, $data = null)
     {
         $btnAction = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
-        $btnType   = $index == 0 ? Button::TYPE_DEFAULT : Button::TYPE_DANGER;
+        $btnType   = $index == 0 ? 'btn-default' : 'btn-danger';
 
         $search = ['{index}', '{btn_action}', '{btn_type}'];
         $replace = [$index, $btnAction, $btnType];
@@ -334,7 +335,7 @@ class MultipleInput extends InputWidget
                 'id'            => $this->getId(),
                 'template'      => $this->getRowTemplate(),
                 'btn_action'    => self::ACTION_REMOVE,
-                'btn_type'      => Button::TYPE_DANGER,
+                'btn_type'      => 'btn-danger',
                 'limit'         => $this->limit,
                 'replacement'   => $this->replacementKeys,
             ]
