@@ -15,9 +15,20 @@ class ExampleModel extends Model
     const TYPE_EMAIL = 'email';
     const TYPE_PHONE = 'phone';
 
+    /**
+     * @var array virtual attribute for keeping emails
+     */
     public $emails;
 
+    /**
+     * @var
+     */
     public $phones;
+
+    /**
+     * @var
+     */
+    public $schedule;
 
 
     public function rules()
@@ -43,6 +54,11 @@ class ExampleModel extends Model
         ];
     }
 
+    /**
+     * Phone number validation
+     *
+     * @param $attribute
+     */
     public function validatePhones($attribute)
     {
         $items = $this->$attribute;
@@ -68,6 +84,11 @@ class ExampleModel extends Model
         }
     }
 
+    /**
+     * Email validation.
+     *
+     * @param $attribute
+     */
     public function validateEmails($attribute)
     {
         $items = $this->$attribute;
