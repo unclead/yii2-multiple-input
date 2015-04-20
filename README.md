@@ -22,8 +22,17 @@ to the require section of your `composer.json` file.
 
 ##Usage
 
+For getting more detail read [documentation]()
 
-Widget supports several use cases. Use the following links for getting more information
+##Examples
+
+
+Widget supports several use cases:
 
 - [Single column example](docs/single_column.md)
 - [Several columns example](docs/several_columns.md)
+
+
+##License
+
+**yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled LICENSE.md for details.
