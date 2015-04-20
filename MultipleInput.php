@@ -28,32 +28,26 @@ class MultipleInput extends InputWidget
 {
     const ACTION_ADD        = 'plus';
     const ACTION_REMOVE     = 'remove';
-
     /**
      * @var ActiveRecord[]|array[] input data
      */
     public $data = null;
-
     /**
      * @var array columns configuration
      */
     public $columns = [];
-
     /**
      * @var integer inputs limit
      */
     public $limit;
-
     /**
      * @var string generated template, internal variable.
      */
     protected $template;
-
     /**
      * @var string
      */
     protected $replacementKeys;
-
     public function init()
     {
         parent::init();
@@ -64,14 +58,15 @@ class MultipleInput extends InputWidget
             }
         }
     }
-
-
     /**
      * Run widget.
      */
     public function run()
     {
-        echo Html::beginTag('div', ['id' => $this->getId(), 'class' => 'list-group']);
+        echo Html::beginTag('div', [
+            'id' => $this->getId(),
+            'class' => 'multiple-input'
+        ]);
         echo Html::beginTag('table', [
             'class' => 'multiple-input-list table table-condensed'
         ]);
@@ -89,10 +84,8 @@ class MultipleInput extends InputWidget
         echo Html::endTag('tbody');
         echo Html::endTag('table');
         echo Html::endTag('div');
-
         $this->registerClientScript();
     }
-
     /**
      * Render header.
      *
@@ -124,7 +117,6 @@ class MultipleInput extends InputWidget
         echo Html::endTag('tr');
         echo Html::endTag('thead');
     }
-
     /**
      * Check that at least one column has a header.
      *
@@ -139,7 +131,6 @@ class MultipleInput extends InputWidget
         }
         return false;
     }
-
     private function getRowTemplate()
     {
         if (empty($this->template)) {
@@ -150,16 +141,12 @@ class MultipleInput extends InputWidget
             foreach ($this->getColumns() as $columnIndex => $column) {
                 $field = $column['name'];
                 $name = $this->getElementName($field);
-
                 $value = $field . '_value';
                 $this->replacementKeys[$value] = ArrayHelper::getValue($column, 'defaultValue', '');
                 $value = '{' . $value . '}';
-
                 $options = ArrayHelper::getValue($column, 'options', []);
                 $options['id'] = $this->getElementId($field);
-
                 $type = ArrayHelper::getValue($column, 'type', 'textInput');
-
                 if ($type == 'hiddenInput') {
                     $hiddenFields .= Html::hiddenInput($name, $value, $options);
                 } else {
@@ -207,9 +194,10 @@ class MultipleInput extends InputWidget
                         'tagName' => 'div',
                         'encodeLabel' => false,
                         'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-{btn_action}']),
+                        'type' => '{btn_type}',
                         'options' => [
                             'id' => $this->getElementId('button'),
-                            'class' => "{btn_type} multiple-input-list__btn btn js-{$this->getId()}-input-{btn_action}",
+                            'class' => "multiple-input-list__btn btn js-input-{btn_action}",
                         ]
                     ]
                 );
@@ -219,7 +207,6 @@ class MultipleInput extends InputWidget
         }
         return $this->template;
     }
-
     /**
      * Render row.
      *
@@ -230,7 +217,6 @@ class MultipleInput extends InputWidget
     {
         $btnAction = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
         $btnType   = $index == 0 ? 'btn-default' : 'btn-danger';
-
         $search = ['{index}', '{btn_action}', '{btn_type}'];
         $replace = [$index, $btnAction, $btnType];
         foreach ($this->getColumns() as $column) {
@@ -239,7 +225,6 @@ class MultipleInput extends InputWidget
         }
         echo str_replace($search, $replace, $this->getRowTemplate());
     }
-
     /**
      * @param $column
      * @param $data
@@ -263,7 +248,6 @@ class MultipleInput extends InputWidget
         }
         return $value;
     }
-
     /**
      * @param $name
      * @param string $index
@@ -280,7 +264,6 @@ class MultipleInput extends InputWidget
             : '[' . $name . '][' . $index . ']';
         return $elementName;
     }
-
     /**
      * @param $name
      * @return mixed
@@ -289,7 +272,6 @@ class MultipleInput extends InputWidget
     {
         return $this->normalize($this->getElementName($name));
     }
-
     /**
      * @param $name
      * @return mixed
@@ -297,8 +279,7 @@ class MultipleInput extends InputWidget
     private  function normalize($name) {
         return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], strtolower($name));
     }
-
-     /**
+    /**
      * @return string
      */
     private function getName()
@@ -308,7 +289,6 @@ class MultipleInput extends InputWidget
         }
         return $this->name;
     }
-
     /**
      * @return array
      */
@@ -321,7 +301,6 @@ class MultipleInput extends InputWidget
         }
         return $this->columns;
     }
-
     /**
      * Регистрирует клиентский скрипт и опции.
      */
@@ -343,4 +322,4 @@ class MultipleInput extends InputWidget
         $js = "jQuery('#$id').multipleInput($options);";
         $this->getView()->registerJs($js);
     }
-} 
+}

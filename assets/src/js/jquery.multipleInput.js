@@ -16,61 +16,64 @@
         btn_action: null,
         btn_type: null,
         limit: 1,
-        replacement: [],
-        currentIndex: 0
+        replacement: []
     };
-
-    var attributeDefaults = {};
-
-    var currentIndex = 0;
-
 
     var methods = {
         init: function (options) {
-            var settings = $.extend(defaultOptions, options || {});
+            var settings = $.extend({}, defaultOptions, options || {}),
+                wrapper = $('#' + settings.id),
+                form = wrapper.closest('form'),
+                id = this.selector.replace('#', '');
 
-            $(document).on('click.multipleinput', '.js-' + settings.id + '-input-remove', function (e) {
+            wrapper.data('multipleInput', {
+                settings: settings,
+                currentIndex: 0,
+                attributeDefaults: {}
+            });
+
+            $(document).on('click.multipleInput', '#' + settings.id + ' .js-input-remove', function (e) {
                 e.preventDefault();
                 methods.removeInput.apply(this);
             });
 
-            $(document).on('click.multipleinput', '.js-'+ settings.id + '-input-plus', function (e) {
+            $(document).on('click.multipleInput', '#' + settings.id + ' .js-input-plus', function (e) {
                 e.preventDefault();
-                methods.addInput.apply(this,[settings]);
+                methods.addInput.apply(this);
             });
 
-            var wrapper = $('#' + settings.id),
-                form = wrapper.closest('form');
-
-            setTimeout(function() {
-                var attributes = form.data('yiiActiveForm').attributes;
-                $.each(attributes[0], function(key, value) {
-                    if (['id', 'input', 'container'].indexOf(key) == -1) {
-                        attributeDefaults[key] = value;
-                    }
-                });
-                form.data('yiiActiveForm').attributes = [];
-
-                wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
-                    methods.addAttribute.apply(this);
-                });
-
-                currentIndex = $('#' + settings.id).find('.multiple-input-list__item').length;
+            var intervalID = setInterval(function(){
+                if (typeof form.data('yiiActiveForm') === 'object') {
+                    $.each(form.yiiActiveForm('find', id), function (key, value) {
+                        if (['id', 'input', 'container'].indexOf(key) == -1) {
+                            wrapper.data('multipleInput').attributeDefaults[key] = value;
+                        }
+                    });
+                    form.yiiActiveForm('remove', id);
+                    wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
+                        methods.addAttribute.apply(this);
+                    });
+                    wrapper.data('multipleInput').currentIndex = wrapper.find('.multiple-input-list__item').length;
+                    clearInterval(intervalID);
+                }
             }, 100);
+
         },
 
-        addInput: function (settings) {
-            var template = settings.template,
-                parent = $('#' + settings.id),
-                inputList = parent.find('.multiple-input-list').first(),
-                count = parent.find('.multiple-input-list__item').length,
+        addInput: function () {
+            var wrapper     = $(this).closest('.multiple-input').first(),
+                data        = wrapper.data('multipleInput'),
+                settings    = data.settings,
+                template    = settings.template,
+                inputList   = wrapper.find('.multiple-input-list').first(),
+                count       = wrapper.find('.multiple-input-list__item').length,
                 replacement = settings.replacement || [];
 
             if (settings.limit != null && count >= settings.limit) {
                 return;
             }
             var search = ['{index}', '{btn_action}', '{btn_type}', '{value}'],
-                replace = [currentIndex, settings.btn_action, settings.btn_type, ''];
+                replace = [data.currentIndex, settings.btn_action, settings.btn_type, ''];
 
             for (var i in search) {
                 template = template.replaceAll(search[i], replace[i]);
@@ -85,7 +88,7 @@
                 methods.addAttribute.apply(this);
             });
 
-            currentIndex++;
+            wrapper.data('multipleInput').currentIndex++;
         },
 
         removeInput: function () {
@@ -100,9 +103,11 @@
 
         addAttribute: function () {
             var id = $(this).attr('id'),
-                form = $('#' + $(this).attr('id')).closest('form');
+                ele = $('#' + $(this).attr('id')),
+                wrapper = ele.closest('.multiple-input').first(),
+                form = ele.closest('form');
 
-            form.yiiActiveForm('add', $.extend(attributeDefaults, {
+            form.yiiActiveForm('add', $.extend(wrapper.data('multipleInput').attributeDefaults, {
                 'id': id,
                 'input': '#' + id,
                 'container': '.field-' + id
