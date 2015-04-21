@@ -27,7 +27,7 @@ to the require section of your `composer.json` file.
 
 ##Usage
 
-For getting more detail read [documentation]()
+For getting more detail read [documentation](docs/guide.md)
 
 ##Examples
 
