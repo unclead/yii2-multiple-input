@@ -1,6 +1,11 @@
 #Yii2 Multiple input widget.
 Yii2 widget for handle multiple inputs for an attribute of model
 
+[![License](https://poser.pugx.org/unclead/yii2-multiple-input/license.svg)](https://packagist.org/packages/unclead/yii2-multiple-input)
+[![Monthly Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/d/monthly.png)](https://packagist.org/packages/unclead/yii2-multiple-input)
+[![Daily Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/d/daily.png)](https://packagist.org/packages/unclead/yii2-multiple-input)
+
+
 ##Installation
 
 
