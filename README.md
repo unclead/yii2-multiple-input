@@ -96,14 +96,10 @@ Widget support the following options that are additionally recognized over and a
   - `name` *string*: input name. Required options
   - `type` *string*: type of the input. If not set will default to `textInput`
   - `title` *string*: the column title
-  - `value` *Closure: you can set it to an anonymous function with the following signature:
-  
-```php
-function($data) {
-    return 'something';
-}
+  - `value` *Closure*: you can set it to an anonymous function with the following signature:
 ```
-
+function($data) { return 'something'; }
+```
   - `defaultValue` *string*: default value of column's input,
   - `items` *array*: the items for drop down list if you set column type like as dropDownList
   - `options` *array*: the HTML options of column's input
