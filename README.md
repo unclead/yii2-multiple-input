@@ -38,7 +38,7 @@ use unclead\widgets\MultipleInput;
 
 ```
 
-In case when input has several columns
+In case when input has multiple columns
 
 ```
 
@@ -83,7 +83,7 @@ use unclead\widgets\MultipleInput;
  ]);
 ```
 
-The configuration of widgets is described below
+The configuration of widget is described below
 
 ## Configuration
 
