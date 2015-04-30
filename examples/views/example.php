@@ -17,14 +17,53 @@ use yii\helpers\Html;
     'validateOnBlur'            => false,
 ]);?>
 
+<h3>Single column</h3>
 <?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
-    'limit' => 4,
- ]);
+        'limit' => 5
+    ])
+    ->label(false);
 ?>
-<?php
-//    echo $form->field($model, 'phones')->widget(MultipleInput::className(), [
-//        'limit' => 4,
-//    ]);
+
+
+<h3>Multiple columns</h3>
+<?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
+    'limit' => 4,
+    'columns' => [
+        [
+            'name'  => 'user_id',
+            'type'  => 'dropDownList',
+            'title' => 'User',
+            'defaultValue' => 1,
+            'items' => [
+                1 => 'User 1',
+                2 => 'User 2'
+            ]
+        ],
+        [
+            'name'  => 'day',
+            'type'  => 'dropDownList',
+            'title' => 'Day',
+            'value' => function($data) {
+                return $data['day'];
+            },
+            'defaultValue' => 1,
+            'items' => [
+                '0' => 'Saturday',
+                '1' => 'Monday'
+            ],
+            'options' => [
+
+            ]
+        ],
+        [
+            'name'  => 'priority',
+            'title' => 'Priority',
+            'options' => [
+                'class' => 'input-priority'
+            ]
+        ]
+    ]
+ ]);
 ?>
 <?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
 <?php ActiveForm::end();?>

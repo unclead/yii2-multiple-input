@@ -9,6 +9,7 @@
 namespace unclead\widgets;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\widgets\InputWidget;
 use yii\helpers\Json;
@@ -26,38 +27,51 @@ use unclead\widgets\assets\MultipleInputAsset;
  */
 class MultipleInput extends InputWidget
 {
-    const ACTION_ADD        = 'plus';
-    const ACTION_REMOVE     = 'remove';
+    const ACTION_ADD = 'plus';
+    const ACTION_REMOVE = 'remove';
+
     /**
      * @var ActiveRecord[]|array[] input data
      */
     public $data = null;
+
     /**
      * @var array columns configuration
      */
     public $columns = [];
+
     /**
      * @var integer inputs limit
      */
     public $limit;
+
     /**
      * @var string generated template, internal variable.
      */
     protected $template;
+
     /**
      * @var string
      */
     protected $replacementKeys;
+
+    /**
+     * Initialization.
+     *
+     * @throws \yii\base\InvalidConfigException
+     */
     public function init()
     {
         parent::init();
-        // prepare data in case when need to render one column
+
         if (is_null($this->data) && $this->model instanceof Model) {
             foreach ((array) $this->model->{$this->attribute} as $index => $value) {
-                $this->data[$index][$this->attribute] = $value;
+                $this->data[$index] = $value;
             }
         }
     }
+
+
     /**
      * Run widget.
      */
@@ -177,6 +191,8 @@ class MultipleInput extends InputWidget
                                     'name'  => $name,
                                     'value' => $value,
                                 ]));
+                            } else {
+                                throw new InvalidConfigException("Invalid column type '$type'");
                             }
                     }
                     $this->template .= Html::endTag('div');
@@ -206,11 +222,13 @@ class MultipleInput extends InputWidget
         }
         return $this->template;
     }
+
     /**
      * Render row.
      *
      * @param integer $index
      * @param ActiveRecord|array $data
+     * @throws InvalidConfigException
      */
     private function renderRow($index, $data = null)
     {
@@ -219,11 +237,26 @@ class MultipleInput extends InputWidget
         $search = ['{index}', '{btn_action}', '{btn_type}'];
         $replace = [$index, $btnAction, $btnType];
         foreach ($this->getColumns() as $column) {
+            if (!array_key_exists('name', $column)) {
+                throw new InvalidConfigException("The 'name' option is required.");
+            }
             $search[] = '{' . $column['name'] . '_value}';
             $replace[] = $this->prepareColumnValue($column, $data);
         }
         echo str_replace($search, $replace, $this->getRowTemplate());
     }
+
+
+    private function getColumns()
+    {
+        if (empty($this->columns) && $this->hasModel()) {
+            return [
+                ['name' => $this->attribute]
+            ];
+        }
+        return $this->columns;
+    }
+    
     /**
      * @param $column
      * @param $data
@@ -241,12 +274,15 @@ class MultipleInput extends InputWidget
                 $value = $data->{$column['name']};
             } elseif (is_array($data)) {
                 $value = $data[$column['name']];
-            } else {
+            } elseif(is_string($data)) {
+                $value = $data;
+            }else {
                 $value = ArrayHelper::getValue($column, 'defaultValue', '');
             }
         }
         return $value;
     }
+    
     /**
      * @param $name
      * @param string $index
@@ -254,15 +290,27 @@ class MultipleInput extends InputWidget
      */
     private function getElementName($name, $index = null)
     {
-        $elementName = $this->getName();
         if ($index === null) {
             $index = '{index}';
         }
-        $elementName .= count($this->getColumns()) > 1
-            ? '[' . $index . '][' . $name . ']'
-            : '[' . $name . '][' . $index . ']';
-        return $elementName;
+        return $this->getAttributeName() . (
+            count($this->columns) > 1
+                ? '[' . $index . '][' . $name . ']'
+                : '[' . $name . '][' . $index . ']'
+        );
     }
+
+    /**
+     * @return string
+     */
+    private function getAttributeName()
+    {
+        if ($this->hasModel()) {
+            return empty($this->columns) ? $this->model->formName() : Html::getInputName($this->model, $this->attribute);
+        }
+        return $this->name;
+    }
+
     /**
      * @param $name
      * @return mixed
@@ -271,6 +319,7 @@ class MultipleInput extends InputWidget
     {
         return $this->normalize($this->getElementName($name));
     }
+
     /**
      * @param $name
      * @return mixed
@@ -278,30 +327,9 @@ class MultipleInput extends InputWidget
     private  function normalize($name) {
         return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], strtolower($name));
     }
+
     /**
-     * @return string
-     */
-    private function getName()
-    {
-        if (empty($this->name) && $this->model instanceof Model) {
-            return $this->model->formName();
-        }
-        return $this->name;
-    }
-    /**
-     * @return array
-     */
-    private function getColumns()
-    {
-        if (empty($this->columns) && $this->model instanceof Model && !empty($this->attribute)) {
-            return [
-                ['name' => $this->attribute]
-            ];
-        }
-        return $this->columns;
-    }
-    /**
-     * Регистрирует клиентский скрипт и опции.
+     * Register script.
      */
     public function registerClientScript()
     {
