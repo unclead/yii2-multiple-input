@@ -109,7 +109,7 @@ function($data) { return 'something'; }
 Widget supports several use cases:
 
 - [Single column example](docs/single_column.md)
-- [Several columns example](docs/several_columns.md)
+- [Multiple columns example](docs/multiple_columns.md)
 
 You cad find source code of examples [here](./examples/)
 ##License
