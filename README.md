@@ -27,6 +27,8 @@ to the require section of your `composer.json` file.
 
 ### Input with one column
 
+![Single column example](./docs/images/single-column.gif?raw=true)
+
 For example you want to have an ability of entering several emails of user on profile page.
 In this case you can use yii2-multiple-input widget like in the following code
 
@@ -38,10 +40,13 @@ use unclead\widgets\MultipleInput;
     ])
     ->label(false);
 ?>
-
-
 ```
+
+You can find more detail about this use case [here](docs/single_column.md)
+
 ### Input with multiple column in each row
+
+![Multiple columns example](./docs/images/multiple-column.gif?raw=true)
 
 For example you keep some data in json format in attribute of model. Imagine that it is an absctract user schedule with keys: user_id, day, priority
 
@@ -90,7 +95,9 @@ use unclead\widgets\MultipleInput;
  ]);
 ```
 
-Widget has some configuration options that are described below
+You can find more detail about this use case [here](docs/multiple_columns.md)
+
+> Also you can find source code of examples [here](./examples/)
 
 ## Configuration
 
@@ -106,14 +113,6 @@ Widget support the following options that are additionally recognized over and a
   - `items` *array*: the items for drop down list if you set column type like as dropDownList
   - `options` *array*: the HTML options of column's input
 
-##Examples
-
-Look at the example pages for getting more information about use cases
-
-- [Single column example](docs/single_column.md)
-- [Multiple columns example](docs/multiple_columns.md)
-
-Also you cad find source code of examples [here](./examples/)
 
 ##License
 
