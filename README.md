@@ -25,9 +25,12 @@ to the require section of your `composer.json` file.
 
 ##Usage
 
-In case when input has one column
+### Input with one column
 
-```
+For example you want to have an ability of entering several emails of user on profile page.
+In this case you can use yii2-multiple-input widget like in the following code
+
+```php
 use unclead\widgets\MultipleInput;
 
 <?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
@@ -36,11 +39,15 @@ use unclead\widgets\MultipleInput;
     ->label(false);
 ?>
 
-```
-
-In case when input has multiple columns
 
 ```
+### Input with multiple column in each row
+
+For example you keep some data in json format in attribute of model. Imagine that it is an absctract user schedule with keys: user_id, day, priority
+
+On the edit page you want to be able to manage this schedule and you can you yii2-multiple-input widget like in the following code
+
+```php
 
 use unclead\widgets\MultipleInput;
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
@@ -83,7 +90,7 @@ use unclead\widgets\MultipleInput;
  ]);
 ```
 
-The configuration of widget is described below
+Widget has some configuration options that are described below
 
 ## Configuration
 
@@ -91,25 +98,23 @@ Widget support the following options that are additionally recognized over and a
 
 - `limit`: *integer*: rows limit
 - `columns` *array*: the row columns configuration where you can set the following properties:
-  - `name` *string*: input name. Required options
-  - `type` *string*: type of the input. If not set will default to `textInput`
+  - `name` *string*: input name. *Required options*
+  - `type` *string*: type of the input. If not set will default to `textInput` **TBD**
   - `title` *string*: the column title
-  - `value` *Closure*: you can set it to an anonymous function with the following signature:
-```
-function($data) { return 'something'; }
-```
+  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) { return'something'; }```
   - `defaultValue` *string*: default value of column's input,
   - `items` *array*: the items for drop down list if you set column type like as dropDownList
   - `options` *array*: the HTML options of column's input
 
 ##Examples
 
-Widget supports several use cases:
+Look at the example pages for getting more information about use cases
 
 - [Single column example](docs/single_column.md)
 - [Multiple columns example](docs/multiple_columns.md)
 
-You cad find source code of examples [here](./examples/)
+Also you cad find source code of examples [here](./examples/)
+
 ##License
 
 **yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled LICENSE.md for details.
