@@ -116,4 +116,4 @@ Widget support the following options that are additionally recognized over and a
 
 ##License
 
-**yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled LICENSE.md for details.
+**yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled [LICENSE.md](./LICENSE.md) for details.
