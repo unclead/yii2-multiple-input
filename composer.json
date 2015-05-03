@@ -5,7 +5,7 @@
         "yii2", 
         "yii2-multiple-input", 
         "multiple input", 
-        "multiple field"
+        "multiple field",
         "array input"
     ],
     "type": "yii2-extension",
