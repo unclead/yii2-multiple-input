@@ -24,7 +24,6 @@ use yii\helpers\Html;
     ->label(false);
 ?>
 
-
 <h3>Multiple columns</h3>
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'limit' => 4,

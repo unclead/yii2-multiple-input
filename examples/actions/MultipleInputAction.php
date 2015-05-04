@@ -24,7 +24,8 @@ class MultipleInputAction extends Action
         if ($request->isPost && $request->post('ajax') !== null) {
             $model->load(Yii::$app->request->post());
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
+            $result = ActiveForm::validate($model);
+            return $result;
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {

@@ -84,9 +84,11 @@ class MultipleInput extends InputWidget
         echo Html::beginTag('table', [
             'class' => 'multiple-input-list table table-condensed'
         ]);
+
         if ($this->hasHeader()) {
             $this->renderHeader();
         }
+
         echo Html::beginTag('tbody');
         if (!empty($this->data)) {
             foreach ($this->data as $index => $data) {
@@ -96,8 +98,10 @@ class MultipleInput extends InputWidget
             $this->renderRow(0);
         }
         echo Html::endTag('tbody');
+
         echo Html::endTag('table');
         echo Html::endTag('div');
+
         $this->registerClientScript();
     }
     /**
@@ -131,6 +135,7 @@ class MultipleInput extends InputWidget
         echo Html::endTag('tr');
         echo Html::endTag('thead');
     }
+
     /**
      * Check that at least one column has a header.
      *
@@ -145,6 +150,7 @@ class MultipleInput extends InputWidget
         }
         return false;
     }
+
     private function getRowTemplate()
     {
         if (empty($this->template)) {
@@ -180,17 +186,17 @@ class MultipleInput extends InputWidget
                             $options['selectedOption'] = $value;
                             $this->template .= Html::$type($name, null, $column['items'], $options);
                             break;
-                        case 'custom':
-                            $this->template .= $value;
-                            break;
                         default:
                             if (method_exists('yii\helpers\Html', $type)) {
                                 $this->template .= Html::$type($name, $value, $options);
+                            // TODO https://github.com/unclead/yii2-multiple-input/issues/1
+                            /*
                             } elseif (class_exists($type) && method_exists($type, 'widget')) {
                                 $this->template .= $type::widget(array_merge($options, [
                                     'name'  => $name,
                                     'value' => $value,
                                 ]));
+                            */
                             } else {
                                 throw new InvalidConfigException("Invalid column type '$type'");
                             }
@@ -236,6 +242,7 @@ class MultipleInput extends InputWidget
         $btnType   = $index == 0 ? 'btn-default' : 'btn-danger';
         $search = ['{index}', '{btn_action}', '{btn_type}'];
         $replace = [$index, $btnAction, $btnType];
+
         foreach ($this->getColumns() as $column) {
             if (!array_key_exists('name', $column)) {
                 throw new InvalidConfigException("The 'name' option is required.");
@@ -243,6 +250,7 @@ class MultipleInput extends InputWidget
             $search[] = '{' . $column['name'] . '_value}';
             $replace[] = $this->prepareColumnValue($column, $data);
         }
+
         echo str_replace($search, $replace, $this->getRowTemplate());
     }
 
@@ -258,6 +266,8 @@ class MultipleInput extends InputWidget
     }
     
     /**
+     * Preparing column's value.
+     *
      * @param $column
      * @param $data
      * @return mixed
@@ -284,7 +294,9 @@ class MultipleInput extends InputWidget
     }
     
     /**
-     * @param $name
+     * Returns element's name.
+     *
+     * @param string $name
      * @param string $index
      * @return string
      */
@@ -293,7 +305,7 @@ class MultipleInput extends InputWidget
         if ($index === null) {
             $index = '{index}';
         }
-        return $this->getAttributeName() . (
+        return $this->getInputNamePrefix($name) . (
             count($this->columns) > 1
                 ? '[' . $index . '][' . $name . ']'
                 : '[' . $name . '][' . $index . ']'
@@ -301,17 +313,25 @@ class MultipleInput extends InputWidget
     }
 
     /**
+     * Return prefix for name of input.
+     *
+     * @param string $name input name
      * @return string
      */
-    private function getAttributeName()
+    private function getInputNamePrefix($name)
     {
         if ($this->hasModel()) {
-            return empty($this->columns) ? $this->model->formName() : Html::getInputName($this->model, $this->attribute);
+            if (empty($this->columns) || (count($this->columns) == 1 && $this->model->hasProperty($name))) {
+                return $this->model->formName();
+            }
+            return Html::getInputName($this->model, $this->attribute);
         }
         return $this->name;
     }
 
     /**
+     * Returns element id.
+     *
      * @param $name
      * @return mixed
      */
@@ -321,6 +341,8 @@ class MultipleInput extends InputWidget
     }
 
     /**
+     * Normalization name.
+     *
      * @param $name
      * @return mixed
      */

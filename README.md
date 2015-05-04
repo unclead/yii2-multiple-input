@@ -124,8 +124,6 @@ Each column in a row can has their own type. Widget supports:
   - `textarea`
   - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
 
-- use type `static` in case when you just want to render text instead of input
-
 ##License
 
 **yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled [LICENSE.md](./LICENSE.md) for details.

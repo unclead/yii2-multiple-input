@@ -44,11 +44,14 @@
 
             var intervalID = setInterval(function(){
                 if (typeof form.data('yiiActiveForm') === 'object') {
-                    $.each(form.yiiActiveForm('find', id), function (key, value) {
-                        if (['id', 'input', 'container'].indexOf(key) == -1) {
-                            wrapper.data('multipleInput').attributeDefaults[key] = value;
-                        }
-                    });
+                    var attribute = form.yiiActiveForm('find', id);
+                    if (attribute !== false) {
+                        $.each(attribute, function (key, value) {
+                            if (['id', 'input', 'container'].indexOf(key) == -1) {
+                                wrapper.data('multipleInput').attributeDefaults[key] = value;
+                            }
+                        });
+                    }
                     form.yiiActiveForm('remove', id);
                     wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         methods.addAttribute.apply(this);
