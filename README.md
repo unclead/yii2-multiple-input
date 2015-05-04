@@ -98,7 +98,7 @@ use unclead\widgets\MultipleInput;
 
 You can find more detail about this use case [here](docs/multiple_columns.md)
 
-> Also you can find source code of examples [here](./examples/)
+> Also you can find source code of examples [here](./docs/examples/)
 
 ## Configuration
 
