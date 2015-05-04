@@ -15,6 +15,7 @@ use yii\widgets\InputWidget;
 use yii\helpers\Json;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\Button;
 use unclead\widgets\assets\MultipleInputAsset;
 
@@ -26,7 +27,7 @@ use unclead\widgets\assets\MultipleInputAsset;
  */
 class MultipleInput extends InputWidget
 {
-    const ACTION_ADD    = 'plus';
+    const ACTION_ADD = 'plus';
     const ACTION_REMOVE = 'remove';
 
     /**
@@ -61,16 +62,8 @@ class MultipleInput extends InputWidget
      */
     public function init()
     {
-        $this->initData();
-        $this->initColumns();
         parent::init();
-    }
 
-    /**
-     * Initializes data.
-     */
-    protected function initData()
-    {
         if (is_null($this->data) && $this->model instanceof Model) {
             foreach ((array) $this->model->{$this->attribute} as $index => $value) {
                 $this->data[$index] = $value;
@@ -78,199 +71,228 @@ class MultipleInput extends InputWidget
         }
     }
 
-    /**
-     * Creates column objects and initializes them.
-     */
-    protected function initColumns()
-    {
-        if (empty($this->columns)) {
-            $this->guessColumns();
-        }
-        foreach ($this->columns as $i => $column) {
-            $column = Yii::createObject(array_merge([
-                'class' => MultipleInputColumn::className(),
-                'widget' => $this,
-            ], $column));
-            $this->columns[$i] = $column;
-        }
-    }
-
-    /**
-     * This function tries to guess the columns to show from the given data
-     * if [[columns]] are not explicitly specified.
-     */
-    protected function guessColumns()
-    {
-        if (empty($this->columns) && $this->hasModel()) {
-            $this->columns = [
-                [
-                    'name' => $this->attribute,
-                    'type' => MultipleInputColumn::TYPE_TEXT_INPUT
-                ]
-            ];
-        }
-    }
 
     /**
      * Run widget.
      */
     public function run()
     {
-        $content = [];
-
-        if ($this->hasHeader()) {
-            $content[] = $this->renderHeader();
-        }
-
-        $content[] = $this->renderBody();
-        $content = Html::tag('table', implode("\n", $content), [
-            'class' => 'multiple-input-list table table-condensed'
-        ]);
-
-        $this->registerClientScript();
-        return Html::tag( 'div', $content, [
+        echo Html::beginTag('div', [
             'id' => $this->getId(),
             'class' => 'multiple-input'
         ]);
-    }
+        echo Html::beginTag('table', [
+            'class' => 'multiple-input-list table table-condensed'
+        ]);
 
+        if ($this->hasHeader()) {
+            $this->renderHeader();
+        }
+
+        echo Html::beginTag('tbody');
+        if (!empty($this->data)) {
+            foreach ($this->data as $index => $data) {
+                $this->renderRow($index, $data);
+            }
+        } else {
+            $this->renderRow(0);
+        }
+        echo Html::endTag('tbody');
+
+        echo Html::endTag('table');
+        echo Html::endTag('div');
+
+        $this->registerClientScript();
+    }
     /**
-     * Renders the header.
+     * Render header.
      *
-     * @return string
+     * @return void
      */
     private function renderHeader()
     {
-        $cells = [];
-        foreach ($this->columns as $column) {
-            /* @var $column MultipleInputColumn */
-            if ($column->isHiddenInput() || empty($column->title)) {
+        echo Html::beginTag('thead');
+        echo Html::beginTag('tr');
+        foreach ($this->getColumns() as $column) {
+            $type = ArrayHelper::getValue($column, 'type', 'textInput');
+            if ($type == 'hiddenInput') {
                 continue;
             }
-            $cells[] = Html::tag('th', $column->title, [
-                'class' => 'list-cell__' . $column->name
+            $field = $column['name'];
+            echo Html::beginTag('th', [
+                'class' => 'list-cell__' . $field,
             ]);
+            echo ArrayHelper::getValue($column, 'title', $field);
+            echo Html::endTag('th');
         }
         if (is_null($this->limit) || $this->limit > 1) {
-            $cells[] = Html::tag('th', '', [
+            echo Html::beginTag('th', [
                 'class' => 'list-cell__button'
             ]);
+            echo '&nbsp;';
+            echo Html::endTag('th');
         }
-
-        return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
+        echo Html::endTag('tr');
+        echo Html::endTag('thead');
     }
 
     /**
      * Check that at least one column has a header.
      *
-     * @return bool
+     * @return boolean
      */
     private function hasHeader()
     {
-        foreach ($this->columns as $column) {
-            /* @var $column MultipleInputColumn */
-            if ($column->hasHeader()) {
+        foreach ($this->getColumns() as $column) {
+            if (array_key_exists('title', $column)) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * Renders the body.
-     *
-     * @return string
-     */
-    protected function renderBody()
-    {
-        $rows = [];
-        if (!empty($this->data)) {
-            foreach ($this->data as $index => $data) {
-                $rows[] = $this->renderRow($index, $data);
-            }
-        } else {
-            $rows[] = $this->renderRow(0);
-        }
-        return Html::tag('tbody', implode("\n", $rows));
-    }
-
     private function getRowTemplate()
     {
         if (empty($this->template)) {
-            $cells = [];
-            $hiddenInputs = [];
-            foreach ($this->columns as $columnIndex => $column) {
-                /* @var $column MultipleInputColumn */
-                $value = $column->name . '_value';
-                $this->replacementKeys[$value] = $column->defaultValue;
+            $this->template .= Html::beginTag('tr', [
+                'class' => 'multiple-input-list__item',
+            ]);
+            $hiddenFields = '';
+            foreach ($this->getColumns() as $columnIndex => $column) {
+                $field = $column['name'];
+                $name = $this->getElementName($field);
+                $value = $field . '_value';
+                $this->replacementKeys[$value] = ArrayHelper::getValue($column, 'defaultValue', '');
                 $value = '{' . $value . '}';
-
-                if ($column->isHiddenInput()) {
-                    $hiddenInputs[] = $column->renderCellContent($value);
+                $options = ArrayHelper::getValue($column, 'options', []);
+                $options['id'] = $this->getElementId($field);
+                $type = ArrayHelper::getValue($column, 'type', 'textInput');
+                if ($type == 'hiddenInput') {
+                    $hiddenFields .= Html::hiddenInput($name, $value, $options);
                 } else {
-                    $cells[] = $column->renderCellContent($value);
+                    $this->template .= Html::beginTag('td', [
+                        'class' => 'list-cell__' . $field,
+                    ]);
+                    $this->template .= Html::beginTag('div', [
+                        'class' => 'form-group field-' . $options['id'],
+                    ]);
+                    $this->template .= Html::beginTag('div');
+                    Html::addCssClass($options, 'form-control');
+                    switch ($type) {
+                        case 'dropDownList':
+                        case 'listBox':
+                        case 'checkboxList':
+                        case 'radioList':
+                            $options['selectedOption'] = $value;
+                            $this->template .= Html::$type($name, null, $column['items'], $options);
+                            break;
+                        default:
+                            if (method_exists('yii\helpers\Html', $type)) {
+                                $this->template .= Html::$type($name, $value, $options);
+                            // TODO https://github.com/unclead/yii2-multiple-input/issues/1
+                            /*
+                            } elseif (class_exists($type) && method_exists($type, 'widget')) {
+                                $this->template .= $type::widget(array_merge($options, [
+                                    'name'  => $name,
+                                    'value' => $value,
+                                ]));
+                            */
+                            } else {
+                                throw new InvalidConfigException("Invalid column type '$type'");
+                            }
+                    }
+                    $this->template .= Html::endTag('div');
+                    $this->template .= Html::endTag('div');
+                    $this->template .= Html::endTag('td');
                 }
             }
             if (is_null($this->limit) || $this->limit > 1) {
-                $cells[] = $this->renderActionColumn();
+                $this->template .= Html::beginTag('td', [
+                    'class' => 'list-cell__button',
+                ]);
+                $this->template .= $hiddenFields;
+                $this->template .= Button::widget(
+                    [
+                        'tagName' => 'div',
+                        'encodeLabel' => false,
+                        'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-{btn_action}']),
+                        'options' => [
+                            'id' => $this->getElementId('button'),
+                            'class' => "{btn_type} multiple-input-list__btn btn js-input-{btn_action}",
+                        ]
+                    ]
+                );
+                $this->template .= Html::endTag('td');
             }
-
-            $this->template = implode("\n", $hiddenInputs);
-            $this->template .= Html::tag('tr', implode("\n", $cells), [
-                'class' => 'multiple-input-list__item',
-            ]);
+            $this->template .= Html::endTag('tr');
         }
         return $this->template;
     }
 
     /**
-     * Renders the action column.
+     * Render row.
      *
-     * @return string
-     * @throws \Exception
-     */
-    private function renderActionColumn()
-    {
-        $button = Button::widget(
-            [
-                'tagName' => 'div',
-                'encodeLabel' => false,
-                'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-{btn_action}']),
-                'options' => [
-                    'id' => $this->getElementId('button'),
-                    'class' => "{btn_type} multiple-input-list__btn btn js-input-{btn_action}",
-                ]
-            ]
-        );
-        return Html::tag('td', $button, [
-            'class' => 'list-cell__button',
-        ]);
-    }
-
-    /**
-     * Renders the row.
-     *
-     * @param int $index
+     * @param integer $index
      * @param ActiveRecord|array $data
-     * @return mixed
      * @throws InvalidConfigException
      */
     private function renderRow($index, $data = null)
     {
         $btnAction = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
-        $btnType = $index == 0 ? 'btn-default' : 'btn-danger';
+        $btnType   = $index == 0 ? 'btn-default' : 'btn-danger';
         $search = ['{index}', '{btn_action}', '{btn_type}'];
         $replace = [$index, $btnAction, $btnType];
 
-        foreach ($this->columns as $column) {
-            /* @var $column MultipleInputColumn */
-            $search[] = '{' . $column->name . '_value}';
-            $replace[] = $column->prepareValue($data);
+        foreach ($this->getColumns() as $column) {
+            if (!array_key_exists('name', $column)) {
+                throw new InvalidConfigException("The 'name' option is required.");
+            }
+            $search[] = '{' . $column['name'] . '_value}';
+            $replace[] = $this->prepareColumnValue($column, $data);
         }
 
-        return str_replace($search, $replace, $this->getRowTemplate());
+        echo str_replace($search, $replace, $this->getRowTemplate());
     }
 
+
+    private function getColumns()
+    {
+        if (empty($this->columns) && $this->hasModel()) {
+            return [
+                ['name' => $this->attribute]
+            ];
+        }
+        return $this->columns;
+    }
+    
+    /**
+     * Preparing column's value.
+     *
+     * @param $column
+     * @param $data
+     * @return mixed
+     */
+    private function prepareColumnValue($column, $data)
+    {
+        if (isset($column['value'])) {
+            $value = $column['value'];
+            if ($value instanceof \Closure) {
+                $value = call_user_func($value, $data);
+            }
+        } else {
+            if ($data instanceof ActiveRecord) {
+                $value = $data->{$column['name']};
+            } elseif (is_array($data)) {
+                $value = $data[$column['name']];
+            } elseif(is_string($data)) {
+                $value = $data;
+            }else {
+                $value = ArrayHelper::getValue($column, 'defaultValue', '');
+            }
+        }
+        return $value;
+    }
+    
     /**
      * Returns element's name.
      *
@@ -278,7 +300,7 @@ class MultipleInput extends InputWidget
      * @param string $index
      * @return string
      */
-    public function getElementName($name, $index = null)
+    private function getElementName($name, $index = null)
     {
         if ($index === null) {
             $index = '{index}';
@@ -313,7 +335,7 @@ class MultipleInput extends InputWidget
      * @param $name
      * @return mixed
      */
-    public function getElementId($name)
+    private function getElementId($name)
     {
         return $this->normalize($this->getElementName($name));
     }
