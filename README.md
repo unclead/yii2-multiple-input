@@ -103,16 +103,28 @@ You can find more detail about this use case [here](docs/multiple_columns.md)
 
 Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget:
 
-- `limit`: *integer*: rows limit
+- `limit`: *integer*: rows limit. If not set will defaul to unlimited
 - `columns` *array*: the row columns configuration where you can set the following properties:
   - `name` *string*: input name. *Required options*
-  - `type` *string*: type of the input. If not set will default to `textInput` **TBD**
+  - `type` *string*: type of the input. If not set will default to `textInput`. Read more about the types described below
   - `title` *string*: the column title
-  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) { return'something'; }```
-  - `defaultValue` *string*: default value of column's input,
-  - `items` *array*: the items for drop down list if you set column type like as dropDownList
-  - `options` *array*: the HTML options of column's input
+  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
+  - `defaultValue` *string*: default value of input,
+  - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
+  - `options` *array*: the HTML options of input
 
+### Input types
+
+Each column in a row can has their own type. Widget supports:
+
+- all yii2 html input types:
+  - `textInput`
+  - `dropDownList`
+  - `radioList`
+  - `textarea`
+  - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
+
+- use type `static` in case when you just want to render text instead of input
 
 ##License
 
