@@ -44,7 +44,6 @@
 
             var intervalID = setInterval(function(){
                 if (typeof form.data('yiiActiveForm') === 'object') {
-                    console.log(id);
                     var attribute = form.yiiActiveForm('find', id);
                     if (typeof attribute === 'object') {
                         $.each(attribute, function (key, value) {
