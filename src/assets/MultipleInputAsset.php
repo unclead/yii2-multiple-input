@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/unclead/yii2-multiple-input
+ * @copyright Copyright (c) 2014 unclead
+ * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
+ */
+
 namespace unclead\widgets\assets;
 
 use yii\web\AssetBundle;
