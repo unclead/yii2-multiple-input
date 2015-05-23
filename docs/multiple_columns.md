@@ -2,7 +2,7 @@
 
 ![Multiple columns example](./images/multiple-column.gif?raw=true)
 
-For example you want to have an interface for manage user schedule. For simpliсшен we will store the schedule in json string.
+For example you want to have an interface for manage user schedule. For simplicity we will store the schedule in json string.
 
 In this case you can use `yii2-multiple-input` widget for supporting multiple inputs how to describe below.
 
