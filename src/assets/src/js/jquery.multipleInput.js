@@ -61,6 +61,7 @@
                     clearInterval(intervalID);
                 }
             }, 100);
+            wrapper.trigger('init');
 
         },
 
@@ -93,16 +94,19 @@
             });
 
             wrapper.data('multipleInput').currentIndex++;
+            wrapper.trigger('addNewRow');
         },
 
         removeInput: function () {
-            var line = $(this).closest('.multiple-input-list__item');
+            var wrapper = $(this).closest('.multiple-input').first(),
+                line = $(this).closest('.multiple-input-list__item');
             line.find('input, select, textarea').each(function () {
                 methods.removeAttribute.apply(this);
             });
             line.fadeOut(300, function () {
                 $(this).remove();
             });
+            wrapper.trigger('removeRow');
         },
 
         addAttribute: function () {
