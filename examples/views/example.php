@@ -5,6 +5,9 @@ use unclead\widgets\MultipleInput;
 use unclead\widgets\examples\models\ExampleModel;
 use yii\helpers\Html;
 
+// Note: You have to install https://github.com/kartik-v/yii2-widget-datepicker for correct work an example
+use kartik\date\DatePicker;
+
 /* @var $this \yii\base\View */
 /* @var $model ExampleModel */
 ?>
@@ -18,7 +21,8 @@ use yii\helpers\Html;
 ]);?>
 
 <h3>Single column</h3>
-<?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
+<?php
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
         'limit' => 5
     ])
     ->label(false);
@@ -40,18 +44,20 @@ use yii\helpers\Html;
         ],
         [
             'name'  => 'day',
-            'type'  => 'dropDownList',
+            'type'  => DatePicker::className(),
             'title' => 'Day',
             'value' => function($data) {
                 return $data['day'];
             },
-            'defaultValue' => 1,
             'items' => [
                 '0' => 'Saturday',
                 '1' => 'Monday'
             ],
             'options' => [
-
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'todayHighlight' => true
+                ]
             ]
         ],
         [

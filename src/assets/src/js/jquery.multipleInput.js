@@ -13,6 +13,7 @@
     var defaultOptions = {
         id: null,
         template: null,
+        jsTemplates: [],
         btn_action: null,
         btn_type: null,
         limit: 1,
@@ -92,6 +93,11 @@
                 methods.addAttribute.apply(this);
             });
 
+            var jsTemplate;
+            for (i in settings.jsTemplates) {
+                jsTemplate = settings.jsTemplates[i].replaceAll('{index}', data.currentIndex);
+                window.eval(jsTemplate);
+            }
             wrapper.data('multipleInput').currentIndex++;
         },
 

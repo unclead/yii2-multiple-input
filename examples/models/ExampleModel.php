@@ -42,12 +42,12 @@ class ExampleModel extends Model
 
         $this->schedule = [
             [
-                'day'       => 0,
+                'day'       => '27.02.2015',
                 'user_id'   => 1,
                 'priority'  => 1
             ],
             [
-                'day'       => 0,
+                'day'       => '27.02.2015',
                 'user_id'   => 2,
                 'priority'  => 2
             ],

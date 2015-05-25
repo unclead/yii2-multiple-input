@@ -11,6 +11,7 @@ namespace unclead\widgets;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\web\View;
 use yii\widgets\InputWidget;
 use yii\helpers\Json;
 use yii\db\ActiveRecord;
@@ -48,6 +49,11 @@ class MultipleInput extends InputWidget
      * @var string generated template, internal variable.
      */
     protected $template;
+
+    /**
+     * @var array js templates collected from js which has been registered during rendering of widgets
+     */
+    protected $jsTemplates = [];
 
     /**
      * @var string
@@ -219,8 +225,24 @@ class MultipleInput extends InputWidget
             $this->template .= Html::tag('tr', implode("\n", $cells), [
                 'class' => 'multiple-input-list__item',
             ]);
+
+            if (is_array($this->getView()->js) && array_key_exists(View::POS_READY, $this->getView()->js)) {
+                $this->collectJsTemplates();
+            }
         }
+
         return $this->template;
+    }
+
+    private function collectJsTemplates()
+    {
+        $this->jsTemplates = [];
+        foreach ($this->getView()->js[View::POS_READY] as $key => $js) {
+            if (preg_match('/\(.#[^)]+{index}[^)]+\)/', $js) === 1) {
+                $this->jsTemplates[] = $js;
+                unset($this->getView()->js[View::POS_READY][$key]);
+            }
+        }
     }
 
     /**
@@ -268,7 +290,12 @@ class MultipleInput extends InputWidget
             $replace[] = $column->prepareValue($data);
         }
 
-        return str_replace($search, $replace, $this->getRowTemplate());
+        $row = str_replace($search, $replace, $this->getRowTemplate());
+
+        foreach ($this->jsTemplates as $js) {
+            $this->getView()->registerJs(strtr($js, ['{index}' => $index]), View::POS_READY);
+        }
+        return $row;
     }
 
     /**
@@ -339,6 +366,7 @@ class MultipleInput extends InputWidget
             [
                 'id'            => $this->getId(),
                 'template'      => $this->getRowTemplate(),
+                'jsTemplates'   => $this->jsTemplates,
                 'btn_action'    => self::ACTION_REMOVE,
                 'btn_type'      => 'btn-danger',
                 'limit'         => $this->limit,

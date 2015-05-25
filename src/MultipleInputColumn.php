@@ -81,7 +81,7 @@ class MultipleInputColumn extends Object
             $this->type = self::TYPE_TEXT_INPUT;
         }
 
-        if (!empty($this->options)) {
+        if (empty($this->options)) {
             $this->options = [];
         }
     }
@@ -163,6 +163,11 @@ class MultipleInputColumn extends Object
             default:
                 if (method_exists('yii\helpers\Html', $type)) {
                     $input = Html::$type($name, $value, $options);
+                } elseif (class_exists($type) && method_exists($type, 'widget')) {
+                    $input = $type::widget(array_merge($options, [
+                        'name'  => $name,
+                        'value' => $value,
+                    ]));
                 } else {
                     throw new InvalidConfigException("Invalid column type '$type'");
                 }
