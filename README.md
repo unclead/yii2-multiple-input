@@ -123,6 +123,18 @@ Each column in a row can has their own type. Widget supports:
   - `textarea`
   - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
 
+### JavaScript events
+This widget has following events:
+ - `init`: triggered after initialization
+ - `addNewRow`: triggered after new row insertion
+ - `removeRow`: triggered after row removal
+Example:
+```js
+jQuery('#multiple-input').on('addNewRow', function() {
+   //some code 
+});
+```
+
 ##License
 
 **yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled [LICENSE.md](./LICENSE.md) for details.
