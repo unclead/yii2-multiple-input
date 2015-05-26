@@ -128,6 +128,7 @@ This widget has following events:
  - `init`: triggered after initialization
  - `addNewRow`: triggered after new row insertion
  - `removeRow`: triggered after row removal
+
 Example:
 ```js
 jQuery('#multiple-input').on('addNewRow', function() {
