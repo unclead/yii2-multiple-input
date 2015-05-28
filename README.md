@@ -127,15 +127,15 @@ Each column in a row can has their own type. Widget supports:
 For using widget as column input you may use the following code:
 
 ```php
-        [
-            'name'  => 'phone',
-            'title' => 'Phone number',
-            'type' => \yii\widgets\MaskedInput::className(),
-            'options' => [
-                'class' => 'input-phone',
-                'mask' => '999-999-99-99'
-            ]
-        ]
+[
+    'name'  => 'phone',
+    'title' => 'Phone number',
+    'type' => \yii\widgets\MaskedInput::className(),
+    'options' => [
+        'class' => 'input-phone',
+        'mask' => '999-999-99-99'
+    ]
+]
 ```
 
 ### JavaScript events
