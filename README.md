@@ -122,6 +122,21 @@ Each column in a row can has their own type. Widget supports:
   - `radioList`
   - `textarea`
   - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
+- input widget (widget that extends from `InputWidget` class). For example, `yii\widgets\MaskedInput`
+
+For using widget as column input you may use the following code:
+
+```php
+        [
+            'name'  => 'phone',
+            'title' => 'Phone number',
+            'type' => \yii\widgets\MaskedInput::className(),
+            'options' => [
+                'class' => 'input-phone',
+                'mask' => '999-999-99-99'
+            ]
+        ]
+```
 
 ### JavaScript events
 This widget has following events:
