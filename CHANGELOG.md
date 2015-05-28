@@ -1,7 +1,7 @@
 Yii2 multiple input change log
 ==============================
 
-1.0.1 (in development)
+1.0.1
 ---------------------
 
 - Enh #1: Implemented ability to use widget as column type (unclead)
