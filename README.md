@@ -69,18 +69,20 @@ use unclead\widgets\MultipleInput;
         ],
         [
             'name'  => 'day',
-            'type'  => 'dropDownList',
+            'type'  => \kartik\date\DatePicker::className(),
             'title' => 'Day',
             'value' => function($data) {
                 return $data['day'];
             },
-            'defaultValue' => 1,
             'items' => [
                 '0' => 'Saturday',
                 '1' => 'Monday'
             ],
             'options' => [
-
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'todayHighlight' => true
+                ]
             ]
         ],
         [
@@ -92,6 +94,7 @@ use unclead\widgets\MultipleInput;
         ]
     ]
  ]);
+?>
 ```
 
 You can find more detail about this use case [here](docs/multiple_columns.md)
