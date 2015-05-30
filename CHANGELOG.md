@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.0.2 in development
+1.0.3 in development
 --------------------
+
+1.0.2
+-----
 
 - Enh: added minified version of js script (unclead)
 - Enh #8: renamed placeholders for avoid conflicts with other widgets (unclead)
