@@ -20,9 +20,7 @@ class MultipleInputAsset extends AssetBundle
         'css/multiple-input.css'
     ];
 
-    public $js = [
-        'js/jquery.multipleInput.js'
-    ];
+    public $js = [];
 
     public $depends = [
         'yii\web\JqueryAsset'
@@ -31,6 +29,9 @@ class MultipleInputAsset extends AssetBundle
     public function init()
     {
         $this->sourcePath = __DIR__ . '/src/';
+        $this->js = [
+            YII_DEBUG ? 'js/jquery.multipleInput.js' : 'js/jquery.multipleInput.min.js'
+        ];
         parent::init();
     }
 
