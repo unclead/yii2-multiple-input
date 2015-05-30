@@ -95,6 +95,16 @@ use unclead\widgets\MultipleInput;
             'options' => [
                 'class' => 'input-priority'
             ]
+        ],
+        [
+            'name'  => 'comment',
+            'type'  => 'static',
+            'value' => function($data) {
+                return Html::tag('span', 'static content', ['class' => 'label label-info']);
+            },
+            'headerOptions' => [
+                'style' => 'width: 70px;',
+            ]
         ]
     ]
  ]);

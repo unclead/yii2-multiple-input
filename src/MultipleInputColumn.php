@@ -178,7 +178,7 @@ class MultipleInputColumn extends Object
                 $input = Html::$type($name, null, $this->items, $options);
                 break;
             case self::TYPE_STATIC:
-                $input = $value;
+                $input = Html::tag('p', $value, ['class' => 'form-control-static']);
                 break;
             default:
                 if (method_exists('yii\helpers\Html', $type)) {

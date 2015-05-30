@@ -24,7 +24,6 @@ table.multiple-input-list tr > th {
     margin: 0 !important;
 }
 .multiple-input-list__item .label {
-    margin-top: 8px;
     display: block;
     font-size: 13px;
 }
