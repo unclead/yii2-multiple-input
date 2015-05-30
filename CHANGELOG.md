@@ -6,6 +6,7 @@ Yii2 multiple input change log
 
 - Enh: added minified version of js script (unclead)
 - Enh #8: renamed placeholders for avoid conflicts with other widgets (unclead)
+- Enh #7: customization of header cell
 
 1.0.1
 -----
