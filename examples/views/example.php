@@ -58,6 +58,10 @@ use kartik\date\DatePicker;
                     'format' => 'dd.mm.yyyy',
                     'todayHighlight' => true
                 ]
+            ],
+            'headerOptions' => [
+                'style' => 'width: 250px;',
+                'class' => 'day-css-class'
             ]
         ],
         [

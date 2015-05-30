@@ -83,6 +83,10 @@ use unclead\widgets\MultipleInput;
                     'format' => 'dd.mm.yyyy',
                     'todayHighlight' => true
                 ]
+            ],
+            'headerOptions' => [
+                'style' => 'width: 250px;',
+                'class' => 'day-css-class'
             ]
         ],
         [
@@ -113,7 +117,8 @@ Widget support the following options that are additionally recognized over and a
   - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
   - `defaultValue` *string*: default value of input,
   - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
-  - `options` *array*: the HTML options of input
+  - `options` *array*: the HTML attributes for the input
+  - `headerOptions` *array*: the HTML attributes for the header cell
 
 ### Input types
 

@@ -150,12 +150,7 @@ class MultipleInput extends InputWidget
         $cells = [];
         foreach ($this->columns as $column) {
             /* @var $column MultipleInputColumn */
-            if ($column->isHiddenInput() || empty($column->title)) {
-                continue;
-            }
-            $cells[] = Html::tag('th', $column->title, [
-                'class' => 'list-cell__' . $column->name
-            ]);
+            $cells[] = $column->renderHeaderCell();
         }
         if (is_null($this->limit) || $this->limit > 1) {
             $cells[] = Html::tag('th', '', [

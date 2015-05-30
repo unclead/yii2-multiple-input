@@ -30,7 +30,7 @@ class MultipleInputColumn extends Object
     const TYPE_STATIC           = 'static';
 
     /**
-     * @var string
+     * @var string input name
      */
     public $name;
 
@@ -40,7 +40,7 @@ class MultipleInputColumn extends Object
     public $title;
 
     /**
-     * @var string
+     * @var string input type
      */
     public $type;
 
@@ -50,7 +50,7 @@ class MultipleInputColumn extends Object
     public $value;
 
     /**
-     * @var mixed
+     * @var mixed default value for input
      */
     public $defaultValue = '';
 
@@ -63,6 +63,11 @@ class MultipleInputColumn extends Object
      * @var array
      */
     public $options;
+
+    /**
+     * @var array the HTML attributes for the header cell tag.
+     */
+    public $headerOptions = [];
 
     /**
      * @var MultipleInput
@@ -101,6 +106,21 @@ class MultipleInputColumn extends Object
     public function hasHeader()
     {
         return !empty($this->title);
+    }
+
+    /**
+     * Renders the header cell.
+     * @return null|string
+     */
+    public function renderHeaderCell()
+    {
+        if ($this->isHiddenInput()) {
+            return null;
+        }
+
+        $options = $this->headerOptions;
+        Html::addCssClass($options, 'list-cell__' . $this->name);
+        return Html::tag('th', $this->title, $options);
     }
 
     /**
