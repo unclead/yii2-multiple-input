@@ -14,8 +14,8 @@
         id: null,
         template: null,
         jsTemplates: [],
-        btn_action: null,
-        btn_type: null,
+        btnAction: null,
+        btnType: null,
         limit: 1,
         replacement: []
     };
@@ -78,8 +78,8 @@
             if (settings.limit != null && count >= settings.limit) {
                 return;
             }
-            var search = ['{index}', '{btn_action}', '{btn_type}', '{value}'],
-                replace = [data.currentIndex, settings.btn_action, settings.btn_type, ''];
+            var search = ['{multiple-index}', '{multiple-btn-action}', '{multiple-btn-type}', '{multiple-value}'],
+                replace = [data.currentIndex, settings.btnAction, settings.btnType, ''];
 
             for (var i in search) {
                 template = template.replaceAll(search[i], replace[i]);
@@ -96,7 +96,7 @@
 
             var jsTemplate;
             for (i in settings.jsTemplates) {
-                jsTemplate = settings.jsTemplates[i].replaceAll('{index}', data.currentIndex);
+                jsTemplate = settings.jsTemplates[i].replaceAll('{multiple-index}', data.currentIndex);
                 window.eval(jsTemplate);
             }
             wrapper.data('multipleInput').currentIndex++;
