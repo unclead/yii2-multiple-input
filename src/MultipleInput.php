@@ -199,24 +199,18 @@ class MultipleInput extends InputWidget
     {
         if (empty($this->template)) {
             $cells = [];
-            $hiddenInputs = [];
             foreach ($this->columns as $columnIndex => $column) {
                 /* @var $column MultipleInputColumn */
                 $value = 'multiple-' . $column->name . '-value';
                 $this->replacementKeys[$value] = $column->defaultValue;
                 $value = '{' . $value . '}';
 
-                if ($column->isHiddenInput()) {
-                    $hiddenInputs[] = $column->renderCellContent($value);
-                } else {
-                    $cells[] = $column->renderCellContent($value);
-                }
+                $cells[] = $column->renderCellContent($value);
             }
             if (is_null($this->limit) || $this->limit > 1) {
                 $cells[] = $this->renderActionColumn();
             }
 
-            $this->template = implode("\n", $hiddenInputs);
             $this->template .= Html::tag('tr', implode("\n", $cells), [
                 'class' => 'multiple-input-list__item',
             ]);

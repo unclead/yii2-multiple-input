@@ -30,3 +30,6 @@ table.multiple-input-list tr > th {
 .multiple-input-list__item .list-cell__button {
     width: 40px;
 }
+.multiple-input-list .list-cell__hidden {
+    display: none;
+}
