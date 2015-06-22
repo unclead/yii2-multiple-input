@@ -114,12 +114,11 @@ class MultipleInputColumn extends Object
      */
     public function renderHeaderCell()
     {
-        if ($this->isHiddenInput()) {
-            return null;
-        }
-
         $options = $this->headerOptions;
         Html::addCssClass($options, 'list-cell__' . $this->name);
+        if ($this->isHiddenInput()) {
+            Html::addCssClass($options, 'list-cell__hidden');
+        }
         return Html::tag('th', $this->title, $options);
     }
 
@@ -193,15 +192,13 @@ class MultipleInputColumn extends Object
                 }
         }
 
-        if ($this->isHiddenInput()) {
-            return $input;
-        }
-
         $input = Html::tag('div', $input, [
             'class' => 'form-group field-' . $options['id'],
         ]);
-        return Html::tag('td', $input, [
-            'class' => 'list-cell__' . $this->name,
-        ]);
+        $cellOptions = ['class' => 'list-cell__' . $this->name];
+        if ($this->isHiddenInput()) {
+            Html::addCssClass($cellOptions, 'list-cell__hidden');
+        }
+        return Html::tag('td', $input, $cellOptions);
     }
 }
