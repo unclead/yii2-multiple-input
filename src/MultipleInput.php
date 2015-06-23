@@ -216,8 +216,12 @@ class MultipleInput extends InputWidget
                 $cells[] = $this->renderActionColumn();
             }
 
-            $this->template = implode("\n", $hiddenInputs);
-            $this->template .= Html::tag('tr', implode("\n", $cells), [
+            if (!empty($hiddenInputs)) {
+                $hiddenInputs = implode("\n", $hiddenInputs);
+                $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '\${1}' . $hiddenInputs . '$2$3', $cells[0]);
+            }
+
+            $this->template = Html::tag('tr', implode("\n", $cells), [
                 'class' => 'multiple-input-list__item',
             ]);
 
