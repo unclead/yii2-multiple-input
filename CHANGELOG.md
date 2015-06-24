@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.0.3 in development
 --------------------
 
+- Hidden fields no longer break markup (unclead, kotchuprik)
+
 1.0.2
 -----
 
