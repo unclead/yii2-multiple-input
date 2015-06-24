@@ -218,7 +218,7 @@ class MultipleInput extends InputWidget
 
             if (!empty($hiddenInputs)) {
                 $hiddenInputs = implode("\n", $hiddenInputs);
-                $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '\${1}' . $hiddenInputs . '$2$3', $cells[0]);
+                $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
             }
 
             $this->template = Html::tag('tr', implode("\n", $cells), [
