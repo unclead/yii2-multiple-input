@@ -47,7 +47,7 @@ You can find more detail about this use case [here](docs/single_column.md)
 
 ![Multiple columns example](./docs/images/multiple-column.gif?raw=true)
 
-For example you keep some data in json format in attribute of model. Imagine that it is an absctract user schedule with keys: user_id, day, priority
+For example you keep some data in json format in attribute of model. Imagine that it is an abstract user schedule with keys: user_id, day, priority
 
 On the edit page you want to be able to manage this schedule and you can you yii2-multiple-input widget like in the following code
 
