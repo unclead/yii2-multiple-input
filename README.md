@@ -1,4 +1,6 @@
 #Yii2 Multiple input widget.
+
+[![Join the chat at https://gitter.im/unclead/yii2-multiple-input](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/unclead/yii2-multiple-input?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Yii2 widget for handle multiple inputs for an attribute of model
 
 [![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
