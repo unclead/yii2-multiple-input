@@ -54,14 +54,21 @@
                         });
                         form.yiiActiveForm('remove', id);
                     }
-
                     wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         methods.addAttribute.apply(this);
                     });
                     wrapper.data('multipleInput').currentIndex = wrapper.find('.multiple-input-list__item').length;
+
+                    $('[data-selected-option]').each(function (k, v) {
+                        var $ele = $(v);
+                        $ele.val($ele.data('selected-option')).removeAttr('data-selected-option');
+                    });
                     clearInterval(intervalID);
                 }
             }, 100);
+
+
+
             wrapper.trigger('init');
 
         },

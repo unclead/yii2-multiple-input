@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.0.4 in development
 --------------------
 
+- Bug #15: Fix setting current values of dropDownList
+
 1.0.3
 -----
 - Hidden fields no longer break markup (unclead, kotchuprik)

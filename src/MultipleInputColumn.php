@@ -147,7 +147,7 @@ class MultipleInputColumn extends Object
                 $value = $this->defaultValue;
             }
         }
-        return $value;
+        return is_array($value) ? Json::encode($value) : $value;
     }
 
     /**
@@ -174,7 +174,7 @@ class MultipleInputColumn extends Object
             case self::TYPE_LISTBOX:
             case self::TYPE_CHECKBOX_LIST:
             case self::TYPE_RADIO_LIST:
-                $options['selectedOption'] = $value;
+                $options['data-selected-option'] = $value;
                 $input = Html::$type($name, null, $this->items, $options);
                 break;
             case self::TYPE_STATIC:
