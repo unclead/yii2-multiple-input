@@ -8,7 +8,7 @@
         "yii2 multiple field"
     ],
     "type": "yii2-extension",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/unclead/yii2-multiple-input/issues?state=open",
