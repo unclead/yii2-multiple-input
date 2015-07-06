@@ -128,6 +128,11 @@
                 wrapper = ele.closest('.multiple-input').first(),
                 form = ele.closest('form');
 
+            // do not add attribute which are not the part of widget
+            if (wrapper.length == 0) {
+                return;
+            }
+
             form.yiiActiveForm('add', $.extend(wrapper.data('multipleInput').attributeDefaults, {
                 'id': id,
                 'input': '#' + id,
