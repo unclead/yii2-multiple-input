@@ -20,9 +20,16 @@
         replacement: []
     };
 
+    var defaultAttributeOptions = {
+        enableAjaxValidation: false,
+        validateOnBlur: false,
+        validateOnChange: false,
+        validateOnType: false
+    };
+
     var methods = {
         init: function (options) {
-            var settings = $.extend({}, defaultOptions, options || {}),
+            var settings = $.extend(true, {}, defaultOptions, options || {}),
                 wrapper = $('#' + settings.id),
                 form = wrapper.closest('form'),
                 id = this.selector.replace('#', '');
@@ -46,14 +53,24 @@
             var intervalID = setInterval(function(){
                 if (typeof form.data('yiiActiveForm') === 'object') {
                     var attribute = form.yiiActiveForm('find', id);
+                    var attributeDefaults = [];
                     if (typeof attribute === 'object') {
                         $.each(attribute, function (key, value) {
                             if (['id', 'input', 'container'].indexOf(key) == -1) {
-                                wrapper.data('multipleInput').attributeDefaults[key] = value;
+                                attributeDefaults[key] = value;
                             }
                         });
                         form.yiiActiveForm('remove', id);
                     }
+
+                    var attributeOptions = $.extend({}, defaultAttributeOptions, settings.attributeOptions);
+                    $.each(attributeOptions, function(key, value) {
+                        if (typeof attributeDefaults[key] === 'undefined') {
+                            attributeDefaults[key] = value;
+                        }
+                    });
+                    wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
+
                     wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         methods.addAttribute.apply(this);
                     });
@@ -133,7 +150,8 @@
                 return;
             }
 
-            form.yiiActiveForm('add', $.extend(wrapper.data('multipleInput').attributeDefaults, {
+            var data = wrapper.data('multipleInput');
+            form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {
                 'id': id,
                 'input': '#' + id,
                 'container': '.field-' + id

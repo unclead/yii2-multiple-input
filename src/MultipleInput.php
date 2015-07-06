@@ -46,6 +46,13 @@ class MultipleInput extends InputWidget
     public $limit;
 
     /**
+     * @var array client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
+     * you use widget without a model, since in this case widget is not able to detect client-side options
+     * automatically.
+     */
+    public $attributeOptions = [];
+
+    /**
      * @var string generated template, internal variable.
      */
     protected $template;
@@ -363,13 +370,14 @@ class MultipleInput extends InputWidget
         MultipleInputAsset::register($view);
         $options = Json::encode(
             [
-                'id'            => $this->getId(),
-                'template'      => $this->getRowTemplate(),
-                'jsTemplates'   => $this->jsTemplates,
-                'btnAction'     => self::ACTION_REMOVE,
-                'btnType'       => 'btn-danger',
-                'limit'         => $this->limit,
-                'replacement'   => $this->replacementKeys,
+                'id'                => $this->getId(),
+                'template'          => $this->getRowTemplate(),
+                'jsTemplates'       => $this->jsTemplates,
+                'btnAction'         => self::ACTION_REMOVE,
+                'btnType'           => 'btn-danger',
+                'limit'             => $this->limit,
+                'replacement'       => $this->replacementKeys,
+                'attributeOptions'  => $this->attributeOptions,
             ]
         );
         $id = $this->options['id'];
