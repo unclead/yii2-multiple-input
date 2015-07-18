@@ -1,10 +1,14 @@
 Yii2 multiple input change log
 ==============================
 
-1.0.4 in development
+1.0.5
 --------------------
 
-- Bug #15: Fix setting current values of dropDownList
+1.0.4
+--------------------
+
+- Bug #15: Fix setting current values of dropDownList (unclead)
+- Bug #16 fix render of dropDown and similar inputs (unclead)
 
 1.0.3
 -----
