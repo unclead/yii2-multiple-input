@@ -75,19 +75,11 @@
                         methods.addAttribute.apply(this);
                     });
                     wrapper.data('multipleInput').currentIndex = wrapper.find('.multiple-input-list__item').length;
-
-                    $('[data-selected-option]').each(function (k, v) {
-                        var $ele = $(v);
-                        $ele.val($ele.data('selected-option')).removeAttr('data-selected-option');
-                    });
                     clearInterval(intervalID);
                 }
             }, 100);
 
-
-
             wrapper.trigger('init');
-
         },
 
         addInput: function () {
@@ -159,9 +151,12 @@
         },
 
         removeAttribute: function () {
-            var id = $(this).attr('id');
-            var form = $('#' + $(this).attr('id')).closest('form');
-            form.yiiActiveForm('remove', id);
+            var id = $(this).attr('id'),
+                form = $('#' + $(this).attr('id')).closest('form');
+
+            if (form.length !== 0) {
+                form.yiiActiveForm('remove', id);
+            }
         }
 
     };

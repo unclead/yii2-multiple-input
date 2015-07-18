@@ -147,23 +147,24 @@ class MultipleInputColumn extends Object
                 $value = $this->defaultValue;
             }
         }
-        return is_array($value) ? Json::encode($value) : $value;
+        return $value;
     }
 
     /**
      * Renders the cell content.
      *
-     * @param string $value placeholder of the input's value
+     * @param string $value
+     * @param int|null $index
      * @return string
      * @throws InvalidConfigException
      */
-    public function renderCellContent($value)
+    public function renderCellContent($value, $index)
     {
         $type = $this->type;
-        $name = $this->widget->getElementName($this->name);
+        $name = $this->widget->getElementName($this->name, $index);
 
         $options = $this->options;
-        $options['id'] = $this->widget->getElementId($this->name);
+        $options['id'] = $this->widget->getElementId($this->name, $index);
         Html::addCssClass($options, 'form-control');
 
         switch ($this->type) {
@@ -174,8 +175,7 @@ class MultipleInputColumn extends Object
             case self::TYPE_LISTBOX:
             case self::TYPE_CHECKBOX_LIST:
             case self::TYPE_RADIO_LIST:
-                $options['data-selected-option'] = $value;
-                $input = Html::$type($name, null, $this->items, $options);
+                $input = Html::$type($name, $value, $this->items, $options);
                 break;
             case self::TYPE_STATIC:
                 $input = Html::tag('p', $value, ['class' => 'form-control-static']);

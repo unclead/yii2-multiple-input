@@ -58,14 +58,14 @@ class MultipleInput extends InputWidget
     protected $template;
 
     /**
-     * @var array js templates collected from js which has been registered during rendering of widgets
+     * @var array js templates collected from js which has been registered during rendering of widget
      */
     protected $jsTemplates = [];
 
     /**
      * @var string
      */
-    protected $replacementKeys;
+    private $replacementKeys;
 
     /**
      * Initialization.
@@ -194,59 +194,71 @@ class MultipleInput extends InputWidget
         $rows = [];
         if (!empty($this->data)) {
             foreach ($this->data as $index => $data) {
-                $rows[] = $this->renderRow($index, $data);
+                $rows[] = $this->renderRowContent($index, $data);
             }
         } else {
-            $rows[] = $this->renderRow(0);
+            $rows[] = $this->renderRowContent(0);
         }
         return Html::tag('tbody', implode("\n", $rows));
     }
 
-    private function getRowTemplate()
+    /**
+     * Renders the row content.
+     *
+     * @param int $index
+     * @param ActiveRecord|array $data
+     * @return mixed
+     * @throws InvalidConfigException
+     */
+    private function renderRowContent($index = null, $data = null)
     {
-        if (empty($this->template)) {
-            $cells = [];
-            $hiddenInputs = [];
-            foreach ($this->columns as $columnIndex => $column) {
-                /* @var $column MultipleInputColumn */
+        $cells = [];
+        $hiddenInputs = [];
+        foreach ($this->columns as $columnIndex => $column) {
+            /* @var $column MultipleInputColumn */
+            if (is_null($index)) {
                 $value = 'multiple-' . $column->name . '-value';
                 $this->replacementKeys[$value] = $column->defaultValue;
                 $value = '{' . $value . '}';
-
-                if ($column->isHiddenInput()) {
-                    $hiddenInputs[] = $column->renderCellContent($value);
-                } else {
-                    $cells[] = $column->renderCellContent($value);
-                }
-            }
-            if (is_null($this->limit) || $this->limit > 1) {
-                $cells[] = $this->renderActionColumn();
+            } else {
+                $value = $column->prepareValue($data);
             }
 
-            if (!empty($hiddenInputs)) {
-                $hiddenInputs = implode("\n", $hiddenInputs);
-                $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
-            }
-
-            $this->template = Html::tag('tr', implode("\n", $cells), [
-                'class' => 'multiple-input-list__item',
-            ]);
-
-            if (is_array($this->getView()->js) && array_key_exists(View::POS_READY, $this->getView()->js)) {
-                $this->collectJsTemplates();
+            if ($column->isHiddenInput()) {
+                $hiddenInputs[] = $column->renderCellContent($value, $index);
+            } else {
+                $cells[] = $column->renderCellContent($value, $index);
             }
         }
+        if (is_null($this->limit) || $this->limit > 1) {
+            $cells[] = $this->renderActionColumn($index);
+        }
 
-        return $this->template;
+        if (!empty($hiddenInputs)) {
+            $hiddenInputs = implode("\n", $hiddenInputs);
+            $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
+        }
+
+        $content = Html::tag('tr', implode("\n", $cells), [
+            'class' => 'multiple-input-list__item',
+        ]);
+
+        if (is_null($index)) {
+            $this->collectJsTemplates();
+        }
+
+        return $content;
     }
 
     private function collectJsTemplates()
     {
+        if (is_array($this->getView()->js) && array_key_exists(View::POS_READY, $this->getView()->js)) {
         $this->jsTemplates = [];
         foreach ($this->getView()->js[View::POS_READY] as $key => $js) {
-            if (preg_match('/\(.#[^)]+{multiple-index}[^)]+\)/', $js) === 1) {
-                $this->jsTemplates[] = $js;
-                unset($this->getView()->js[View::POS_READY][$key]);
+                if (preg_match('/^.*' . $this->options['id'] . '-{multiple-index}.*$/', $js) === 1) {
+                    $this->jsTemplates[] = $js;
+                    unset($this->getView()->js[View::POS_READY][$key]);
+                }
             }
         }
     }
@@ -254,19 +266,28 @@ class MultipleInput extends InputWidget
     /**
      * Renders the action column.
      *
+     * @param null|int $index
      * @return string
      * @throws \Exception
      */
-    private function renderActionColumn()
+    private function renderActionColumn($index = null)
     {
+        if (is_null($index)) {
+            $action = '{multiple-btn-action}';
+            $type = '{multiple-btn-type}';
+        } else {
+            $action = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
+            $type = $index == 0 ? 'btn-default' : 'btn-danger';
+        }
+
         $button = Button::widget(
             [
                 'tagName' => 'div',
                 'encodeLabel' => false,
-                'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-{multiple-btn-action}']),
+                'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-' . $action]),
                 'options' => [
-                    'id' => $this->getElementId('button'),
-                    'class' => "{multiple-btn-type} multiple-input-list__btn btn js-input-{multiple-btn-action}",
+                    'id' => $this->getElementId('button', $index),
+                    'class' => $type . ' multiple-input-list__btn btn js-input-' . $action,
                 ]
             ]
         );
@@ -275,51 +296,21 @@ class MultipleInput extends InputWidget
         ]);
     }
 
-    /**
-     * Renders the row.
-     *
-     * @param int $index
-     * @param ActiveRecord|array $data
-     * @return mixed
-     * @throws InvalidConfigException
-     */
-    private function renderRow($index, $data = null)
-    {
-        $btnAction = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
-        $btnType = $index == 0 ? 'btn-default' : 'btn-danger';
-        $search = ['{multiple-index}', '{multiple-btn-action}', '{multiple-btn-type}'];
-        $replace = [$index, $btnAction, $btnType];
-
-        foreach ($this->columns as $column) {
-            /* @var $column MultipleInputColumn */
-            $search[] = '{multiple-' . $column->name . '-value}';
-            $replace[] = $column->prepareValue($data);
-        }
-
-        $row = str_replace($search, $replace, $this->getRowTemplate());
-
-        foreach ($this->jsTemplates as $js) {
-            $this->getView()->registerJs(strtr($js, ['{multiple-index}' => $index]), View::POS_READY);
-        }
-        return $row;
-    }
 
     /**
      * Returns element's name.
      *
-     * @param string $name
-     * @param string $index
+     * @param string $name the name of cell element
+     * @param int|null $index
      * @return string
      */
-    public function getElementName($name, $index = null)
+    public function getElementName($name, $index)
     {
-        if ($index === null) {
+        if (is_null($index)) {
             $index = '{multiple-index}';
         }
         return $this->getInputNamePrefix($name) . (
-            count($this->columns) > 1
-                ? '[' . $index . '][' . $name . ']'
-                : '[' . $name . '][' . $index . ']'
+        count($this->columns) > 1 ? '[' . $index . '][' . $name . ']' : '[' . $name . '][' . $index . ']'
         );
     }
 
@@ -343,12 +334,13 @@ class MultipleInput extends InputWidget
     /**
      * Returns element id.
      *
-     * @param $name
+     * @param string $name
+     * @param null|int $index
      * @return mixed
      */
-    public function getElementId($name)
+    public function getElementId($name, $index = null)
     {
-        return $this->normalize($this->getElementName($name));
+        return $this->normalize($this->getElementName($name, $index));
     }
 
     /**
@@ -371,7 +363,7 @@ class MultipleInput extends InputWidget
         $options = Json::encode(
             [
                 'id'                => $this->getId(),
-                'template'          => $this->getRowTemplate(),
+                'template'          => $this->renderRowContent(),
                 'jsTemplates'       => $this->jsTemplates,
                 'btnAction'         => self::ACTION_REMOVE,
                 'btnType'           => 'btn-danger',
