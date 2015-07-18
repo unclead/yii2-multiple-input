@@ -9,6 +9,7 @@ Yii2 multiple input change log
 
 - Bug #15: Fix setting current values of dropDownList (unclead)
 - Bug #16 fix render of dropDown and similar inputs (unclead)
+- Add attributeOptions property
 
 1.0.3
 -----
