@@ -1,8 +1,10 @@
 Yii2 multiple input change log
 ==============================
 
-1.0.5
---------------------
+1.0.5 under development
+-----------------------
+
+- Bug #17 display inline errors (unclead, mikbox74)
 
 1.0.4
 --------------------
