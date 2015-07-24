@@ -70,6 +70,16 @@ class MultipleInputColumn extends Object
     public $headerOptions = [];
 
     /**
+     * @var bool whether to render inline error for the input. Default to `false`
+     */
+    public $enableError = false;
+
+    /**
+     * @var array the default options for the error tag
+     */
+    public $errorOptions = ['class' => 'help-block help-block-error'];
+
+    /**
      * @var MultipleInput
      */
     public $widget;
@@ -197,9 +207,14 @@ class MultipleInputColumn extends Object
             return $input;
         }
 
+        if ($this->enableError) {
+            $input .= "\n" . Html::tag('div', '', $this->errorOptions);
+        }
+
         $input = Html::tag('div', $input, [
             'class' => 'form-group field-' . $options['id'],
         ]);
+
         return Html::tag('td', $input, [
             'class' => 'list-cell__' . $this->name,
         ]);
