@@ -91,6 +91,7 @@ use unclead\widgets\MultipleInput;
         ],
         [
             'name'  => 'priority',
+            'enableError' => true,
             'title' => 'Priority',
             'options' => [
                 'class' => 'input-priority'
@@ -129,6 +130,8 @@ Widget support the following options that are additionally recognized over and a
   - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
   - `options` *array*: the HTML attributes for the input
   - `headerOptions` *array*: the HTML attributes for the header cell
+  - `enableError` *boolean*: whether to render inline error for the input. Default to `false`
+  - `errorOptions` *array*: the HTMl attributes for the error tag
 
 ### Input types
 
