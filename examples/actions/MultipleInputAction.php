@@ -28,9 +28,13 @@ class MultipleInputAction extends Action
             return $result;
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
+        if ($model->load(Yii::$app->request->post())) {
+            if (!$model->validate()) {
+                Yii::error('Validation errors: ' . print_r($model->getErrors(), true));
+            }
         }
+
+
         return $this->controller->render('@unclead-examples/views/example.php', ['model' => $model]);
     }
 }

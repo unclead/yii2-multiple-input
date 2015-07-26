@@ -43,12 +43,12 @@ class ExampleModel extends Model
         $this->schedule = [
             [
                 'day'       => '27.02.2015',
-                'user_id'   => 1,
+                'user_id'   => 31,
                 'priority'  => 1
             ],
             [
                 'day'       => '27.02.2015',
-                'user_id'   => 2,
+                'user_id'   => 33,
                 'priority'  => 2
             ],
         ];
@@ -139,10 +139,14 @@ class ExampleModel extends Model
 
         foreach($this->$attribute as $index => $row) {
             $error = null;
-            $requiredValidator->validate($row['priority'], $error);
-            if (!empty($error)) {
-                $key = $attribute . '[' . $index . '][priority]';
-                $this->addError($key, $error);
+            foreach (['user_id', 'priority'] as $name) {
+                $error = null;
+                $value = isset($row[$name]) ? $row[$name] : null;
+                $requiredValidator->validate($value, $error);
+                if (!empty($error)) {
+                    $key = $attribute . '[' . $index . '][' . $name . ']';
+                    $this->addError($key, $error);
+                }
             }
         }
     }

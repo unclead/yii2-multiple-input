@@ -86,6 +86,7 @@ use yii\helpers\Html;
         [
             'name'  => 'priority',
             'title' => 'Priority',
+            'enableError' => true,
             'options' => [
                 'class' => 'input-priority'
             ]

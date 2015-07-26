@@ -92,6 +92,10 @@ class MultipleInputColumn extends Object
             throw new InvalidConfigException("The 'name' option is required.");
         }
 
+        if ($this->enableError && empty($this->widget->model)) {
+            throw new InvalidConfigException('Property "enableError" available only when model is defined.');
+        }
+
         if (is_null($this->type)) {
             $this->type = self::TYPE_TEXT_INPUT;
         }
@@ -207,16 +211,38 @@ class MultipleInputColumn extends Object
             return $input;
         }
 
+        $hasError = false;
         if ($this->enableError) {
-            $input .= "\n" . Html::tag('div', '', $this->errorOptions);
+            $attribute = $this->widget->attribute . $this->widget->getElementName($this->name, $index, false);
+            $error = $this->widget->model->getFirstError($attribute);
+            $hasError = !empty($error);
+            $input .= "\n" . $this->renderError($error);
         }
 
-        $input = Html::tag('div', $input, [
-            'class' => 'form-group field-' . $options['id'],
-        ]);
+        $wrapperOptions = [
+            'class' => 'form-group field-' . $options['id']
+        ];
+
+        if ($hasError) {
+            Html::addCssClass($wrapperOptions, 'has-error');
+        }
+        $input = Html::tag('div', $input, $wrapperOptions);
 
         return Html::tag('td', $input, [
             'class' => 'list-cell__' . $this->name,
         ]);
+    }
+
+    /**
+     * @param string $error
+     * @return string
+     */
+    private function renderError($error)
+    {
+        $options = $this->errorOptions;
+        $tag = isset($options['tag']) ? $options['tag'] : 'div';
+        $encode = !isset($options['encode']) || $options['encode'] !== false;
+        unset($options['tag'], $options['encode']);
+        return Html::tag($tag, $encode ? Html::encode($error) : $error, $options);
     }
 }

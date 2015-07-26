@@ -253,8 +253,8 @@ class MultipleInput extends InputWidget
     private function collectJsTemplates()
     {
         if (is_array($this->getView()->js) && array_key_exists(View::POS_READY, $this->getView()->js)) {
-        $this->jsTemplates = [];
-        foreach ($this->getView()->js[View::POS_READY] as $key => $js) {
+            $this->jsTemplates = [];
+            foreach ($this->getView()->js[View::POS_READY] as $key => $js) {
                 if (preg_match('/^.*' . $this->options['id'] . '-{multiple-index}.*$/', $js) === 1) {
                     $this->jsTemplates[] = $js;
                     unset($this->getView()->js[View::POS_READY][$key]);
@@ -301,17 +301,20 @@ class MultipleInput extends InputWidget
      * Returns element's name.
      *
      * @param string $name the name of cell element
-     * @param int|null $index
+     * @param int|null $index current row index
+     * @param bool $withPrefix whether to add prefix.
      * @return string
      */
-    public function getElementName($name, $index)
+    public function getElementName($name, $index, $withPrefix = true)
     {
         if (is_null($index)) {
             $index = '{multiple-index}';
         }
-        return $this->getInputNamePrefix($name) . (
-        count($this->columns) > 1 ? '[' . $index . '][' . $name . ']' : '[' . $name . '][' . $index . ']'
-        );
+        $elementName = count($this->columns) > 1
+            ? '[' . $index . '][' . $name . ']'
+            : '[' . $name . '][' . $index . ']';
+        $prefix = $withPrefix ? $this->getInputNamePrefix($name) : '';
+        return  $prefix . $elementName;
     }
 
     /**
