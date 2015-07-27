@@ -10,14 +10,53 @@
         }
     };
 
+    var events = {
+        /**
+         * afterAddRow event is triggered after widget's initialization.
+         * The signature of the event handler should be:
+         *     function (event)
+         * where event is an Event object.
+         *
+         */
+        afterInit: 'afterInit',
+        /**
+         * afterAddRow event is triggered after successful adding new row.
+         * The signature of the event handler should be:
+         *     function (event)
+         * where event is an Event object.
+         *
+         */
+        afterAddRow: 'afterAddRow',
+        /**
+         * beforeDeleteRow event is triggered before row will be removed.
+         * The signature of the event handler should be:
+         *     function (event)
+         * where event is an Event object.
+         *
+         * If the handler returns a boolean false, it will stop removal the row.
+         */
+        beforeDeleteRow: 'beforeDeleteRow',
+
+        /**
+         * afterAddRow event is triggered after successful removal the row.
+         * The signature of the event handler should be:
+         *     function (event)
+         * where event is an Event object.
+         *
+         */
+        afterDeleteRow: 'afterDeleteRow'
+    };
+
     var defaultOptions = {
         id: null,
+        // the template of row
         template: null,
+        // string that collect js templates of widgets which uses in the columns
         jsTemplates: [],
-        btnAction: null,
+        // remove button css class
         btnType: null,
-        limit: 1,
-        replacement: []
+        // how many row has to renders
+        limit: 1
     };
 
     var defaultAttributeOptions = {
@@ -30,11 +69,11 @@
     var methods = {
         init: function (options) {
             var settings = $.extend(true, {}, defaultOptions, options || {}),
-                wrapper = $('#' + settings.id),
-                form = wrapper.closest('form'),
+                $wrapper = $('#' + settings.id),
+                form = $wrapper.closest('form'),
                 id = this.selector.replace('#', '');
 
-            wrapper.data('multipleInput', {
+            $wrapper.data('multipleInput', {
                 settings: settings,
                 currentIndex: 0,
                 attributeDefaults: {}
@@ -69,43 +108,40 @@
                             attributeDefaults[key] = value;
                         }
                     });
-                    wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
+                    $wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
 
-                    wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
+                    $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         methods.addAttribute.apply(this);
                     });
-                    wrapper.data('multipleInput').currentIndex = wrapper.find('.multiple-input-list__item').length;
+                    $wrapper.data('multipleInput').currentIndex = $wrapper.find('.multiple-input-list__item').length;
                     clearInterval(intervalID);
+
+                    var event = $.Event(events.afterInit);
+                    $wrapper.trigger(event);
                 }
             }, 100);
-
-            wrapper.trigger('init');
         },
 
         addInput: function () {
-            var wrapper     = $(this).closest('.multiple-input').first(),
-                data        = wrapper.data('multipleInput'),
+            var $wrapper    = $(this).closest('.multiple-input').first(),
+                data        = $wrapper.data('multipleInput'),
                 settings    = data.settings,
                 template    = settings.template,
-                inputList   = wrapper.find('.multiple-input-list').first(),
-                count       = wrapper.find('.multiple-input-list__item').length,
-                replacement = settings.replacement || [];
+                inputList   = $wrapper.find('.multiple-input-list').first(),
+                count       = $wrapper.find('.multiple-input-list__item').length;
 
             if (settings.limit != null && count >= settings.limit) {
                 return;
             }
-            var search = ['{multiple-index}', '{multiple-btn-action}', '{multiple-btn-type}', '{multiple-value}'],
-                replace = [data.currentIndex, settings.btnAction, settings.btnType, ''];
+            var search = ['{multiple-index}', '{multiple-btn-type}', '{multiple-value}'],
+                replace = [data.currentIndex, settings.btnType, ''];
 
             for (var i in search) {
                 template = template.replaceAll(search[i], replace[i]);
             }
 
-            for (var j in replacement) {
-                template = template.replaceAll('{' + j + '}', replacement[j]);
-            }
-
             $(template).hide().appendTo(inputList).fadeIn(300);
+
             $(template).find('input, select, textarea').each(function () {
                 methods.addAttribute.apply(this);
             });
@@ -115,20 +151,31 @@
                 jsTemplate = settings.jsTemplates[i].replaceAll('{multiple-index}', data.currentIndex);
                 window.eval(jsTemplate);
             }
-            wrapper.data('multipleInput').currentIndex++;
-            wrapper.trigger('addNewRow');
+            $wrapper.data('multipleInput').currentIndex++;
+
+            var event = $.Event(events.afterAddRow);
+            $wrapper.trigger(event);
         },
 
         removeInput: function () {
-            var wrapper = $(this).closest('.multiple-input').first(),
+            var $wrapper = $(this).closest('.multiple-input').first(),
                 line = $(this).closest('.multiple-input-list__item');
+
+            var event = $.Event(events.beforeDeleteRow);
+            $wrapper.trigger(event);
+            if (event.result === false) {
+                return;
+            }
+
             line.find('input, select, textarea').each(function () {
                 methods.removeAttribute.apply(this);
             });
             line.fadeOut(300, function () {
                 $(this).remove();
             });
-            wrapper.trigger('removeRow');
+
+            event = $.Event(events.afterDeleteRow);
+            $wrapper.trigger(event);
         },
 
         addAttribute: function () {

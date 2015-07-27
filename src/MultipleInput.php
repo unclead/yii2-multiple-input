@@ -63,11 +63,6 @@ class MultipleInput extends InputWidget
     protected $jsTemplates = [];
 
     /**
-     * @var string
-     */
-    private $replacementKeys;
-
-    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -216,14 +211,7 @@ class MultipleInput extends InputWidget
         $hiddenInputs = [];
         foreach ($this->columns as $columnIndex => $column) {
             /* @var $column MultipleInputColumn */
-            if (is_null($index)) {
-                $value = 'multiple-' . $column->name . '-value';
-                $this->replacementKeys[$value] = $column->defaultValue;
-                $value = '{' . $value . '}';
-            } else {
-                $value = $column->prepareValue($data);
-            }
-
+            $value = $column->prepareValue($data);
             if ($column->isHiddenInput()) {
                 $hiddenInputs[] = $column->renderCellContent($value, $index);
             } else {
@@ -273,7 +261,7 @@ class MultipleInput extends InputWidget
     private function renderActionColumn($index = null)
     {
         if (is_null($index)) {
-            $action = '{multiple-btn-action}';
+            $action = self::ACTION_REMOVE;
             $type = '{multiple-btn-type}';
         } else {
             $action = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
@@ -368,10 +356,8 @@ class MultipleInput extends InputWidget
                 'id'                => $this->getId(),
                 'template'          => $this->renderRowContent(),
                 'jsTemplates'       => $this->jsTemplates,
-                'btnAction'         => self::ACTION_REMOVE,
                 'btnType'           => 'btn-danger',
                 'limit'             => $this->limit,
-                'replacement'       => $this->replacementKeys,
                 'attributeOptions'  => $this->attributeOptions,
             ]
         );

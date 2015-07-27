@@ -3,9 +3,10 @@ Yii2 widget for handle multiple inputs for an attribute of model
 
 [![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
+##Latest release
+The latest version of the extension is v1.1.0. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+
 ##Installation
-
-
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
@@ -161,13 +162,14 @@ For using widget as column input you may use the following code:
 
 ### JavaScript events
 This widget has following events:
- - `init`: triggered after initialization
- - `addNewRow`: triggered after new row insertion
- - `removeRow`: triggered after row removal
+ - `afterInit`: triggered after initialization
+ - `afterAddRow`: triggered after new row insertion
+ - `beforeDeleteRow`: triggered before the row removal
+ - `afterDeleteRow`: triggered after the row removal
 
 Example:
 ```js
-jQuery('#multiple-input').on('addNewRow', function() {
+jQuery('#multiple-input').on('afterAddRow', function() {
    //some code 
 });
 ```

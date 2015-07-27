@@ -1,10 +1,16 @@
 Yii2 multiple input change log
 ==============================
 
-1.0.5 under development
+1.1.1 under development
 -----------------------
 
-- Bug #17 display inline errors (unclead, mikbox74)
+1.1.0
+-----
+
+- Bug #17: display inline errors (unclead, mikbox74)
+- Enh #11: Improve js events (unclead)
+- Bug #16: correct use of defaultValue property (unclead)
+- code improvements (unclead)
 
 1.0.4
 --------------------
