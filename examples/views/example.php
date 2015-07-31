@@ -25,10 +25,10 @@ use kartik\date\DatePicker;
 
     <h3>Single column</h3>
 <?php
-//    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-//        'limit' => 5
-//    ])
-//    ->label(false);
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'limit' => 5
+    ])
+    ->label(false);
 ?>
 
     <h3>Multiple columns</h3>
@@ -43,7 +43,6 @@ use kartik\date\DatePicker;
             'title' => 'User',
             'defaultValue' => 33,
             'items' => [
-                '' => 'Select user',
                 31 => 'item 31',
                 32 => 'item 32',
                 33 => 'item 33',
@@ -96,11 +95,15 @@ use kartik\date\DatePicker;
         [
             'type' => 'checkbox',
             'name' => 'enable',
-            'defaultValue' => 0
+            'defaultValue' => 0,
+            'headerOptions' => [
+                'style' => 'width: 20px;',
+            ]
         ]
     ]
 ]);
 ?>
+
 <?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
 <?php ActiveForm::end();?>
 

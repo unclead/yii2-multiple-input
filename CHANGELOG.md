@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.1.1 under development
 -----------------------
 
+- Bug #16 refactoring rendering of inputs (unclead)
+
 1.1.0
 -----
 

@@ -31,6 +31,8 @@ class ExampleModel extends Model
      */
     public $schedule;
 
+    public $enable;
+
     public function init()
     {
         parent::init();
@@ -44,12 +46,14 @@ class ExampleModel extends Model
             [
                 'day'       => '27.02.2015',
                 'user_id'   => 31,
-                'priority'  => 1
+                'priority'  => 1,
+                'enable'    => true
             ],
             [
                 'day'       => '27.02.2015',
                 'user_id'   => 33,
-                'priority'  => 2
+                'priority'  => 2,
+                'enable'    => false
             ],
         ];
     }

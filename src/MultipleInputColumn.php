@@ -14,6 +14,7 @@ use yii\base\Object;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
 
 /**
  * Class MultipleInputColumn
@@ -28,6 +29,8 @@ class MultipleInputColumn extends Object
     const TYPE_CHECKBOX_LIST    = 'checkboxList';
     const TYPE_RADIO_LIST       = 'radioList';
     const TYPE_STATIC           = 'static';
+    const TYPE_CHECKBOX         = 'checkbox';
+    const TYPE_RADIO            = 'radio';
 
     /**
      * @var string input name
@@ -174,38 +177,12 @@ class MultipleInputColumn extends Object
      */
     public function renderCellContent($value, $index)
     {
-        $type = $this->type;
         $name = $this->widget->getElementName($this->name, $index);
 
         $options = $this->options;
         $options['id'] = $this->widget->getElementId($this->name, $index);
-        Html::addCssClass($options, 'form-control');
 
-        switch ($this->type) {
-            case self::TYPE_HIDDEN_INPUT:
-                $input = Html::hiddenInput($name, $value, $options);
-                break;
-            case self::TYPE_DROPDOWN:
-            case self::TYPE_LISTBOX:
-            case self::TYPE_CHECKBOX_LIST:
-            case self::TYPE_RADIO_LIST:
-                $input = Html::$type($name, $value, $this->items, $options);
-                break;
-            case self::TYPE_STATIC:
-                $input = Html::tag('p', $value, ['class' => 'form-control-static']);
-                break;
-            default:
-                if (method_exists('yii\helpers\Html', $type)) {
-                    $input = Html::$type($name, $value, $options);
-                } elseif (class_exists($type) && method_exists($type, 'widget')) {
-                    $input = $type::widget(array_merge($options, [
-                        'name'  => $name,
-                        'value' => $value,
-                    ]));
-                } else {
-                    throw new InvalidConfigException("Invalid column type '$type'");
-                }
-        }
+        $input = $this->renderInput($name, $value, $options);
 
         if ($this->isHiddenInput()) {
             return $input;
@@ -231,6 +208,100 @@ class MultipleInputColumn extends Object
         return Html::tag('td', $input, [
             'class' => 'list-cell__' . $this->name,
         ]);
+    }
+
+    /**
+     * Renders the input.
+     *
+     * @param string $name name of the input
+     * @param mixed $value value of the input
+     * @param array $options the input options
+     * @return string
+     */
+    private function renderInput($name, $value, $options)
+    {
+        $method = 'render' . Inflector::camelize($this->type);
+
+        if (method_exists($this, $method)) {
+            $input = call_user_func_array([$this, $method], [$name, $value, $options]);
+        } else {
+            $input = $this->renderDefault($name, $value, $options);
+        }
+        return $input;
+    }
+
+
+    protected function renderDropDownList($name, $value, $options)
+    {
+        Html::addCssClass($options, 'form-control');
+        return Html::dropDownList($name, $value, $this->items, $options);
+    }
+
+    protected function renderListBox($name, $value, $options)
+    {
+        Html::addCssClass($options, 'form-control');
+        return Html::listBox($name, $value, $this->items, $options);
+    }
+
+    protected function renderHiddenInput($name, $value, $options)
+    {
+        return Html::hiddenInput($name, $value, $options);
+    }
+
+    protected function renderRadio($name, $value, $options)
+    {
+        if (!isset($options['label'])) {
+            $options['label'] = '';
+        }
+        $input = Html::radio($name, $value, $options);
+        return Html::tag('div', $input, ['class' => 'radio']);
+    }
+
+    protected function renderRadioList($name, $value, $options)
+    {
+        $options['item'] = function ($index, $label, $name, $checked, $value) {
+            return '<div class="radio">' . Html::radio($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
+        };
+        $input = Html::radioList($name, $value, $this->items, $options);
+        return Html::tag('div', $input, ['class' => 'radio']);
+    }
+
+    protected function renderCheckbox($name, $value, $options)
+    {
+        if (!isset($options['label'])) {
+            $options['label'] = '';
+        }
+        $input = Html::checkbox($name, $value, $options);
+        return Html::tag('div', $input, ['class' => 'checkbox']);
+    }
+
+    protected function renderCheckboxList($name, $value, $options)
+    {
+        $options['item'] = function ($index, $label, $name, $checked, $value) {
+            return '<div class="checkbox">' . Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
+        };
+        $input = Html::checkboxList($name, $value, $this->items, $options);
+        return Html::tag('div', $input, ['class' => 'checkbox']);
+    }
+
+    protected function renderDefault($name, $value, $options)
+    {
+        $type = $this->type;
+
+        if ($type == self::TYPE_STATIC) {
+            $input = Html::tag('p', $value, ['class' => 'form-control-static']);
+        } elseif (method_exists('yii\helpers\Html', $type)) {
+            Html::addCssClass($options, 'form-control');
+            $input = Html::$type($name, $value, $options);
+        } elseif (class_exists($type) && method_exists($type, 'widget')) {
+            $input = $type::widget(array_merge($options, [
+                'name'  => $name,
+                'value' => $value,
+            ]));
+        } else {
+            throw new InvalidConfigException("Invalid column type '$type'");
+        }
+        return $input;
     }
 
     /**
