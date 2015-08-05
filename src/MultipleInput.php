@@ -314,12 +314,23 @@ class MultipleInput extends InputWidget
     private function getInputNamePrefix($name)
     {
         if ($this->hasModel()) {
-            if (empty($this->columns) || (count($this->columns) == 1 && $this->model->hasProperty($name))) {
+            if (empty($this->columns) || (count($this->columns) == 1 && $this->hasModelAttribute($name))) {
                 return $this->model->formName();
             }
             return Html::getInputName($this->model, $this->attribute);
         }
         return $this->name;
+    }
+
+    private function hasModelAttribute($name)
+    {
+        if ($this->model->hasProperty($name)) {
+            return true;
+        } elseif ($this->model instanceof ActiveRecord && $this->model->hasAttribute($name)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
