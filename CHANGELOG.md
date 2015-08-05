@@ -5,6 +5,7 @@ Yii2 multiple input change log
 -----------------------
 
 - Bug #19 refactoring rendering of inputs (unclead)
+- Bug #20 add hasAttribute checking for AR models (unclead)
 
 1.1.0
 -----
