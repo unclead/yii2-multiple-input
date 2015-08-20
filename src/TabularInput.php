@@ -9,26 +9,20 @@
 namespace unclead\widgets;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\widgets\InputWidget;
 use yii\db\ActiveRecord;
+use yii\bootstrap\Widget;
 use unclead\widgets\renderers\TableRenderer;
 
-
 /**
- * Widget for rendering multiple input for an attribute of model.
- *
- * @author Eugene Tupikov <unclead.nsk@gmail.com>
+ * Class TabularInput
+ * @package unclead\widgets
  */
-class MultipleInput extends InputWidget
+class TabularInput extends Widget
 {
     /**
-     * @var ActiveRecord[]|array[] input data
-     */
-    public $data = null;
-
-    /**
-     * @var array columns configuration
+     * @var array
      */
     public $columns = [];
 
@@ -44,6 +38,11 @@ class MultipleInput extends InputWidget
      */
     public $attributeOptions = [];
 
+    /**
+     * @var Model[]|ActiveRecord[]
+     */
+    public $models;
+
 
     /**
      * Initialization.
@@ -52,38 +51,19 @@ class MultipleInput extends InputWidget
      */
     public function init()
     {
-        $this->guessColumns();
-        $this->initData();
+        if (empty($this->models)) {
+            throw new InvalidConfigException('You must specify "models"');
+        }
+
+        foreach ($this->models as $model) {
+            if (!$model instanceof Model) {
+                throw new InvalidConfigException('Model has to be an instance of yii\base\Model');
+            }
+        }
+
         parent::init();
     }
 
-    /**
-     * Initializes data.
-     */
-    protected function initData()
-    {
-        if (is_null($this->data) && $this->model instanceof Model) {
-            foreach ((array) $this->model->{$this->attribute} as $index => $value) {
-                $this->data[$index] = $value;
-            }
-        }
-    }
-
-    /**
-     * This function tries to guess the columns to show from the given data
-     * if [[columns]] are not explicitly specified.
-     */
-    protected function guessColumns()
-    {
-        if (empty($this->columns) && $this->hasModel()) {
-            $this->columns = [
-                [
-                    'name' => $this->attribute,
-                    'type' => MultipleInputColumn::TYPE_TEXT_INPUT
-                ]
-            ];
-        }
-    }
 
     /**
      * Run widget.
@@ -104,8 +84,8 @@ class MultipleInput extends InputWidget
             'columns'           => $this->columns,
             'limit'             => $this->limit,
             'attributeOptions'  => $this->attributeOptions,
-            'data'              => $this->data,
-            'columnClass'       => MultipleInputColumn::className(),
+            'data'              => $this->models,
+            'columnClass'       => TabularColumn::className(),
             'context'           => $this
         ]);
     }
