@@ -113,13 +113,14 @@ abstract class BaseColumn extends Object
         }
     }
 
-
     protected function ensureModel($model)
     {
         return true;
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -337,15 +338,36 @@ abstract class BaseColumn extends Object
             Html::addCssClass($options, 'form-control');
             $input = Html::$type($name, $value, $options);
         } elseif (class_exists($type) && method_exists($type, 'widget')) {
-            $input = $type::widget(array_merge($options, [
-                'name'      => $name,
-                'value'     => $value,
-            ]));
+            $input = $this->renderWidget($type, $name, $value, $options);
         } else {
             throw new InvalidConfigException("Invalid column type '$type'");
         }
         return $input;
     }
+
+    protected function renderWidget($type, $name, $value, $options)
+    {
+        $model = $this->getModel();
+        if ($model instanceof Model) {
+            $widgetOptions = [
+                'model'     => $model,
+                'attribute' => $this->name,
+                'value'     => $value,
+                'options'   => [
+                    'id' => $this->normalize($name),
+                    'name' => $name
+                ]
+            ];
+        } else {
+            $widgetOptions = [
+                'name'  => $name,
+                'value' => $value
+            ];
+        }
+        $options = array_merge($options, $widgetOptions);
+        return $type::widget($options);
+    }
+
 
     /**
      * @param string $error

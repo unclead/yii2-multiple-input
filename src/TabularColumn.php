@@ -34,16 +34,25 @@ class TabularColumn extends BaseColumn
         return  $prefix . $elementName;
     }
 
-
+    /**
+     * Returns first error of the current model.
+     *
+     * @param $index
+     * @return string
+     */
     public function getFirstError($index)
     {
         return $this->getModel()->getFirstError($this->name);
     }
 
+    /**
+     * Ensure that model is an instance of yii\base\Model.
+     *
+     * @param $model
+     * @return bool
+     */
     protected function ensureModel($model)
     {
         return $model instanceof Model;
     }
-
-
 }

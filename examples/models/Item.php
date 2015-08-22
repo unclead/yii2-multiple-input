@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/unclead/yii2-multiple-input
+ * @copyright Copyright (c) 2014 unclead
+ * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
+ */
+
 namespace unclead\widgets\examples\models;
 
 use Yii;
@@ -42,7 +48,8 @@ class Item extends Model
     public function rules()
     {
         return [
-            [['title', 'description'], 'required']
+            [['title', 'description'], 'required'],
+            ['file', 'safe']
         ];
     }
 

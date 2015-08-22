@@ -1,9 +1,9 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: unclead_2
- * Date: 15.08.2015
- * Time: 18:34
+ * @link https://github.com/unclead/yii2-multiple-input
+ * @copyright Copyright (c) 2014 unclead
+ * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
 namespace unclead\widgets\examples\actions;
@@ -15,20 +15,23 @@ use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\web\Response;
 
+/**
+ * Class TabularInputAction
+ * @package unclead\widgets\examples\actions
+ */
 class TabularInputAction extends Action
 {
     public function run()
     {
         Yii::setAlias('@unclead-examples', realpath(__DIR__ . '/../'));
 
-        $count = count(Yii::$app->request->post('Item', []));
         $models = [new Item()];
-        for($i = 1; $i < $count; $i++) {
-            $models[] = new Item();
-        }
-
         $request = Yii::$app->getRequest();
         if ($request->isPost && $request->post('ajax') !== null) {
+            $data = Yii::$app->request->post('Item', []);
+            foreach (array_keys($data) as $index) {
+                $models[$index] = new Item();
+            }
             Model::loadMultiple($models, Yii::$app->request->post());
             Yii::$app->response->format = Response::FORMAT_JSON;
             $result = ActiveForm::validateMultiple($models);
@@ -36,7 +39,7 @@ class TabularInputAction extends Action
         }
 
         if (Model::loadMultiple($models, Yii::$app->request->post())) {
-            // put here your logic
+            // your magic
         }
 
 

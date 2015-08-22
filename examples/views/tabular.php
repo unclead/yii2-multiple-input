@@ -16,6 +16,9 @@ use \unclead\widgets\examples\models\Item;
     'validateOnChange'          => false,
     'validateOnSubmit'          => true,
     'validateOnBlur'            => false,
+    'options' => [
+        'enctype' => 'multipart/form-data'
+    ]
 ]) ?>
 
 <?= TabularInput::widget([
@@ -41,6 +44,11 @@ use \unclead\widgets\examples\models\Item;
             'name'  => 'file',
             'title' => 'File',
             'type'  => \vova07\fileapi\Widget::className(),
+            'options' => [
+                'settings' => [
+                    'url' => ['site/fileapi-upload']
+                ]
+            ]
         ],
         [
             'name'  => 'date',
