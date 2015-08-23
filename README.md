@@ -1,10 +1,21 @@
 #Yii2 Multiple input widget.
 Yii2 widget for handle multiple inputs for an attribute of model
 
-[![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input) [![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
+[![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input)
+[![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input) 
+[![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) 
+[![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
 ##Latest release
-The latest version of the extension is v1.1.0. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+The latest version of the extension is v1.2.0. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+
+Contents:
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Javascript Events](#javascript-events)
+- [Renderers](#renderers)
 
 ##Installation
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
@@ -23,6 +34,53 @@ or add
 
 to the require section of your `composer.json` file.
 
+## Configuration
+
+Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget:
+
+- `limit`: *integer*: rows limit. If not set will defaul to unlimited
+- `attributeOptions` *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when 
+  you use widget without a model, since in this case widget is not able to detect client-side options automatically
+- `date` *array*: array of values in case you use widget without model
+- `models` *array*: the list of models. Required in case you use `TabularInput` widget
+- `columns` *array*: the row columns configuration where you can set the following properties:
+  - `name` *string*: input name. *Required options*
+  - `type` *string*: type of the input. If not set will default to `textInput`. Read more about the types described below
+  - `title` *string*: the column title
+  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
+  - `defaultValue` *string*: default value of input,
+  - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
+  - `options` *array*: the HTML attributes for the input
+  - `headerOptions` *array*: the HTML attributes for the header cell
+  - `enableError` *boolean*: whether to render inline error for the input. Default to `false`
+  - `errorOptions` *array*: the HTMl attributes for the error tag
+
+### Input types
+
+Each column in a row can has their own type. Widget supports:
+
+- all yii2 html input types:
+  - `textInput`
+  - `dropDownList`
+  - `radioList`
+  - `textarea`
+  - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
+- input widget (widget that extends from `InputWidget` class). For example, `yii\widgets\MaskedInput`
+
+For using widget as column input you may use the following code:
+
+```php
+[
+    'name'  => 'phone',
+    'title' => 'Phone number',
+    'type' => \yii\widgets\MaskedInput::className(),
+    'options' => [
+        'class' => 'input-phone',
+        'mask' => '999-999-99-99'
+    ]
+]
+```
+
 ##Usage
 
 ### Input with one column
@@ -35,6 +93,8 @@ In this case you can use yii2-multiple-input widget like in the following code
 ```php
 use unclead\widgets\MultipleInput;
 
+...
+
 <?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
         'limit' => 5
     ])
@@ -42,7 +102,7 @@ use unclead\widgets\MultipleInput;
 ?>
 ```
 
-You can find more detail about this use case [here](docs/single_column.md)
+You can find more detail about this use case [here](docs/multiple_input_single.md)
 
 ### Input with multiple column in each row
 
@@ -53,8 +113,10 @@ For example you keep some data in json format in attribute of model. Imagine tha
 On the edit page you want to be able to manage this schedule and you can you yii2-multiple-input widget like in the following code
 
 ```php
-
 use unclead\widgets\MultipleInput;
+
+...
+
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'limit' => 4,
     'columns' => [
@@ -113,54 +175,67 @@ use unclead\widgets\MultipleInput;
 ?>
 ```
 
-You can find more detail about this use case [here](docs/multiple_columns.md)
+You can find more detail about this use case [here](docs/multiple_input_multiple.md)
+
+### Tabular input
+
+For example you want to manage some models via tabular input. In this case you can use `TabularInput` widget which is based on `MultipleInput` widget.
+Use the following code for this purpose:
+
+```php
+<?= TabularInput::widget([
+    'models' => $models,
+    'attributeOptions' => [
+        'enableAjaxValidation'      => true,
+        'enableClientValidation'    => false,
+        'validateOnChange'          => false,
+        'validateOnSubmit'          => true,
+        'validateOnBlur'            => false,
+    ],
+    'columns' => [
+        [
+            'name'  => 'title',
+            'title' => 'Title',
+            'type'  => \unclead\widgets\MultipleInputColumn::TYPE_TEXT_INPUT,
+        ],
+        [
+            'name'  => 'description',
+            'title' => 'Description',
+        ],
+        [
+            'name'  => 'file',
+            'title' => 'File',
+            'type'  => \vova07\fileapi\Widget::className(),
+            'options' => [
+                'settings' => [
+                    'url' => ['site/fileapi-upload']
+                ]
+            ]
+        ],
+        [
+            'name'  => 'date',
+            'type'  => \kartik\date\DatePicker::className(),
+            'title' => 'Day',
+            'options' => [
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'todayHighlight' => true
+                ]
+            ],
+            'headerOptions' => [
+                'style' => 'width: 250px;',
+                'class' => 'day-css-class'
+            ]
+        ],
+    ],
+]) ?>
+```
+
+You can find more detail about this use case [here](docs/tabular_input.md)
 
 > Also you can find source code of examples [here](./docs/examples/)
 
-## Configuration
-
-Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget:
-
-- `limit`: *integer*: rows limit. If not set will defaul to unlimited
-- `columns` *array*: the row columns configuration where you can set the following properties:
-  - `name` *string*: input name. *Required options*
-  - `type` *string*: type of the input. If not set will default to `textInput`. Read more about the types described below
-  - `title` *string*: the column title
-  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
-  - `defaultValue` *string*: default value of input,
-  - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
-  - `options` *array*: the HTML attributes for the input
-  - `headerOptions` *array*: the HTML attributes for the header cell
-  - `enableError` *boolean*: whether to render inline error for the input. Default to `false`
-  - `errorOptions` *array*: the HTMl attributes for the error tag
-
-### Input types
-
-Each column in a row can has their own type. Widget supports:
-
-- all yii2 html input types:
-  - `textInput`
-  - `dropDownList`
-  - `radioList`
-  - `textarea`
-  - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
-- input widget (widget that extends from `InputWidget` class). For example, `yii\widgets\MaskedInput`
-
-For using widget as column input you may use the following code:
-
-```php
-[
-    'name'  => 'phone',
-    'title' => 'Phone number',
-    'type' => \yii\widgets\MaskedInput::className(),
-    'options' => [
-        'class' => 'input-phone',
-        'mask' => '999-999-99-99'
-    ]
-]
-```
-
-### JavaScript events
+## JavaScript events
 This widget has following events:
  - `afterInit`: triggered after initialization
  - `afterAddRow`: triggered after new row insertion
@@ -169,10 +244,25 @@ This widget has following events:
 
 Example:
 ```js
-jQuery('#multiple-input').on('afterAddRow', function() {
-   //some code 
+jQuery('#multiple-input').on('afterInit', function(){
+    console.log('calls on after initialization event');
+}).on('beforeAddRow', function(e) {
+    console.log('calls on before add row event');
+}).on('afterAddRow', function(e) {
+    console.log('calls on after add row event');
+}).on('beforeDeleteRow', function(){
+    console.log('calls on before remove row event');
+    return confirm('Are you sure you want to delete row?')
+}).on('afterDeleteRow', function(){
+    console.log('calls on after remove row event');
 });
 ```
+
+##Renderers
+
+> Section is under development
+
+Currently widget supports only `TableRenderer` which renders content in table format.
 
 ##License
 

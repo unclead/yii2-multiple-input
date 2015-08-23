@@ -54,10 +54,6 @@ use \unclead\widgets\examples\models\Item;
             'name'  => 'date',
             'type'  => \kartik\date\DatePicker::className(),
             'title' => 'Day',
-            'items' => [
-                '0' => 'Saturday',
-                '1' => 'Monday'
-            ],
             'options' => [
                 'pluginOptions' => [
                     'format' => 'dd.mm.yyyy',

@@ -43,6 +43,6 @@ class TabularInputAction extends Action
         }
 
 
-        return $this->controller->render('@unclead-examples/views/tabular.php', ['models' => $models]);
+        return $this->controller->render('@unclead-examples/views/tabular-input.php', ['models' => $models]);
     }
 }
