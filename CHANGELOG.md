@@ -1,11 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-1.1.1 under development
------------------------
+1.2.0
+-----
 
-- Bug #19 refactoring rendering of inputs (unclead)
-- Bug #20 add hasAttribute checking for AR models (unclead)
+- Bug #19 Refactoring rendering of inputs (unclead)
+- Bug #20 Added hasAttribute checking for AR models (unclead)
+- Enh #22 Added `TabularInput` widget (unclead), rendering logic has been moved to separate class (renderer)
 
 1.1.0
 -----

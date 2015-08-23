@@ -35,6 +35,6 @@ class MultipleInputAction extends Action
         }
 
 
-        return $this->controller->render('@unclead-examples/views/example.php', ['model' => $model]);
+        return $this->controller->render('@unclead-examples/views/multiple-input.php', ['model' => $model]);
     }
 }

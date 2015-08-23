@@ -31,7 +31,7 @@ use kartik\date\DatePicker;
     ->label(false);
 ?>
 
-    <h3>Multiple columns</h3>
+<h3>Multiple columns</h3>
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'id' => 'schedule-wrapper',
     'limit' => 4,
