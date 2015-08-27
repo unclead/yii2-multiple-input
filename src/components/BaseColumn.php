@@ -302,7 +302,7 @@ abstract class BaseColumn extends Object
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
-        $input = Html::checkbox($name, $value, $options);
+        $input = Html::hiddenInput($name, 0, $options) . Html::checkbox($name, $value, $options);
         return Html::tag('div', $input, ['class' => 'checkbox']);
     }
 
