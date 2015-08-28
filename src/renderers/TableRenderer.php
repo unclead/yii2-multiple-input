@@ -106,8 +106,13 @@ class TableRenderer extends BaseRenderer
     protected function renderBody()
     {
         $rows = [];
-        foreach ($this->data as $index => $item) {
-            $rows[] = $this->renderRowContent($index, $item);
+
+        if (!empty($this->data)) {
+            foreach ($this->data as $index => $item) {
+                $rows[] = $this->renderRowContent($index, $item);
+            }
+        } else {
+            $rows[] = $this->renderRowContent(0);
         }
         return Html::tag('tbody', implode("\n", $rows));
     }
