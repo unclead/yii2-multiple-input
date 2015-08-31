@@ -18,6 +18,12 @@ table.multiple-input-list {
 table.multiple-input-list tr > td {
     border: 0 !important;
 }
+table.multiple-input-list tr > td:first-child {
+    padding-left: 0;
+}
+table.multiple-input-list tr > td:last-child {
+    padding-right: 0;
+}
 table.multiple-input-list tr > th {
     border-bottom: 1px solid #dddddd;
 }
