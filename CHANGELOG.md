@@ -1,6 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
+1.2.1
+-----
+
+- Bug #25 fixed rendering when data is empty
+- Bug #27 fixed element's prefix generation
+
 1.2.0
 -----
 
