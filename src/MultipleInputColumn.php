@@ -65,10 +65,7 @@ class MultipleInputColumn extends BaseColumn
     {
         $model = $this->widget->model;
         if ($model instanceof Model) {
-            if (count($this->renderer->columns) > 1 && $this->hasModelAttribute($this->name)) {
-                return $model->formName();
-            }
-            return Html::getInputName($this->widget->model, $this->widget->attribute);
+            return $model->formName();
         }
         return $this->name;
     }
