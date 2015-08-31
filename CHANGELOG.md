@@ -1,6 +1,9 @@
 Yii2 multiple input change log
 ==============================
 
+1.2.2 in development
+--------------------
+
 1.2.1
 -----
 
