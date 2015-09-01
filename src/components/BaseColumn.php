@@ -269,6 +269,13 @@ abstract class BaseColumn extends Object
      */
     protected function renderRadio($name, $value, $options)
     {
+        if (isset($options['uncheck'])) {
+            // add a hidden field so that if the checkbox is not selected, it still submits a value
+            $hidden = Html::hiddenInput($name, $options['uncheck']);
+            unset($options['uncheck']);
+        } else {
+            $hidden = '';
+        }
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
@@ -276,7 +283,7 @@ abstract class BaseColumn extends Object
             $options['uncheck'] = 0;
         }
         $input = Html::radio($name, $value, $options);
-        return Html::tag('div', $input, ['class' => 'radio']);
+        return Html::tag('div', $hidden . $input, ['class' => 'radio']);
     }
 
     /**
@@ -305,6 +312,14 @@ abstract class BaseColumn extends Object
      */
     protected function renderCheckbox($name, $value, $options)
     {
+        if (isset($options['uncheck'])) {
+            // add a hidden field so that if the checkbox is not selected, it still submits a value
+            $hidden = Html::hiddenInput($name, $options['uncheck']);
+            unset($options['uncheck']);
+        } else {
+            $hidden = '';
+        }
+
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
@@ -312,7 +327,7 @@ abstract class BaseColumn extends Object
             $options['uncheck'] = 0;
         }
         $input = Html::checkbox($name, $value, $options);
-        return Html::tag('div', $input, ['class' => 'checkbox']);
+        return Html::tag('div', $hidden . $input, ['class' => 'checkbox']);
     }
 
     /**
