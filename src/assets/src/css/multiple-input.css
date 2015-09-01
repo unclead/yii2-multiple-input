@@ -41,3 +41,7 @@ table.multiple-input-list tr > th {
 .multiple-input-list__item .checkbox {
     margin: 7px 0 7px 0;
 }
+.multiple-input-list__item .radio-list .radio,
+.multiple-input-list__item .checkbox-list .checkbox {
+    margin: 0;
+}
