@@ -47,13 +47,13 @@ class ExampleModel extends Model
                 'day'       => '27.02.2015',
                 'user_id'   => 31,
                 'priority'  => 1,
-                'enable'    => true
+                'enable'    => 1
             ],
             [
                 'day'       => '27.02.2015',
                 'user_id'   => 33,
                 'priority'  => 2,
-                'enable'    => false
+                'enable'    => 0
             ],
         ];
     }

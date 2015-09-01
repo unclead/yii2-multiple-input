@@ -57,7 +57,7 @@ abstract class BaseColumn extends Object
     /**
      * @var mixed default value for input
      */
-    public $defaultValue = '';
+    public $defaultValue;
 
     /**
      * @var array
@@ -272,6 +272,9 @@ abstract class BaseColumn extends Object
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
+        if (!array_key_exists('uncheck', $options)) {
+            $options['uncheck'] = 0;
+        }
         $input = Html::radio($name, $value, $options);
         return Html::tag('div', $input, ['class' => 'radio']);
     }
@@ -284,11 +287,14 @@ abstract class BaseColumn extends Object
      */
     protected function renderRadioList($name, $value, $options)
     {
+        if (!array_key_exists('unselect', $options)) {
+            $options['unselect'] = '';
+        }
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="radio">' . Html::radio($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
         $input = Html::radioList($name, $value, $this->items, $options);
-        return Html::tag('div', $input, ['class' => 'radio']);
+        return Html::tag('div', $input, ['class' => 'radio-list']);
     }
 
     /**
@@ -302,6 +308,9 @@ abstract class BaseColumn extends Object
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
+        if (!array_key_exists('uncheck', $options)) {
+            $options['uncheck'] = 0;
+        }
         $input = Html::checkbox($name, $value, $options);
         return Html::tag('div', $input, ['class' => 'checkbox']);
     }
@@ -314,11 +323,14 @@ abstract class BaseColumn extends Object
      */
     protected function renderCheckboxList($name, $value, $options)
     {
+        if (!array_key_exists('unselect', $options)) {
+            $options['unselect'] = '';
+        }
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="checkbox">' . Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
         $input = Html::checkboxList($name, $value, $this->items, $options);
-        return Html::tag('div', $input, ['class' => 'checkbox']);
+        return Html::tag('div', $input, ['class' => 'checkbox-list']);
     }
 
     /**

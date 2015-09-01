@@ -16,7 +16,6 @@ use kartik\date\DatePicker;
 
 <?php $form = ActiveForm::begin([
     'enableAjaxValidation'      => true,
-//    'enableAjaxValidation'      => false,
     'enableClientValidation'    => false,
     'validateOnChange'          => false,
     'validateOnSubmit'          => true,
@@ -93,11 +92,20 @@ use kartik\date\DatePicker;
             ]
         ],
         [
-            'type' => 'checkbox',
+            'type' => MultipleInputColumn::TYPE_CHECKBOX_LIST,
             'name' => 'enable',
-            'defaultValue' => 0,
             'headerOptions' => [
-                'style' => 'width: 20px;',
+                'style' => 'width: 80px;',
+            ],
+            'items' => [
+                1 => 'Test 1',
+                2 => 'Test 2',
+                3 => 'Test 3',
+                4 => 'Test 4'
+            ],
+            'options' => [
+                // see checkboxList implementation in the BaseHtml helper for getting more detail
+                'unselect' => 2
             ]
         ]
     ]
