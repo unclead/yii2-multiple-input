@@ -7,7 +7,7 @@ Yii2 multiple input change log
 1.2.2
 -----
 
-- Enh #31: Added support of anonymous function for `items` attribute
+- Enh #31: Added support of anonymous function for `items` attribute (unclead, stepancher)
 - Enh: added hidden field for radio and checkbox inputs
 - Enh: improved css
 
