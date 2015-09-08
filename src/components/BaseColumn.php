@@ -409,6 +409,9 @@ abstract class BaseColumn extends Object
             ];
         }
         $options = array_merge($options, $widgetOptions);
+        if ($options['items'] instanceof \Closure) {
+            $options['items'] = call_user_func($options['items'], $this->getModel());
+        }
         return $type::widget($options);
     }
 
