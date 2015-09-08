@@ -231,8 +231,12 @@ abstract class BaseColumn extends Object
     {
         $options = array_merge($this->options, $options);
         $method = 'render' . Inflector::camelize($this->type);
-
         $value = $this->prepareValue();
+
+        if (isset($options['items'])) {
+            $options['items'] = $this->prepareItems($options['items']);
+        }
+
         if (method_exists($this, $method)) {
             $input = call_user_func_array([$this, $method], [$name, $value, $options]);
         } else {
@@ -253,20 +257,21 @@ abstract class BaseColumn extends Object
     protected function renderDropDownList($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
-        return Html::dropDownList($name, $value, $this->prepareItems(), $options);
+        return Html::dropDownList($name, $value, $this->prepareItems($this->items), $options);
     }
 
     /**
      * Returns the items for list.
      *
+     * @param mixed $items
      * @return array|Closure|mixed
      */
-    private function prepareItems()
+    private function prepareItems($items)
     {
-        if ($this->items instanceof \Closure) {
-            return call_user_func($this->items, $this->getModel());
+        if ($items instanceof \Closure) {
+            return call_user_func($items, $this->getModel());
         } else {
-            return $this->items;
+            return $items;
         }
     }
 
@@ -279,7 +284,7 @@ abstract class BaseColumn extends Object
     protected function renderListBox($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
-        return Html::listBox($name, $value, $this->prepareItems(), $options);
+        return Html::listBox($name, $value, $this->prepareItems($this->items), $options);
     }
 
     /**
@@ -325,7 +330,7 @@ abstract class BaseColumn extends Object
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="radio">' . Html::radio($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
-        $input = Html::radioList($name, $value, $this->prepareItems(), $options);
+        $input = Html::radioList($name, $value, $this->prepareItems($this->items), $options);
         return Html::tag('div', $input, ['class' => 'radio-list']);
     }
 
@@ -361,7 +366,7 @@ abstract class BaseColumn extends Object
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="checkbox">' . Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
-        $input = Html::checkboxList($name, $value, $this->prepareItems(), $options);
+        $input = Html::checkboxList($name, $value, $this->prepareItems($this->items), $options);
         return Html::tag('div', $input, ['class' => 'checkbox-list']);
     }
 
