@@ -133,9 +133,9 @@ class TableRenderer extends BaseRenderer
             /* @var $column BaseColumn */
             $column->setModel($item);
             if ($column->isHiddenInput()) {
-                $hiddenInputs[] = $this->renderCellContent($column, $index, $item);
+                $hiddenInputs[] = $this->renderCellContent($column, $index);
             } else {
-                $cells[] = $this->renderCellContent($column, $index, $item);
+                $cells[] = $this->renderCellContent($column, $index);
             }
         }
 
@@ -160,15 +160,13 @@ class TableRenderer extends BaseRenderer
      *
      * @param BaseColumn $column
      * @param int|null $index
-     * @param $data
      * @return string
      */
-    public function renderCellContent($column, $index, $data)
+    public function renderCellContent($column, $index)
     {
         $id    = $column->getElementId($index);
-        $value = $column->prepareValue($data);
         $name  = $column->getElementName($index);
-        $input = $column->renderInput($name, $value, [
+        $input = $column->renderInput($name, [
             'id' => $id
         ]);
 

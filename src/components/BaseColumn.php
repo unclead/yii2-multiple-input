@@ -50,7 +50,7 @@ abstract class BaseColumn extends Object
     public $type;
 
     /**
-     * @var string|Closure
+     * @var string|\Closure
      */
     public $value;
 
@@ -60,7 +60,23 @@ abstract class BaseColumn extends Object
     public $defaultValue;
 
     /**
-     * @var array
+     * @var array|\Closure items which used for rendering input with multiple choice, e.g. dropDownList. It can be an array
+     * or anonymous function with following signature:
+     *
+     * ```
+     *
+     * 'columns' => [
+     *     ...
+     *     [
+     *          'name' => 'column',
+     *          'items' => function($data) {
+     *             // do your magic
+     *          }
+     *          ....
+     *      ]
+     * ...
+     *
+     * ```
      */
     public $items;
 
@@ -85,7 +101,7 @@ abstract class BaseColumn extends Object
     public $errorOptions = ['class' => 'help-block help-block-error'];
 
     /**
-     * @var BaseRenderer
+     * @var BaseRenderer the renderer instance
      */
     public $renderer;
 
@@ -150,11 +166,11 @@ abstract class BaseColumn extends Object
     /**
      * Prepares the value of column.
      *
-     * @param array|ActiveRecord $data
      * @return mixed
      */
-    public function prepareValue($data)
+    protected function prepareValue()
     {
+        $data = $this->getModel();
         if ($this->value !== null) {
             $value = $this->value;
             if ($value instanceof \Closure) {
@@ -208,15 +224,15 @@ abstract class BaseColumn extends Object
      * Renders the input.
      *
      * @param string $name name of the input
-     * @param mixed $value value of the input
      * @param array $options the input options
      * @return string
      */
-    public function renderInput($name, $value, $options)
+    public function renderInput($name, $options)
     {
         $options = array_merge($this->options, $options);
         $method = 'render' . Inflector::camelize($this->type);
 
+        $value = $this->prepareValue();
         if (method_exists($this, $method)) {
             $input = call_user_func_array([$this, $method], [$name, $value, $options]);
         } else {
@@ -227,6 +243,8 @@ abstract class BaseColumn extends Object
 
 
     /**
+     * Renders drop down list.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -235,7 +253,21 @@ abstract class BaseColumn extends Object
     protected function renderDropDownList($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
-        return Html::dropDownList($name, $value, $this->items, $options);
+        return Html::dropDownList($name, $value, $this->prepareItems(), $options);
+    }
+
+    /**
+     * Returns the items for list.
+     *
+     * @return array|Closure|mixed
+     */
+    private function prepareItems()
+    {
+        if ($this->items instanceof \Closure) {
+            return call_user_func($this->items, $this->getModel());
+        } else {
+            return $this->items;
+        }
     }
 
     /**
@@ -247,7 +279,7 @@ abstract class BaseColumn extends Object
     protected function renderListBox($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
-        return Html::listBox($name, $value, $this->items, $options);
+        return Html::listBox($name, $value, $this->prepareItems(), $options);
     }
 
     /**
@@ -293,7 +325,7 @@ abstract class BaseColumn extends Object
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="radio">' . Html::radio($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
-        $input = Html::radioList($name, $value, $this->items, $options);
+        $input = Html::radioList($name, $value, $this->prepareItems(), $options);
         return Html::tag('div', $input, ['class' => 'radio-list']);
     }
 
@@ -329,7 +361,7 @@ abstract class BaseColumn extends Object
         $options['item'] = function ($index, $label, $name, $checked, $value) {
             return '<div class="checkbox">' . Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
         };
-        $input = Html::checkboxList($name, $value, $this->items, $options);
+        $input = Html::checkboxList($name, $value, $this->prepareItems(), $options);
         return Html::tag('div', $input, ['class' => 'checkbox-list']);
     }
 

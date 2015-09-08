@@ -4,7 +4,6 @@ use yii\bootstrap\ActiveForm;
 use unclead\widgets\MultipleInput;
 use unclead\widgets\examples\models\ExampleModel;
 use yii\helpers\Html;
-use nex\chosen\Chosen;
 use unclead\widgets\MultipleInputColumn;
 
 // Note: You have to install https://github.com/kartik-v/yii2-widget-datepicker for correct work an example
@@ -41,14 +40,26 @@ use kartik\date\DatePicker;
             'enableError' => true,
             'title' => 'User',
             'defaultValue' => 33,
-            'items' => [
+            /* it can be an anonymous function
+            'items' => function($data) {
+                return [
+                    31 => 'item 31',
+                    32 => 'item 32',
+                    33 => 'item 33',
+                    34 => 'item 34',
+                    35 => 'item 35',
+                    36 => 'item 36',
+                ];
+            }
+            */
+            'items' =>  [
                 31 => 'item 31',
                 32 => 'item 32',
                 33 => 'item 33',
                 34 => 'item 34',
                 35 => 'item 35',
                 36 => 'item 36',
-            ],
+            ]
         ],
         [
             'name'  => 'day',
@@ -83,7 +94,7 @@ use kartik\date\DatePicker;
         ],
         [
             'name'  => 'comment',
-            'type'  => 'static',
+            'type'  => MultipleInputColumn::TYPE_STATIC,
             'value' => function($data) {
                 return Html::tag('span', 'static content', ['class' => 'label label-info']);
             },

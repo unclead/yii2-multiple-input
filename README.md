@@ -49,7 +49,8 @@ Widget support the following options that are additionally recognized over and a
   - `title` *string*: the column title
   - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
   - `defaultValue` *string*: default value of input,
-  - `items` *array*: the items for input with type dropDownList, listBox, checkboxList, radioList
+  - `items` *array*|*Closure*: the items for input with type dropDownList, listBox, checkboxList, radioList or anonymous function
+  which return array of items and has thw following signature: ```function($data) {}```
   - `options` *array*: the HTML attributes for the input
   - `headerOptions` *array*: the HTML attributes for the header cell
   - `enableError` *boolean*: whether to render inline error for the input. Default to `false`
