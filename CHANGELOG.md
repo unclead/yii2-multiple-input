@@ -1,8 +1,15 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.2 in development
+1.2.3 in development
 --------------------
+
+1.2.2
+-----
+
+- Enh #31: Added support of anonymous function for `items` attribute
+- Enh: added hidden field for radio and checkbox inputs
+- Enh: improved css
 
 1.2.1
 -----
@@ -29,12 +36,12 @@ Yii2 multiple input change log
 --------------------
 
 - Bug #15: Fix setting current values of dropDownList (unclead)
-- Bug #16 fix render of dropDown and similar inputs (unclead)
-- Add attributeOptions property
+- Bug #16: fix render of dropDown and similar inputs (unclead)
+- Enh: Add attributeOptions property
 
 1.0.3
 -----
-- Hidden fields no longer break markup (unclead, kotchuprik)
+- Bug: Hidden fields no longer break markup (unclead, kotchuprik)
 
 1.0.2
 -----
