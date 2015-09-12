@@ -21,9 +21,6 @@ use unclead\widgets\components\BaseColumn;
  */
 class TableRenderer extends BaseRenderer
 {
-    const ACTION_ADD    = 'plus';
-    const ACTION_REMOVE = 'remove';
-
     /**
      * @return mixed
      */
@@ -206,26 +203,52 @@ class TableRenderer extends BaseRenderer
     private function renderActionColumn($index = null)
     {
         if (is_null($index)) {
-            $action = self::ACTION_REMOVE;
-            $type = '{multiple-btn-type}';
+            $button = $this->renderRemoveButton();
         } else {
-            $action = $index == 0 ? self::ACTION_ADD : self::ACTION_REMOVE;
-            $type = $index == 0 ? 'btn-default' : 'btn-danger';
+            $button = $index == 0 ? $this->renderAddButton() : $this->renderRemoveButton();
         }
 
-        $button = Button::widget(
-            [
-                'tagName' => 'div',
-                'encodeLabel' => false,
-                'label' => Html::tag('i', null, ['class' => 'glyphicon glyphicon-' . $action]),
-                'options' => [
-                    'class' => $type . ' multiple-input-list__btn btn js-input-' . $action,
-                ]
-            ]
-        );
         return Html::tag('td', $button, [
             'class' => 'list-cell__button',
         ]);
+    }
+
+    private function renderAddButton()
+    {
+        $options = [
+            'class' => 'multiple-input-list__btn js-input-plus',
+        ];
+        Html::addCssClass($options, $this->addButtonOptions['class']);
+        return Button::widget(
+            [
+                'tagName'       => 'div',
+                'encodeLabel'   => false,
+                'label'         => $this->addButtonOptions['label'],
+                'options'       => $options
+            ]
+        );
+    }
+
+    /**
+     * Renders remove button.
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function renderRemoveButton()
+    {
+        $options = [
+            'class' => 'multiple-input-list__btn js-input-remove',
+        ];
+        Html::addCssClass($options, $this->removeButtonOptions['class']);
+        return Button::widget(
+            [
+                'tagName'       => 'div',
+                'encodeLabel'   => false,
+                'label'         => $this->removeButtonOptions['label'],
+                'options'       => $options
+            ]
+        );
     }
 
     /**

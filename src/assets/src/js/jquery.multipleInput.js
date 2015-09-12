@@ -53,8 +53,6 @@
         template: null,
         // string that collect js templates of widgets which uses in the columns
         jsTemplates: [],
-        // remove button css class
-        btnType: null,
         // how many row has to renders
         limit: 1
     };
@@ -133,8 +131,8 @@
             if (settings.limit != null && count >= settings.limit) {
                 return;
             }
-            var search = ['{multiple-index}', '{multiple-btn-type}', '{multiple-value}'],
-                replace = [data.currentIndex, settings.btnType, ''];
+            var search = ['{multiple-index}', '{multiple-value}'],
+                replace = [data.currentIndex, ''];
 
             for (var i in search) {
                 template = template.replaceAll(search[i], replace[i]);

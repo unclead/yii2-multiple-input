@@ -39,6 +39,16 @@ class TabularInput extends Widget
     public $attributeOptions = [];
 
     /**
+     * @var array the HTML options for the `remove` button
+     */
+    public $removeButtonOptions;
+
+    /**
+     * @var array the HTML options for the `add` button
+     */
+    public $addButtonOptions;
+
+    /**
      * @var Model[]|ActiveRecord[]
      */
     public $models;
@@ -64,14 +74,12 @@ class TabularInput extends Widget
         parent::init();
     }
 
-
     /**
      * Run widget.
      */
     public function run()
     {
-        $renderer = $this->createRenderer();
-        return $renderer->render();
+        return $this->createRenderer()->render();
     }
 
     /**
@@ -79,7 +87,7 @@ class TabularInput extends Widget
      */
     private function createRenderer()
     {
-        return new TableRenderer([
+        $config = [
             'id'                => $this->options['id'],
             'columns'           => $this->columns,
             'limit'             => $this->limit,
@@ -87,6 +95,16 @@ class TabularInput extends Widget
             'data'              => $this->models,
             'columnClass'       => TabularColumn::className(),
             'context'           => $this
-        ]);
+        ];
+
+        if (!is_null($this->removeButtonOptions)) {
+            $config['removeButtonOptions'] = $this->removeButtonOptions;
+        }
+
+        if (!is_null($this->addButtonOptions)) {
+            $config['addButtonOptions'] = $this->addButtonOptions;
+        }
+
+        return new TableRenderer($config);
     }
 }

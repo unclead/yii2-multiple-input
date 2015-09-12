@@ -44,6 +44,16 @@ class MultipleInput extends InputWidget
      */
     public $attributeOptions = [];
 
+    /**
+     * @var array the HTML options for the `remove` button
+     */
+    public $removeButtonOptions;
+
+    /**
+     * @var array the HTML options for the `add` button
+     */
+    public $addButtonOptions;
+
 
     /**
      * Initialization.
@@ -90,8 +100,7 @@ class MultipleInput extends InputWidget
      */
     public function run()
     {
-        $renderer = $this->createRenderer();
-        return $renderer->render();
+        return $this->createRenderer()->render();
     }
 
     /**
@@ -99,7 +108,7 @@ class MultipleInput extends InputWidget
      */
     private function createRenderer()
     {
-        return new TableRenderer([
+        $config = [
             'id'                => $this->options['id'],
             'columns'           => $this->columns,
             'limit'             => $this->limit,
@@ -107,6 +116,16 @@ class MultipleInput extends InputWidget
             'data'              => $this->data,
             'columnClass'       => MultipleInputColumn::className(),
             'context'           => $this
-        ]);
+        ];
+
+        if (!is_null($this->removeButtonOptions)) {
+            $config['removeButtonOptions'] = $this->removeButtonOptions;
+        }
+
+        if (!is_null($this->addButtonOptions)) {
+            $config['addButtonOptions'] = $this->addButtonOptions;
+        }
+
+        return new TableRenderer($config);
     }
 }

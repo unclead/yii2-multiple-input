@@ -2,7 +2,8 @@
 Yii2 widget for handle multiple inputs for an attribute of model
 
 [![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input)
-[![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input) 
+[![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input)
+[![Daily Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/d/daily)](https://packagist.org/packages/unclead/yii2-multiple-input)
 [![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) 
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
@@ -14,6 +15,7 @@ Contents:
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [How to customize buttons](#customize-buttons)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -38,10 +40,12 @@ to the require section of your `composer.json` file.
 
 Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget:
 
-- `limit`: *integer*: rows limit. If not set will defaul to unlimited
-- `attributeOptions` *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when 
+- `limit` *integer*: rows limit. If not set will defaul to unlimited
+- `attributeOptions` *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
   you use widget without a model, since in this case widget is not able to detect client-side options automatically
-- `date` *array*: array of values in case you use widget without model
+- `addButtonOptions` *array*: the HTML options for `add` button. Can contains `class` and `label` keys
+- `removeButtonOptions` *array*: the HTML options for `add` button. Can contains `class` and `label` keys
+- `data` *array*: array of values in case you use widget without model
 - `models` *array*: the list of models. Required in case you use `TabularInput` widget
 - `columns` *array*: the row columns configuration where you can set the following properties:
   - `name` *string*: input name. *Required options*
@@ -235,6 +239,27 @@ Use the following code for this purpose:
 You can find more detail about this use case [here](docs/tabular_input.md)
 
 > Also you can find source code of examples [here](./docs/examples/)
+
+## How to customize buttons
+
+You can customize `add` and `remove` buttons via `addButtonOptions` and `removeButtonOptions`. Here is the simple example
+how you can use those options:
+
+```php
+
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'limit' => 5,
+        'addButtonOptions' => [
+            'class' => 'btn btn-success',
+            'label' => 'add' // also you can use html code
+        ],
+        'removeButtonOptions' => [
+            'label' => 'remove'
+        ]
+    ])
+    ->label(false);
+
+```
 
 ## JavaScript events
 This widget has following events:

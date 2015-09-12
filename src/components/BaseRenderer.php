@@ -9,6 +9,7 @@
 namespace unclead\widgets\components;
 
 use Yii;
+use yii\helpers\Html;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\NotSupportedException;
@@ -54,6 +55,16 @@ abstract class BaseRenderer extends Object
     public $attributeOptions = [];
 
     /**
+     * @var array the HTML options for the `remove` button
+     */
+    public $removeButtonOptions;
+
+    /**
+     * @var array the HTML options for the `add` button
+     */
+    public $addButtonOptions;
+
+    /**
      * @var string
      */
     public $columnClass;
@@ -81,6 +92,27 @@ abstract class BaseRenderer extends Object
 
         if (!class_exists($this->columnClass)) {
             throw new InvalidConfigException('Column class "' . $this->columnClass. '" does not exist');
+        }
+
+        $this->prepareButtonsOptions();
+    }
+
+    private function prepareButtonsOptions()
+    {
+        if (!isset($this->removeButtonOptions['class'])) {
+            $this->removeButtonOptions['class'] = 'btn btn-danger';
+        }
+
+        if (!isset($this->removeButtonOptions['label'])) {
+            $this->removeButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-remove']);
+        }
+
+        if (!isset($this->addButtonOptions['class'])) {
+            $this->addButtonOptions['class'] = 'btn btn-default';
+        }
+
+        if (!isset($this->addButtonOptions['label'])) {
+            $this->addButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-plus']);
         }
     }
 
@@ -136,7 +168,6 @@ abstract class BaseRenderer extends Object
                 'id'                => $this->id,
                 'template'          => $template,
                 'jsTemplates'       => $jsTemplates,
-                'btnType'           => 'btn-danger',
                 'limit'             => $this->limit,
                 'attributeOptions'  => $this->attributeOptions,
             ]
