@@ -54,6 +54,11 @@ class MultipleInput extends InputWidget
      */
     public $addButtonOptions;
 
+    /**
+     * @var bool whether to allow the empty list
+     */
+    public $allowEmptyList = false;
+
 
     /**
      * Initialization.
@@ -115,6 +120,7 @@ class MultipleInput extends InputWidget
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->data,
             'columnClass'       => MultipleInputColumn::className(),
+            'allowEmptyList'    => $this->allowEmptyList,
             'context'           => $this
         ];
 

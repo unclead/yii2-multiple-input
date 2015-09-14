@@ -49,6 +49,11 @@ class TabularInput extends Widget
     public $addButtonOptions;
 
     /**
+     * @var bool whether to allow the empty list
+     */
+    public $allowEmptyList = false;
+
+    /**
      * @var Model[]|ActiveRecord[]
      */
     public $models;
@@ -94,6 +99,7 @@ class TabularInput extends Widget
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->models,
             'columnClass'       => TabularColumn::className(),
+            'allowEmptyList'    => $this->allowEmptyList,
             'context'           => $this
         ];
 

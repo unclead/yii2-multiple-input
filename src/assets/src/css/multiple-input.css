@@ -34,7 +34,7 @@ table.multiple-input-list tr > th {
     display: block;
     font-size: 13px;
 }
-.multiple-input-list__item .list-cell__button {
+.multiple-input-list .list-cell__button {
     width: 40px;
 }
 .multiple-input-list__item .radio,

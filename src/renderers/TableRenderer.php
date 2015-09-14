@@ -56,7 +56,8 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
         if (is_null($this->limit) || $this->limit > 1) {
-            $cells[] = Html::tag('th', '', [
+            $button = $this->allowEmptyList ? $this->renderAddButton() : '';
+            $cells[] = Html::tag('th', $button, [
                 'class' => 'list-cell__button'
             ]);
         }
@@ -204,8 +205,10 @@ class TableRenderer extends BaseRenderer
     {
         if (is_null($index)) {
             $button = $this->renderRemoveButton();
+        } elseif ($index == 0) {
+            $button = $this->allowEmptyList ? $this->renderRemoveButton() : $this->renderAddButton();
         } else {
-            $button = $index == 0 ? $this->renderAddButton() : $this->renderRemoveButton();
+            $button = $this->renderRemoveButton();
         }
 
         return Html::tag('td', $button, [

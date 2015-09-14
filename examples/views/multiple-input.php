@@ -33,6 +33,7 @@ use kartik\date\DatePicker;
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'id' => 'schedule-wrapper',
     'limit' => 4,
+    'allowEmptyList' => true,
     'columns' => [
         [
             'name'  => 'user_id',

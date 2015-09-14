@@ -47,6 +47,7 @@ Widget support the following options that are additionally recognized over and a
 - `removeButtonOptions` *array*: the HTML options for `add` button. Can contains `class` and `label` keys
 - `data` *array*: array of values in case you use widget without model
 - `models` *array*: the list of models. Required in case you use `TabularInput` widget
+- `allowEmptyList` *boolean*: whether to allow the empty list
 - `columns` *array*: the row columns configuration where you can set the following properties:
   - `name` *string*: input name. *Required options*
   - `type` *string*: type of the input. If not set will default to `textInput`. Read more about the types described below

@@ -65,9 +65,15 @@ abstract class BaseRenderer extends Object
     public $addButtonOptions;
 
     /**
+     * @var bool whether to allow the empty list
+     */
+    public $allowEmptyList = false;
+
+    /**
      * @var string
      */
     public $columnClass;
+
 
     /**
      * @var TabularInput|MultipleInput
