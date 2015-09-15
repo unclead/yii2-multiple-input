@@ -15,7 +15,7 @@ Contents:
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Tips and tricks](#tips)
+- [Tips and tricks](#tips-and-tricks)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
