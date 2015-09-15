@@ -24,7 +24,8 @@ use kartik\date\DatePicker;
     <h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5
+        'limit' => 5,
+        'allowEmptyList' => true
     ])
     ->label(false);
 ?>

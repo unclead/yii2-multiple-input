@@ -15,7 +15,7 @@ Contents:
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [How to customize buttons](#customize-buttons)
+- [Tips and tricks](#tips)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -241,7 +241,11 @@ You can find more detail about this use case [here](docs/tabular_input.md)
 
 > Also you can find source code of examples [here](./docs/examples/)
 
-## How to customize buttons
+
+
+## Tips and tricks
+
+### How to customize buttons
 
 You can customize `add` and `remove` buttons via `addButtonOptions` and `removeButtonOptions`. Here is the simple example
 how you can use those options:
@@ -257,6 +261,20 @@ how you can use those options:
         'removeButtonOptions' => [
             'label' => 'remove'
         ]
+    ])
+    ->label(false);
+
+```
+
+### Work with empty list
+
+In some cases you need to have the ability to delete all rows in the list. For this purpose you can use option `allowEmptyList` like in the example below:
+
+```php
+
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'limit' => 5,
+        'allowEmptyList' => true
     ])
     ->label(false);
 

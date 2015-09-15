@@ -72,6 +72,9 @@ class TableRenderer extends BaseRenderer
      */
     private function hasHeader()
     {
+        if ($this->allowEmptyList) {
+            return true;
+        }
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             if (!empty($column->title)) {

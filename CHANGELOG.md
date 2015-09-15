@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.3 in development
 --------------------
 
+- Enh #34: Added options `allowEmptyList` (unclead)
+
 1.2.2
 -----
 
