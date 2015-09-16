@@ -59,6 +59,11 @@ class MultipleInput extends InputWidget
      */
     public $allowEmptyList = false;
 
+    /**
+     * @var bool whether to guess column title in case if there is no definition of columns
+     */
+    public $enableGuessTitle = false;
+
 
     /**
      * Initialization.
@@ -91,12 +96,15 @@ class MultipleInput extends InputWidget
     protected function guessColumns()
     {
         if (empty($this->columns) && $this->hasModel()) {
-            $this->columns = [
-                [
-                    'name' => $this->attribute,
-                    'type' => MultipleInputColumn::TYPE_TEXT_INPUT
-                ]
+            $column = [
+                'name' => $this->attribute,
+                'type' => MultipleInputColumn::TYPE_TEXT_INPUT
             ];
+
+            if ($this->enableGuessTitle && $this->hasModel()) {
+                $column['title'] = $this->model->getAttributeLabel($this->attribute);
+            }
+            $this->columns[] = $column;
         }
     }
 

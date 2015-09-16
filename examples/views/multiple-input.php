@@ -25,7 +25,8 @@ use kartik\date\DatePicker;
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
         'limit' => 5,
-        'allowEmptyList' => true
+        'allowEmptyList' => true,
+        'enableGuessTitle' => true
     ])
     ->label(false);
 ?>

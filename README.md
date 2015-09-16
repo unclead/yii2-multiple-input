@@ -280,6 +280,22 @@ In some cases you need to have the ability to delete all rows in the list. For t
 
 ```
 
+### Guess column title
+
+Sometimes you can use the widget without defining columns but you want to have the column header of the table.
+In this case you can use `enableGuessColumn` option like in the example below:
+
+```php
+
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'limit' => 5,
+        'allowEmptyList' => true,
+        'enableGuessTitle' => true
+    ])
+    ->label(false);
+
+```
+
 ## JavaScript events
 This widget has following events:
  - `afterInit`: triggered after initialization
