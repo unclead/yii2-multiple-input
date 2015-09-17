@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.3 in development
+1.2.4 in development
 --------------------
+
+1.2.3
+-----
 
 - Enh #34: Added option `allowEmptyList` (unclead)
 - Enh #35: Added option `enableGuessTitle` for MultipleInput (unclead)
