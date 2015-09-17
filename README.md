@@ -283,7 +283,7 @@ In some cases you need to have the ability to delete all rows in the list. For t
 ### Guess column title
 
 Sometimes you can use the widget without defining columns but you want to have the column header of the table.
-In this case you can use `enableGuessColumn` option like in the example below:
+In this case you can use `enableGuessTitle` option like in the example below:
 
 ```php
 
