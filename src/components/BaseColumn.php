@@ -229,7 +229,7 @@ abstract class BaseColumn extends Object
      */
     public function renderInput($name, $options)
     {
-        $options = array_merge($this->options, $options);
+        $options = Arrayhelper::merge($this->options, $options);
         $method = 'render' . Inflector::camelize($this->type);
         $value = $this->prepareValue();
 
@@ -413,7 +413,7 @@ abstract class BaseColumn extends Object
                 'value' => $value
             ];
         }
-        $options = array_merge($options, $widgetOptions);
+        $options = ArrayHelper::merge($options, $widgetOptions);
         return $type::widget($options);
     }
 
