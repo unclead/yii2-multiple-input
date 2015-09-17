@@ -6,6 +6,7 @@ Yii2 multiple input change log
 
 - Enh #34: Added option `allowEmptyList` (unclead)
 - Enh #35: Added option `enableGuessTitle` for MultipleInput (unclead)
+- Bug #36: Use PCRE_MULTILINE modifier in regex
 
 1.2.2
 -----
