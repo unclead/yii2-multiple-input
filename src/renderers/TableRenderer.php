@@ -146,7 +146,7 @@ class TableRenderer extends BaseRenderer
 
         if (!empty($hiddenInputs)) {
             $hiddenInputs = implode("\n", $hiddenInputs);
-            $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
+            $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
         }
 
         $content = Html::tag('tr', implode("\n", $cells), [
