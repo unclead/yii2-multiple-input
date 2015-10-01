@@ -171,14 +171,13 @@ abstract class BaseColumn extends Object
     protected function prepareValue()
     {
         $data = $this->getModel();
-        if ($this->value !== null) {
-            $value = $this->value;
-            if ($value instanceof \Closure) {
-                $value = call_user_func($value, $data);
-            }
+        if ($this->value instanceof \Closure) {
+            $value = call_user_func($this->value, $data);
         } else {
-            if ($data instanceof ActiveRecord) {
+            if ($data instanceof ActiveRecord ) {
                 $value = $data->getAttribute($this->name);
+            } elseif ($data instanceof Model) {
+                $value = $data->{$this->name};
             } elseif (is_array($data)) {
                 $value = ArrayHelper::getValue($data, $this->name, null);
             } elseif(is_string($data)) {

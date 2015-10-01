@@ -55,4 +55,24 @@ class TabularColumn extends BaseColumn
     {
         return $model instanceof Model;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function setModel($model)
+    {
+        $currentModel = $this->getModel();
+
+        // If model is null and current model is not empty it means that widget renders a template
+        // In this case we have to unset all model attributes
+        if ($model === null && $currentModel !== null) {
+            foreach ($currentModel->attributes() as $attribute) {
+                $currentModel->$attribute = null;
+            }
+        } else {
+            parent::setModel($model);
+        }
+    }
+
+
 }

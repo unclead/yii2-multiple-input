@@ -32,6 +32,10 @@ use \unclead\widgets\examples\models\Item;
     ],
     'columns' => [
         [
+            'name' => 'id',
+            'type' => \unclead\widgets\TabularColumn::TYPE_HIDDEN_INPUT
+        ],
+        [
             'name'  => 'title',
             'title' => 'Title',
             'type'  => \unclead\widgets\MultipleInputColumn::TYPE_TEXT_INPUT,
@@ -40,16 +44,16 @@ use \unclead\widgets\examples\models\Item;
             'name'  => 'description',
             'title' => 'Description',
         ],
-        [
-            'name'  => 'file',
-            'title' => 'File',
-            'type'  => \vova07\fileapi\Widget::className(),
-            'options' => [
-                'settings' => [
-                    'url' => ['site/fileapi-upload']
-                ]
-            ]
-        ],
+//        [
+//            'name'  => 'file',
+//            'title' => 'File',
+//            'type'  => \vova07\fileapi\Widget::className(),
+//            'options' => [
+//                'settings' => [
+//                    'url' => ['site/fileapi-upload']
+//                ]
+//            ]
+//        ],
         [
             'name'  => 'date',
             'type'  => \kartik\date\DatePicker::className(),

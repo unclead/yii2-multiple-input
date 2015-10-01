@@ -21,19 +21,18 @@ use kartik\date\DatePicker;
     'validateOnBlur'            => false,
 ]);?>
 
-    <h3>Single column</h3>
+<h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5,
-        'allowEmptyList' => true,
-        'enableGuessTitle' => true
+        'limit'             => 5,
+        'allowEmptyList'    => true,
+        'enableGuessTitle'  => true
     ])
     ->label(false);
 ?>
 
 <h3>Multiple columns</h3>
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
-    'id' => 'schedule-wrapper',
     'limit' => 4,
     'allowEmptyList' => true,
     'columns' => [
@@ -132,13 +131,14 @@ use kartik\date\DatePicker;
 
 <?php
 $js = <<< JS
-        $('#schedule-wrapper').on('afterInit', function(){
+        $('#examplemodel-schedule').on('afterInit', function(){
             console.log('calls on after initialization event');
         }).on('beforeAddRow', function(e) {
             console.log('calls on before add row event');
         }).on('afterAddRow', function(e) {
             console.log('calls on after add row event');
-        }).on('beforeDeleteRow', function(){
+        }).on('beforeDeleteRow', function(e, item){
+            console.log(item);
             console.log('calls on before remove row event');
             return confirm('Are you sure you want to delete row?')
         }).on('afterDeleteRow', function(){

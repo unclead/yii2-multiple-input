@@ -10,8 +10,6 @@ namespace unclead\widgets\examples\models;
 
 use Yii;
 use yii\base\Model;
-// you have to install https://github.com/vova07/yii2-fileapi-widget
-use vova07\fileapi\behaviors\UploadBehavior;
 
 /**
  * Class Item
@@ -19,6 +17,7 @@ use vova07\fileapi\behaviors\UploadBehavior;
  */
 class Item extends Model
 {
+    public $id;
 
     public $title;
 
@@ -32,8 +31,10 @@ class Item extends Model
     public function behaviors()
     {
         return [
+            // you have to install https://github.com/vova07/yii2-fileapi-widget
+            /*
             'uploadBehavior' => [
-                'class' => UploadBehavior::className(),
+                'class' => \vova07\fileapi\behaviors\UploadBehavior::className(),
                 'attributes' => [
                     'file' => [
                         'path' => Yii::getAlias('@webroot') . '/images/',
@@ -41,7 +42,7 @@ class Item extends Model
                         'url' => '/images/'
                     ],
                 ]
-            ]
+            ]*/
         ];
     }
 
@@ -49,7 +50,7 @@ class Item extends Model
     {
         return [
             [['title', 'description'], 'required'],
-            ['file', 'safe']
+            [['id', 'file'], 'safe']
         ];
     }
 

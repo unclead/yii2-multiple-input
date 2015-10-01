@@ -25,7 +25,8 @@ class TabularInputAction extends Action
     {
         Yii::setAlias('@unclead-examples', realpath(__DIR__ . '/../'));
 
-        $models = [new Item()];
+        $models = $this->getItems();
+
         $request = Yii::$app->getRequest();
         if ($request->isPost && $request->post('ajax') !== null) {
             $data = Yii::$app->request->post('Item', []);
@@ -42,7 +43,30 @@ class TabularInputAction extends Action
             // your magic
         }
 
-
         return $this->controller->render('@unclead-examples/views/tabular-input.php', ['models' => $models]);
+    }
+
+    private function getItems()
+    {
+        $data = [
+            [
+                'id' => 1,
+                'title' => 'Title 1',
+                'description' => 'Description 1'
+            ],
+            [
+                'id' => 2,
+                'title' => 'Title 2',
+                'description' => 'Description 2'
+            ],
+        ];
+
+        $items = [];
+        foreach ($data as $row) {
+            $item = new Item();
+            $item->setAttributes($row);
+            $items[] = $item;
+        }
+        return $items;
     }
 }
