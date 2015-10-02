@@ -311,8 +311,10 @@ jQuery('#multiple-input').on('afterInit', function(){
     console.log('calls on before add row event');
 }).on('afterAddRow', function(e) {
     console.log('calls on after add row event');
-}).on('beforeDeleteRow', function(){
-    console.log('calls on before remove row event');
+}).on('beforeDeleteRow', function(e, row){
+    // row - HTML container of the current row for removal. 
+    // For TableRenderer it is tr.multiple-input-list__item
+    console.log('calls on before remove row event.');
     return confirm('Are you sure you want to delete row?')
 }).on('afterDeleteRow', function(){
     console.log('calls on after remove row event');

@@ -30,8 +30,8 @@
         /**
          * beforeDeleteRow event is triggered before row will be removed.
          * The signature of the event handler should be:
-         *     function (event)
-         * where event is an Event object.
+         *     function (event, row)
+         * where event is an Event object and row is html container of row for removal
          *
          * If the handler returns a boolean false, it will stop removal the row.
          */
@@ -157,18 +157,18 @@
 
         removeInput: function () {
             var $wrapper = $(this).closest('.multiple-input').first(),
-                line = $(this).closest('.multiple-input-list__item');
+                $toDelete = $(this).closest('.multiple-input-list__item');
 
             var event = $.Event(events.beforeDeleteRow);
-            $wrapper.trigger(event);
+            $wrapper.trigger(event, [$toDelete]);
             if (event.result === false) {
                 return;
             }
 
-            line.find('input, select, textarea').each(function () {
+            $toDelete.find('input, select, textarea').each(function () {
                 methods.removeAttribute.apply(this);
             });
-            line.fadeOut(300, function () {
+            $toDelete.fadeOut(300, function () {
                 $(this).remove();
             });
 
