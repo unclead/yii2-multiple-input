@@ -70,7 +70,7 @@ class MultipleInputColumn extends BaseColumn
             }
             return Html::getInputName($this->widget->model, $this->widget->attribute);
         }
-        return $this->name;
+        return $this->widget->name;
     }
 
     private function hasModelAttribute($name)
