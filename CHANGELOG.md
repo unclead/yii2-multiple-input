@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.4 in development
+1.2.5 in development
 --------------------
+
+1.2.4
+-----
 
 - Bug #39: TabularInput: now new row does't copy values from  the most recent row
 - Enh #40: Pass the current row for removal when calling `beforeDeleteRow` event
