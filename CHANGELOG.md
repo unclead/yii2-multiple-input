@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.5 in development
 --------------------
 
+- Bug #46: Renamed placeholder to avoid conflict with other plugins
+
 1.2.4
 -----
 
