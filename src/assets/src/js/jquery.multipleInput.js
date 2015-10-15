@@ -131,12 +131,8 @@
             if (settings.limit != null && count >= settings.limit) {
                 return;
             }
-            var search = ['{multiple-index}', '{multiple-value}'],
-                replace = [data.currentIndex, ''];
 
-            for (var i in search) {
-                template = template.replaceAll(search[i], replace[i]);
-            }
+            template = template.replaceAll('{multiple_index}', data.currentIndex);
 
             $(template).hide().appendTo(inputList).fadeIn(300);
 
@@ -146,7 +142,7 @@
 
             var jsTemplate;
             for (i in settings.jsTemplates) {
-                jsTemplate = settings.jsTemplates[i].replaceAll('{multiple-index}', data.currentIndex);
+                jsTemplate = settings.jsTemplates[i].replaceAll('{multiple_index}', data.currentIndex);
                 window.eval(jsTemplate);
             }
             $wrapper.data('multipleInput').currentIndex++;

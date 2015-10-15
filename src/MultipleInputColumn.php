@@ -47,7 +47,7 @@ class MultipleInputColumn extends BaseColumn
     public function getElementName($index, $withPrefix = true)
     {
         if (is_null($index)) {
-            $index = '{multiple-index}';
+            $index = '{multiple_index}';
         }
         $elementName = count($this->renderer->columns) > 1
             ? '[' . $index . '][' . $this->name . ']'

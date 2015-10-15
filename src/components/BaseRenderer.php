@@ -198,7 +198,7 @@ abstract class BaseRenderer extends Object
                 if (array_key_exists($key, $except)) {
                     continue;
                 }
-                if (preg_match('/^[^{]+{multiple-index}.*$/m', $js) === 1) {
+                if (preg_match('/^[^{]+{multiple_index}.*$/m', $js) === 1) {
                     $output[$key] = $js;
                     unset($view->js[View::POS_READY][$key]);
                 }
