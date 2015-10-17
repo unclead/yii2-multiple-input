@@ -5,6 +5,7 @@ Yii2 multiple input change log
 --------------------
 
 - Bug #46: Renamed placeholder to avoid conflict with other plugins
+- Bug #47: Use Html helper for rendering buttons instead of Button widget
 
 1.2.4
 -----
