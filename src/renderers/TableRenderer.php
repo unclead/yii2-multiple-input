@@ -222,17 +222,10 @@ class TableRenderer extends BaseRenderer
     private function renderAddButton()
     {
         $options = [
-            'class' => 'multiple-input-list__btn js-input-plus',
+            'class' => 'btn multiple-input-list__btn js-input-plus',
         ];
         Html::addCssClass($options, $this->addButtonOptions['class']);
-        return Button::widget(
-            [
-                'tagName'       => 'div',
-                'encodeLabel'   => false,
-                'label'         => $this->addButtonOptions['label'],
-                'options'       => $options
-            ]
-        );
+        return Html::tag('div', $this->addButtonOptions['label'], $options);
     }
 
     /**
@@ -244,17 +237,10 @@ class TableRenderer extends BaseRenderer
     private function renderRemoveButton()
     {
         $options = [
-            'class' => 'multiple-input-list__btn js-input-remove',
+            'class' => 'btn multiple-input-list__btn js-input-remove',
         ];
         Html::addCssClass($options, $this->removeButtonOptions['class']);
-        return Button::widget(
-            [
-                'tagName'       => 'div',
-                'encodeLabel'   => false,
-                'label'         => $this->removeButtonOptions['label'],
-                'options'       => $options
-            ]
-        );
+        return Html::tag('div', $this->removeButtonOptions['label'], $options);
     }
 
     /**
