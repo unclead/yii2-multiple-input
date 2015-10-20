@@ -1,11 +1,15 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.5 in development
+1.2.6 in development
 --------------------
+
+1.2.5
+-----
 
 - Bug #46: Renamed placeholder to avoid conflict with other plugins
 - Bug #47: Use Html helper for rendering buttons instead of Button widget
+- Enh: Deleted yii2-bootstrap dependency 
 
 1.2.4
 -----
