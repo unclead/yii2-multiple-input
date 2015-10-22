@@ -142,7 +142,7 @@
 
             var jsTemplate;
             for (i in settings.jsTemplates) {
-                jsTemplate = settings.jsTemplates[i].replaceAll('{multiple_index}', data.currentIndex);
+                jsTemplate = settings.jsTemplates[i].replaceAll('{multiple_index}', data.currentIndex).replaceAll('%7Bmultiple_index%7D', data.currentIndex);
                 window.eval(jsTemplate);
             }
             $wrapper.data('multipleInput').currentIndex++;
