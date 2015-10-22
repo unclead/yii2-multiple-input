@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.6 in development
 --------------------
 
+- Bug #49: urlencoded field token replacement in js template (rolmonk)
+
 1.2.5
 -----
 
