@@ -9,7 +9,7 @@ Yii2 multiple input change log
 
 - Bug #49: urlencoded field token replacement in js template (rolmonk)
 - Enh #48: Added option `min` for setting minimum number of rows
-- Enh: added option 'addButtonPosition'
+- Enh: added option 'addButtonPositionё
 
 1.2.5
 -----
