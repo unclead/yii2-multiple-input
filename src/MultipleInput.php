@@ -22,6 +22,9 @@ use unclead\widgets\renderers\TableRenderer;
  */
 class MultipleInput extends InputWidget
 {
+    const POS_HEADER    = 0;
+    const POS_ROW       = 1;
+
     /**
      * @var ActiveRecord[]|array[] input data
      */
@@ -63,6 +66,16 @@ class MultipleInput extends InputWidget
      * @var bool whether to guess column title in case if there is no definition of columns
      */
     public $enableGuessTitle = false;
+
+    /**
+     * @var int minimum number of rows
+     */
+    public $min;
+
+    /**
+     * @var string position of add button. By default button is rendered in the row.
+     */
+    public $addButtonPosition = self::POS_ROW;
 
 
     /**
@@ -129,6 +142,8 @@ class MultipleInput extends InputWidget
             'data'              => $this->data,
             'columnClass'       => MultipleInputColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
+            'min'               => $this->min,
+            'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this
         ];
 

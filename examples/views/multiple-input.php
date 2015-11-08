@@ -24,9 +24,11 @@ use kartik\date\DatePicker;
 <h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit'             => 5,
-        'allowEmptyList'    => true,
-        'enableGuessTitle'  => true
+        'limit'             => 6,
+        'allowEmptyList'    => false,
+        'enableGuessTitle'  => true,
+        'min'               => 2, // should be at least 2 rows
+        'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
     ])
     ->label(false);
 ?>

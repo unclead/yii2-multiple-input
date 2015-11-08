@@ -21,6 +21,9 @@ use unclead\widgets\renderers\TableRenderer;
  */
 class TabularInput extends Widget
 {
+    const POS_HEADER    = 0;
+    const POS_ROW       = 1;
+
     /**
      * @var array
      */
@@ -30,6 +33,11 @@ class TabularInput extends Widget
      * @var integer inputs limit
      */
     public $limit;
+
+    /**
+     * @var int minimum number of rows
+     */
+    public $min;
 
     /**
      * @var array client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
@@ -57,6 +65,11 @@ class TabularInput extends Widget
      * @var Model[]|ActiveRecord[]
      */
     public $models;
+
+    /**
+     * @var string position of add button. By default button is rendered in the row.
+     */
+    public $addButtonPosition = self::POS_ROW;
 
 
     /**
@@ -100,6 +113,8 @@ class TabularInput extends Widget
             'data'              => $this->models,
             'columnClass'       => TabularColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
+            'min'               => $this->min,
+            'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this
         ];
 

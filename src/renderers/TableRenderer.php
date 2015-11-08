@@ -9,7 +9,6 @@
 namespace unclead\widgets\renderers;
 
 use yii\base\InvalidConfigException;
-use yii\bootstrap\Button;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
 use unclead\widgets\components\BaseRenderer;
@@ -55,8 +54,9 @@ class TableRenderer extends BaseRenderer
             /* @var $column BaseColumn */
             $cells[] = $this->renderHeaderCell($column);
         }
+
         if (is_null($this->limit) || $this->limit > 1) {
-            $button = $this->allowEmptyList ? $this->renderAddButton() : '';
+            $button = $this->min == 0 || $this->addButtonPosition == self::POS_HEADER ? $this->renderAddButton() : '';
             $cells[] = Html::tag('th', $button, [
                 'class' => 'list-cell__button'
             ]);
@@ -72,7 +72,7 @@ class TableRenderer extends BaseRenderer
      */
     private function hasHeader()
     {
-        if ($this->allowEmptyList) {
+        if ($this->min == 0) {
             return true;
         }
         foreach ($this->columns as $column) {
@@ -112,8 +112,10 @@ class TableRenderer extends BaseRenderer
             foreach ($this->data as $index => $item) {
                 $rows[] = $this->renderRowContent($index, $item);
             }
-        } else {
-            $rows[] = $this->renderRowContent(0);
+        } elseif ($this->min > 0) {
+            for ($i = 0; $i < $this->min; $i++) {
+                $rows[] = $this->renderRowContent($i);
+            }
         }
         return Html::tag('tbody', implode("\n", $rows));
     }
@@ -140,9 +142,7 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        if (is_null($this->limit) || $this->limit > 1) {
-            $cells[] = $this->renderActionColumn($index);
-        }
+        $cells[] = $this->renderActionColumn($index);
 
         if (!empty($hiddenInputs)) {
             $hiddenInputs = implode("\n", $hiddenInputs);
@@ -206,17 +206,25 @@ class TableRenderer extends BaseRenderer
      */
     private function renderActionColumn($index = null)
     {
-        if (is_null($index)) {
-            $button = $this->renderRemoveButton();
-        } elseif ($index == 0) {
-            $button = $this->allowEmptyList ? $this->renderRemoveButton() : $this->renderAddButton();
-        } else {
-            $button = $this->renderRemoveButton();
-        }
-
-        return Html::tag('td', $button, [
+        return Html::tag('td', $this->getActionButton($index), [
             'class' => 'list-cell__button',
         ]);
+    }
+
+    private function getActionButton($index)
+    {
+        if (is_null($index) || $this->min == 0) {
+            return $this->renderRemoveButton();
+        }
+
+        $index += 1;
+        if ($index < $this->min || $index == $this->limit) {
+            return '';
+        } elseif ($index == $this->min) {
+            return $this->addButtonPosition == self::POS_ROW ? $this->renderAddButton() : '';
+        } else {
+            return $this->renderRemoveButton();
+        }
     }
 
     private function renderAddButton()

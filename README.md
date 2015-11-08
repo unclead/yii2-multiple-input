@@ -8,7 +8,7 @@ Yii2 widget for handle multiple inputs for an attribute of model
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
 ##Latest release
-The latest version of the extension is v1.2.5. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+The latest version of the extension is v1.2.6. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
 
 Contents:
 
@@ -38,28 +38,61 @@ to the require section of your `composer.json` file.
 
 ## Configuration
 
-Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget:
+Widget support the following options that are additionally recognized over and above the configuration options in the InputWidget.
 
-- `limit` *integer*: rows limit. If not set will defaul to unlimited
-- `attributeOptions` *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
+### Base options
+
+**limit** *integer*: rows limit. If not set will defaul to unlimited
+
+**min** *integer*: minimum number of rows. Set to `0` if you need the empty list in case you don't have any data
+
+**attributeOptions** *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
   you use widget without a model, since in this case widget is not able to detect client-side options automatically
-- `addButtonOptions` *array*: the HTML options for `add` button. Can contains `class` and `label` keys
-- `removeButtonOptions` *array*: the HTML options for `add` button. Can contains `class` and `label` keys
-- `data` *array*: array of values in case you use widget without model
-- `models` *array*: the list of models. Required in case you use `TabularInput` widget
-- `allowEmptyList` *boolean*: whether to allow the empty list
-- `columns` *array*: the row columns configuration where you can set the following properties:
-  - `name` *string*: input name. *Required options*
-  - `type` *string*: type of the input. If not set will default to `textInput`. Read more about the types described below
-  - `title` *string*: the column title
-  - `value` *Closure*: you can set it to an anonymous function with the following signature: ```function($data) {}```
-  - `defaultValue` *string*: default value of input,
-  - `items` *array*|*Closure*: the items for input with type dropDownList, listBox, checkboxList, radioList or anonymous function
-  which return array of items and has the following signature: ```function($data) {}```
-  - `options` *array*: the HTML attributes for the input
-  - `headerOptions` *array*: the HTML attributes for the header cell
-  - `enableError` *boolean*: whether to render inline error for the input. Default to `false`
-  - `errorOptions` *array*: the HTMl attributes for the error tag
+  
+**addButtonPosition** *integer*: the position of `add` button. This can be MultipleInput::POS_HEADER or MultipleInput::POS_ROW.
+ 
+**addButtonOptions** *array*: the HTML options for `add` button. Can contains `class` and `label` keys
+
+**removeButtonOptions** *array*: the HTML options for `add` button. Can contains `class` and `label` keys
+
+**data** *array*: array of values in case you use widget without model
+
+**models** *array*: the list of models. Required in case you use `TabularInput` widget
+
+**allowEmptyList** *boolean*: whether to allow the empty list
+
+**columns** *array*: the row columns configuration where you can set the properties which is described below
+
+### Column options
+
+**name** *string*: input name. *Required options*
+
+**type** *string*: type of the input. If not set will default to `textInput`. Read more about the types described below
+
+**title** *string*: the column title
+
+**value** *Closure*: you can set it to an anonymous function with the following signature: 
+
+```php
+function($data) {}
+```
+
+**defaultValue** *string*: default value of input
+
+**items** *array*|*Closure*: the items for input with type dropDownList, listBox, checkboxList, radioList
+or anonymous function which return array of items and has the following signature: 
+
+```php
+function($data) {}
+```
+
+**options** *array*: the HTML attributes for the input
+
+**headerOptions** *array*: the HTML attributes for the header cell
+
+**enableError** *boolean*: whether to render inline error for the input. Default to `false`
+
+**errorOptions** *array*: the HTMl attributes for the error tag
 
 ### Input types
 
@@ -101,8 +134,13 @@ use unclead\widgets\MultipleInput;
 
 ...
 
-<?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5
+<?php
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'limit'             => 6,
+        'allowEmptyList'    => false,
+        'enableGuessTitle'  => true,
+        'min'               => 2, // should be at least 2 rows
+        'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
     ])
     ->label(false);
 ?>
@@ -279,6 +317,8 @@ In some cases you need to have the ability to delete all rows in the list. For t
     ->label(false);
 
 ```
+
+Also you can set `0` in `min` option if you don't need first blank row when data is empty. 
 
 ### Guess column title
 

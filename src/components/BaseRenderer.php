@@ -27,6 +27,9 @@ use unclead\widgets\assets\MultipleInputAsset;
  */
 abstract class BaseRenderer extends Object
 {
+    const POS_HEADER    = 0;
+    const POS_ROW       = 1;
+
     /**
      * @var
      */
@@ -43,9 +46,15 @@ abstract class BaseRenderer extends Object
     public $columns = [];
 
     /**
-     * @var integer inputs limit
+     * @var int inputs limit
      */
     public $limit;
+
+    /**
+     * @var int minimum number of rows.
+     * @since 1.2.6 Use this option with value 0 instead of `allowEmptyList` with `true` value
+     */
+    public $min;
 
     /**
      * @var array client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
@@ -81,6 +90,11 @@ abstract class BaseRenderer extends Object
     protected $context;
 
     /**
+     * @var string position of add button. By default button is rendered in the row.
+     */
+    public $addButtonPosition = self::POS_ROW;
+
+    /**
      * @param $context
      */
     public function setContext($context)
@@ -92,6 +106,14 @@ abstract class BaseRenderer extends Object
     {
         parent::init();
 
+        $this->prepareMinOption();
+        $this->prepareLimit();
+        $this->prepareColumnClass();
+        $this->prepareButtonsOptions();
+    }
+
+    private function prepareColumnClass()
+    {
         if (empty($this->columnClass)) {
             throw new InvalidConfigException('You must specify "columnClass"');
         }
@@ -99,8 +121,44 @@ abstract class BaseRenderer extends Object
         if (!class_exists($this->columnClass)) {
             throw new InvalidConfigException('Column class "' . $this->columnClass. '" does not exist');
         }
+    }
 
-        $this->prepareButtonsOptions();
+    private function prepareMinOption()
+    {
+        // Set value of min option based on value of allowEmptyList for BC
+        if (is_null($this->min)) {
+            $this->min = $this->allowEmptyList ? 0 : 1;
+        } else {
+            if ($this->min < 0) {
+                throw new InvalidConfigException('Option "min" cannot be less 0');
+            }
+
+            // Allow empty list in case when minimum number of rows equal 0.
+            if ($this->min == 0 && !$this->allowEmptyList) {
+                $this->allowEmptyList = true;
+            }
+
+            // Deny empty list in case when min number of rows greater then 0
+            if ($this->min > 0 && $this->allowEmptyList) {
+                $this->allowEmptyList = false;
+            }
+        }
+    }
+
+    private function prepareLimit()
+    {
+        if (is_null($this->limit)) {
+            $this->limit = 999;
+        }
+
+        if ($this->limit < 1) {
+            $this->limit = 1;
+        }
+
+        // Maximum number of rows cannot be less then minimum number.
+        if (!is_null($this->limit) && $this->limit < $this->min) {
+            $this->limit = $this->min;
+        }
     }
 
     private function prepareButtonsOptions()
@@ -175,6 +233,7 @@ abstract class BaseRenderer extends Object
                 'template'          => $template,
                 'jsTemplates'       => $jsTemplates,
                 'limit'             => $this->limit,
+                'min'               => $this->min,
                 'attributeOptions'  => $this->attributeOptions,
             ]
         );
