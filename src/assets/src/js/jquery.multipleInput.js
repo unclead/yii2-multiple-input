@@ -79,12 +79,13 @@
                 attributeDefaults: {}
             });
 
-            $(document).on('click.multipleInput', '#' + settings.id + ' .js-input-remove', function (e) {
+
+            $wrapper.on('click.multipleInput', '.js-input-remove', function (e) {
                 e.preventDefault();
                 methods.removeInput.apply(this);
             });
 
-            $(document).on('click.multipleInput', '#' + settings.id + ' .js-input-plus', function (e) {
+            $wrapper.on('click.multipleInput', '.js-input-plus', function (e) {
                 e.preventDefault();
                 methods.addInput.apply(this);
             });
