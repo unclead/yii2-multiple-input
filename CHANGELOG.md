@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.7 in development
+1.2.8 in development
 --------------------
+
+1.2.7
+-----
 
 - Bug #55: Attach click events to the widget wrapper instead of `$(document)`
 
