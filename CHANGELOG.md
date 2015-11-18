@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.8 in development
+1.2.9 in development
 --------------------
+
+1.2.8
+-----
+
+- Enh: Don't show action column when limit is `equal` to `min`
 
 1.2.7
 -----
