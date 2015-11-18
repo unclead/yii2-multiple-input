@@ -55,7 +55,7 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
 
-        if (is_null($this->limit) || $this->limit > 1) {
+        if (is_null($this->limit) || ($this->limit >= 1 && $this->limit != $this->min)) {
             $button = $this->min == 0 || $this->addButtonPosition == self::POS_HEADER ? $this->renderAddButton() : '';
             $cells[] = Html::tag('th', $button, [
                 'class' => 'list-cell__button'
@@ -142,7 +142,9 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        $cells[] = $this->renderActionColumn($index);
+        if ($this->limit !== $this->min) {
+            $cells[] = $this->renderActionColumn($index);
+        }
 
         if (!empty($hiddenInputs)) {
             $hiddenInputs = implode("\n", $hiddenInputs);
