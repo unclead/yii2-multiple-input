@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.9 in development
+1.2.10 in development
 --------------------
+
+1.2.9
+-----
+
+- Enh #56: add `rowOptions` property
 
 1.2.8
 -----

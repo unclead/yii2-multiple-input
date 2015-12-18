@@ -151,11 +151,29 @@ class TableRenderer extends BaseRenderer
             $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
         }
 
-        $content = Html::tag('tr', implode("\n", $cells), [
-            'class' => 'multiple-input-list__item',
-        ]);
+
+        $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
 
         return $content;
+    }
+
+    /**
+     * Prepares the row options.
+     *
+     * @param int $index
+     * @param ActiveRecord|array $item
+     * @return array
+     */
+    protected function prepareRowOptions($index, $item)
+    {
+        if (is_callable($this->rowOptions)) {
+            $options =call_user_func($this->rowOptions, $item, $index, $this->context);
+        } else {
+            $options = $this->rowOptions;
+        }
+
+        Html::addCssClass($options, 'multiple-input-list__item');
+        return $options;
     }
 
     /**

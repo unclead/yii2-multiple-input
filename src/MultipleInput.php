@@ -77,6 +77,21 @@ class MultipleInput extends InputWidget
      */
     public $addButtonPosition = self::POS_ROW;
 
+    /**
+     * @var array|\Closure the HTML attributes for the table body rows. This can be either an array
+     * specifying the common HTML attributes for all body rows, or an anonymous function that
+     * returns an array of the HTML attributes. It should have the following signature:
+     *
+     * ```php
+     * function ($model, $index, $context)
+     * ```
+     *
+     * - `$model`: the current data model being rendered
+     * - `$index`: the zero-based index of the data model in the model array
+     * - `$context`: the MultipleInput widget object
+     *
+     */
+    public $rowOptions = [];
 
     /**
      * Initialization.
@@ -144,6 +159,7 @@ class MultipleInput extends InputWidget
             'allowEmptyList'    => $this->allowEmptyList,
             'min'               => $this->min,
             'addButtonPosition' => $this->addButtonPosition,
+            'rowOptions'        => $this->rowOptions,
             'context'           => $this
         ];
 

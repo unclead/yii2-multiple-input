@@ -37,6 +37,14 @@ use kartik\date\DatePicker;
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'limit' => 4,
     'allowEmptyList' => true,
+    'rowOptions' => function($model) {
+        $options = [];
+
+        if ($model['priority'] > 1) {
+            $options['class'] = 'danger';
+        }
+        return $options;
+    },
     'columns' => [
         [
             'name'  => 'user_id',

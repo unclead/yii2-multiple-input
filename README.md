@@ -8,7 +8,7 @@ Yii2 widget for handle multiple inputs for an attribute of model
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
 ##Latest release
-The latest version of the extension is v1.2.8. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+The latest version of the extension is v1.2.9. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
 
 Contents:
 
@@ -62,6 +62,18 @@ Widget support the following options that are additionally recognized over and a
 **allowEmptyList** *boolean*: whether to allow the empty list
 
 **columns** *array*: the row columns configuration where you can set the properties which is described below
+
+**rowOptions** *array|\Closure*: the HTML attributes for the table body rows. This can be either an array
+specifying the common HTML attributes for all body rows, or an anonymous function that returns an array of the HTML attributes.
+It should have the following signature:
+
+```php
+function ($model, $index, $context)
+```
+
+- `$model`: the current data model being rendered
+- `$index`: the zero-based index of the data model in the model array
+- `$context`: the widget object
 
 ### Column options
 
