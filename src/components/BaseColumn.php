@@ -180,7 +180,7 @@ abstract class BaseColumn extends Object
                 $value = $data->{$this->name};
             } elseif (is_array($data)) {
                 $value = ArrayHelper::getValue($data, $this->name, null);
-            } elseif(is_string($data)) {
+            } elseif(is_string($data) || is_numeric($data)) {
                 $value = $data;
             }else {
                 $value = $this->defaultValue;
