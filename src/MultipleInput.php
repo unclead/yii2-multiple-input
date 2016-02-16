@@ -94,6 +94,12 @@ class MultipleInput extends InputWidget
     public $rowOptions = [];
 
     /**
+     * @var string the name of column class. You can specify your own class to extend base functionality.
+     * Defaults to `unclead\widgets\MultipleInputColumn`
+     */
+    public $columnClass;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -155,7 +161,7 @@ class MultipleInput extends InputWidget
             'limit'             => $this->limit,
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->data,
-            'columnClass'       => MultipleInputColumn::className(),
+            'columnClass'       => $this->columnClass !== null ? $this->columnClass : MultipleInputColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
             'min'               => $this->min,
             'addButtonPosition' => $this->addButtonPosition,

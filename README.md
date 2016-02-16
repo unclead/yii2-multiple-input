@@ -8,7 +8,7 @@ Yii2 widget for handle multiple inputs for an attribute of model
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
 ##Latest release
-The latest version of the extension is v1.2.9. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+The latest version of the extension is v1.2.10. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
 
 Contents:
 
@@ -60,6 +60,9 @@ Widget support the following options that are additionally recognized over and a
 **models** *array*: the list of models. Required in case you use `TabularInput` widget
 
 **allowEmptyList** *boolean*: whether to allow the empty list
+
+**columnClass** *string*: the name of column class. You can specify your own class to extend base functionality. 
+Defaults to `unclead\widgets\MultipleInputColumn` for `MultipleInput` and `unclead\widgets\TabularColumn` for `TabularInput`.
 
 **columns** *array*: the row columns configuration where you can set the properties which is described below
 

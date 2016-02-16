@@ -87,6 +87,13 @@ class TabularInput extends Widget
      */
     public $rowOptions = [];
 
+
+    /**
+     * @var string the name of column class. You can specify your own class to extend base functionality.
+     * Defaults to `unclead\widgets\TabularColumn`
+     */
+    public $columnClass;
+
     /**
      * Initialization.
      *
@@ -126,7 +133,7 @@ class TabularInput extends Widget
             'limit'             => $this->limit,
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->models,
-            'columnClass'       => TabularColumn::className(),
+            'columnClass'       => $this->columnClass !== null ? $this->columnClass : TabularColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
             'min'               => $this->min,
             'rowOptions'        => $this->rowOptions,
