@@ -238,7 +238,7 @@ class TableRenderer extends BaseRenderer
         }
 
         $index += 1;
-        if ($index < $this->min || $index == $this->limit) {
+        if ($index < $this->min) {
             return '';
         } elseif ($index == $this->min) {
             return $this->addButtonPosition == self::POS_ROW ? $this->renderAddButton() : '';

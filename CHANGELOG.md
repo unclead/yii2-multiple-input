@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.11 in development
 ---------------------
 
+- Bug #61: Fixed a rendering of remove button
+
 1.2.10
 ------
 
