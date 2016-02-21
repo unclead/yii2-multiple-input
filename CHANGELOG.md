@@ -9,7 +9,7 @@ Yii2 multiple input change log
 1.2.10
 ------
 
-- En #59 Added columnClass property (unclead)
+- Enh #59 Added columnClass property (unclead)
 
 1.2.9
 -----
