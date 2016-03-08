@@ -130,7 +130,7 @@ abstract class BaseRenderer extends Object
 
     private function prepareColumnClass()
     {
-        if (empty($this->columnClass)) {
+        if (!$this->columnClass) {
             throw new InvalidConfigException('You must specify "columnClass"');
         }
 
@@ -142,7 +142,7 @@ abstract class BaseRenderer extends Object
     private function prepareMinOption()
     {
         // Set value of min option based on value of allowEmptyList for BC
-        if (is_null($this->min)) {
+        if ($this->min === null) {
             $this->min = $this->allowEmptyList ? 0 : 1;
         } else {
             if ($this->min < 0) {
@@ -150,7 +150,7 @@ abstract class BaseRenderer extends Object
             }
 
             // Allow empty list in case when minimum number of rows equal 0.
-            if ($this->min == 0 && !$this->allowEmptyList) {
+            if ($this->min === 0 && !$this->allowEmptyList) {
                 $this->allowEmptyList = true;
             }
 
@@ -163,7 +163,7 @@ abstract class BaseRenderer extends Object
 
     private function prepareLimit()
     {
-        if (is_null($this->limit)) {
+        if ($this->limit === null) {
             $this->limit = 999;
         }
 
@@ -172,26 +172,26 @@ abstract class BaseRenderer extends Object
         }
 
         // Maximum number of rows cannot be less then minimum number.
-        if (!is_null($this->limit) && $this->limit < $this->min) {
+        if ($this->limit !== null && $this->limit < $this->min) {
             $this->limit = $this->min;
         }
     }
 
     private function prepareButtonsOptions()
     {
-        if (!isset($this->removeButtonOptions['class'])) {
+        if (!array_key_exists('class', $this->removeButtonOptions)) {
             $this->removeButtonOptions['class'] = 'btn btn-danger';
         }
 
-        if (!isset($this->removeButtonOptions['label'])) {
+        if (!array_key_exists('label', $this->removeButtonOptions)) {
             $this->removeButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-remove']);
         }
 
-        if (!isset($this->addButtonOptions['class'])) {
+        if (!array_key_exists('class', $this->addButtonOptions)) {
             $this->addButtonOptions['class'] = 'btn btn-default';
         }
 
-        if (!isset($this->addButtonOptions['label'])) {
+        if (!array_key_exists('label', $this->addButtonOptions)) {
             $this->addButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-plus']);
         }
     }
@@ -199,6 +199,8 @@ abstract class BaseRenderer extends Object
 
     /**
      * Creates column objects and initializes them.
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     protected function initColumns()
     {
@@ -211,8 +213,8 @@ abstract class BaseRenderer extends Object
             if ($this->context instanceof MultipleInput) {
                 $definition['widget'] = $this->context;
             }
-            $column = Yii::createObject($definition);
-            $this->columns[$i] = $column;
+
+            $this->columns[$i] = Yii::createObject($definition);
         }
     }
 
@@ -233,6 +235,7 @@ abstract class BaseRenderer extends Object
     /**
      * Register script.
      *
+     * @throws \yii\base\InvalidParamException
      */
     protected function registerClientScript()
     {
@@ -243,16 +246,14 @@ abstract class BaseRenderer extends Object
         $template = $this->prepareTemplate();
         $jsTemplates = $this->collectJsTemplates($jsBefore);
 
-        $options = Json::encode(
-            [
-                'id'                => $this->id,
-                'template'          => $template,
-                'jsTemplates'       => $jsTemplates,
-                'limit'             => $this->limit,
-                'min'               => $this->min,
-                'attributeOptions'  => $this->attributeOptions,
-            ]
-        );
+        $options = Json::encode([
+            'id'                => $this->id,
+            'template'          => $template,
+            'jsTemplates'       => $jsTemplates,
+            'limit'             => $this->limit,
+            'min'               => $this->min,
+            'attributeOptions'  => $this->attributeOptions,
+        ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
         $view->registerJs($js);

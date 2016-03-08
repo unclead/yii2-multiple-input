@@ -10,6 +10,7 @@ namespace unclead\widgets\renderers;
 
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use unclead\widgets\components\BaseRenderer;
 use unclead\widgets\components\BaseColumn;
@@ -55,8 +56,9 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
 
-        if (is_null($this->limit) || ($this->limit >= 1 && $this->limit != $this->min)) {
-            $button = $this->min == 0 || $this->addButtonPosition == self::POS_HEADER ? $this->renderAddButton() : '';
+        if ($this->limit === null || ($this->limit >= 1 && $this->limit !== $this->min)) {
+            $button = $this->min === 0 || $this->addButtonPosition === self::POS_HEADER ? $this->renderAddButton() : '';
+
             $cells[] = Html::tag('th', $button, [
                 'class' => 'list-cell__button'
             ]);
@@ -72,12 +74,12 @@ class TableRenderer extends BaseRenderer
      */
     private function hasHeader()
     {
-        if ($this->min == 0) {
+        if ($this->min === 0) {
             return true;
         }
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
-            if (!empty($column->title)) {
+            if ($column->title) {
                 return true;
             }
         }
@@ -103,14 +105,21 @@ class TableRenderer extends BaseRenderer
      * Renders the body.
      *
      * @return string
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\InvalidParamException
      */
     protected function renderBody()
     {
         $rows = [];
 
-        if (!empty($this->data)) {
-            foreach ($this->data as $index => $item) {
-                $rows[] = $this->renderRowContent($index, $item);
+        if ($this->data) {
+            $cnt = count($this->data);
+            if ($this->min === $this->limit && $cnt < $this->limit) {
+                $cnt = $this->limit;
+            }
+            for ($i = 0; $i < $cnt; $i++) {
+                $item = ArrayHelper::getValue($this->data, $i, null);
+                $rows[] = $this->renderRowContent($i, $item);
             }
         } elseif ($this->min > 0) {
             for ($i = 0; $i < $this->min; $i++) {
@@ -146,7 +155,7 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderActionColumn($index);
         }
 
-        if (!empty($hiddenInputs)) {
+        if ($hiddenInputs) {
             $hiddenInputs = implode("\n", $hiddenInputs);
             $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
         }
@@ -233,15 +242,15 @@ class TableRenderer extends BaseRenderer
 
     private function getActionButton($index)
     {
-        if (is_null($index) || $this->min == 0) {
+        if ($index === null || $this->min === 0) {
             return $this->renderRemoveButton();
         }
 
-        $index += 1;
+        $index++;
         if ($index < $this->min) {
             return '';
-        } elseif ($index == $this->min) {
-            return $this->addButtonPosition == self::POS_ROW ? $this->renderAddButton() : '';
+        } elseif ($index === $this->min) {
+            return $this->addButtonPosition === self::POS_ROW ? $this->renderAddButton() : '';
         } else {
             return $this->renderRemoveButton();
         }
