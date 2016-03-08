@@ -5,6 +5,7 @@ Yii2 multiple input change log
 ---------------------
 
 - Bug #61: Fixed a rendering of remove button
+- Bug #64 Radio/checkbox lists doesn't work correctly
 
 1.2.10
 ------

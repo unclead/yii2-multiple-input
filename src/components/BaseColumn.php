@@ -159,7 +159,7 @@ abstract class BaseColumn extends Object
      */
     public function isHiddenInput()
     {
-        return $this->type == self::TYPE_HIDDEN_INPUT;
+        return $this->type === self::TYPE_HIDDEN_INPUT;
     }
 
 
@@ -275,6 +275,8 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * Renders list box.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -287,6 +289,8 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * Renders hidden input.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -298,6 +302,8 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * Renders radio button.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -316,6 +322,8 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * Renders radio button list.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -326,14 +334,21 @@ abstract class BaseColumn extends Object
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
-        $options['item'] = function ($index, $label, $name, $checked, $value) {
-            return '<div class="radio">' . Html::radio($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
+        $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
+            $content = Html::radio($name, $checked, [
+                'label'   => $label,
+                'value'   => $value,
+                'data-id' => ArrayHelper::getValue($options, 'id')
+            ]);
+            return Html::tag('div', $content, ['class' => 'radio']);
         };
         $input = Html::radioList($name, $value, $this->prepareItems($this->items), $options);
         return Html::tag('div', $input, ['class' => 'radio-list']);
     }
 
     /**
+     * Renders checkbox.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -352,6 +367,8 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * Renders checkbox list.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -362,14 +379,21 @@ abstract class BaseColumn extends Object
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
-        $options['item'] = function ($index, $label, $name, $checked, $value) {
-            return '<div class="checkbox">' . Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]) . '</div>';
+        $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
+            $content = Html::checkbox($name, $checked, [
+                'label'   => $label,
+                'value'   => $value,
+                'data-id' => ArrayHelper::getValue($options, 'id')
+            ]);
+            return Html::tag('div', $content, ['class' => 'checkbox']);
         };
         $input = Html::checkboxList($name, $value, $this->prepareItems($this->items), $options);
         return Html::tag('div', $input, ['class' => 'checkbox-list']);
     }
 
     /**
+     * Renders an input.
+     *
      * @param $name
      * @param $value
      * @param $options
@@ -393,6 +417,15 @@ abstract class BaseColumn extends Object
         return $input;
     }
 
+    /**
+     * Renders a widget.
+     *
+     * @param $type
+     * @param $name
+     * @param $value
+     * @param $options
+     * @return mixed
+     */
     protected function renderWidget($type, $name, $value, $options)
     {
         $model = $this->getModel();
@@ -418,6 +451,8 @@ abstract class BaseColumn extends Object
 
 
     /**
+     * Renders an error.
+     *
      * @param string $error
      * @return string
      */

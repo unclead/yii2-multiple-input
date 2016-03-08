@@ -82,12 +82,12 @@
 
             $wrapper.on('click.multipleInput', '.js-input-remove', function (e) {
                 e.preventDefault();
-                methods.removeInput.apply(this);
+                removeInput($(this));
             });
 
             $wrapper.on('click.multipleInput', '.js-input-plus', function (e) {
                 e.preventDefault();
-                methods.addInput.apply(this);
+                addInput($(this));
             });
 
             var intervalID = setInterval(function(){
@@ -109,10 +109,11 @@
                             attributeDefaults[key] = value;
                         }
                     });
+
                     $wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
 
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
-                        methods.addAttribute.apply(this);
+                        addAttribute($(this));
                     });
                     $wrapper.data('multipleInput').currentIndex = $wrapper.find('.multiple-input-list__item').length;
                     clearInterval(intervalID);
@@ -121,95 +122,126 @@
                     $wrapper.trigger(event);
                 }
             }, 100);
-        },
+        }
+    };
 
-        addInput: function () {
-            var $wrapper    = $(this).closest('.multiple-input').first(),
-                data        = $wrapper.data('multipleInput'),
-                settings    = data.settings,
-                template    = settings.template,
-                inputList   = $wrapper.find('.multiple-input-list').first(),
-                count       = $wrapper.find('.multiple-input-list__item').length;
+    var addInput = function (btn) {
+        var $wrapper    = $(btn).closest('.multiple-input').first(),
+            data        = $wrapper.data('multipleInput'),
+            settings    = data.settings,
+            template    = settings.template,
+            inputList   = $wrapper.find('.multiple-input-list').first(),
+            count       = $wrapper.find('.multiple-input-list__item').length;
 
-            if (settings.limit != null && count >= settings.limit) {
-                return;
-            }
-
-            template = template.replaceAll('{multiple_index}', data.currentIndex);
-
-            $(template).hide().appendTo(inputList).fadeIn(300);
-
-            $(template).find('input, select, textarea').each(function () {
-                methods.addAttribute.apply(this);
-            });
-
-            var jsTemplate;
-            for (i in settings.jsTemplates) {
-                jsTemplate = settings.jsTemplates[i]
-                    .replaceAll('{multiple_index}', data.currentIndex)
-                    .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
-                window.eval(jsTemplate);
-            }
-            $wrapper.data('multipleInput').currentIndex++;
-
-            var event = $.Event(events.afterAddRow);
-            $wrapper.trigger(event);
-        },
-
-        removeInput: function () {
-            var $wrapper = $(this).closest('.multiple-input').first(),
-                $toDelete = $(this).closest('.multiple-input-list__item'),
-                count = $('.multiple-input-list__item').length,
-                data        = $wrapper.data('multipleInput'),
-                settings    = data.settings;
-
-            if (count > settings.min) {
-                var event = $.Event(events.beforeDeleteRow);
-                $wrapper.trigger(event, [$toDelete]);
-                if (event.result === false) {
-                    return;
-                }
-
-                $toDelete.find('input, select, textarea').each(function () {
-                    methods.removeAttribute.apply(this);
-                });
-                $toDelete.fadeOut(300, function () {
-                    $(this).remove();
-                });
-
-                event = $.Event(events.afterDeleteRow);
-                $wrapper.trigger(event);
-            }
-        },
-
-        addAttribute: function () {
-            var id = $(this).attr('id'),
-                ele = $('#' + $(this).attr('id')),
-                wrapper = ele.closest('.multiple-input').first(),
-                form = ele.closest('form');
-
-            // do not add attribute which are not the part of widget
-            if (wrapper.length == 0) {
-                return;
-            }
-
-            var data = wrapper.data('multipleInput');
-            form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {
-                'id': id,
-                'input': '#' + id,
-                'container': '.field-' + id
-            }));
-        },
-
-        removeAttribute: function () {
-            var id = $(this).attr('id'),
-                form = $('#' + $(this).attr('id')).closest('form');
-
-            if (form.length !== 0) {
-                form.yiiActiveForm('remove', id);
-            }
+        if (settings.limit != null && count >= settings.limit) {
+            return;
         }
 
+        template = template.replaceAll('{multiple_index}', data.currentIndex);
+
+        $(template).hide().appendTo(inputList).fadeIn(300);
+
+        $(template).find('input, select, textarea').each(function () {
+            addAttribute($(this));
+        });
+
+        var jsTemplate;
+        for (i in settings.jsTemplates) {
+            jsTemplate = settings.jsTemplates[i]
+                .replaceAll('{multiple_index}', data.currentIndex)
+                .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
+            window.eval(jsTemplate);
+        }
+        $wrapper.data('multipleInput').currentIndex++;
+
+        var event = $.Event(events.afterAddRow);
+        $wrapper.trigger(event);
+    };
+
+    var removeInput = function ($btn) {
+        var $wrapper = $btn.closest('.multiple-input').first(),
+            $toDelete = $btn.closest('.multiple-input-list__item'),
+            count = $('.multiple-input-list__item').length,
+            data        = $wrapper.data('multipleInput'),
+            settings    = data.settings;
+
+        if (count > settings.min) {
+            var event = $.Event(events.beforeDeleteRow);
+            $wrapper.trigger(event, [$toDelete]);
+            if (event.result === false) {
+                return;
+            }
+
+            $toDelete.find('input, select, textarea').each(function () {
+                removeAttribute($(this));
+            });
+
+            $toDelete.fadeOut(300, function () {
+                $(this).remove();
+            });
+
+            event = $.Event(events.afterDeleteRow);
+            $wrapper.trigger(event);
+        }
+    };
+
+    var addAttribute = function (input) {
+        var id = getInputId(input);
+
+        // skip if we could not get an ID of input
+        if (id === null) {
+            return;
+        }
+
+        var ele = $('#' + id),
+            wrapper = ele.closest('.multiple-input').first(),
+            form = ele.closest('form');
+
+
+        // do not add attribute which are not the part of widget
+        if (wrapper.length == 0) {
+            return;
+        }
+
+        // check that input has been already added to the activeForm
+        if (typeof form.yiiActiveForm('find', id) !== 'undefined') {
+            return;
+        }
+
+        var data = wrapper.data('multipleInput');
+        form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {
+            'id': id,
+            'input': '#' + id,
+            'container': '.field-' + id
+        }));
+    };
+
+    var removeAttribute = function () {
+        var id = getInputId($(this));
+
+        if (id === null) {
+            return;
+        }
+
+        var form = $('#' + id).closest('form');
+
+        if (form.length !== 0) {
+            form.yiiActiveForm('remove', id);
+        }
+    };
+
+    var getInputId = function($input) {
+        var id = $input.attr('id');
+
+        if (typeof id === 'undefined') {
+            id = $input.data('id');
+        }
+
+        if (typeof id === 'undefined') {
+            return null;
+        }
+
+        return id;
     };
 
     String.prototype.replaceAll = function(search, replace){
