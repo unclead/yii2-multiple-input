@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.11 in development
+1.2.12 in development
 ---------------------
+
+1.2.11
+------
 
 - Bug #61: Fixed a rendering of remove button
 - Bug #62: Incorrect behavior is case when `min` is equal to `limit`
