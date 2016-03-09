@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.12 in development
+1.2.13 in development
 ---------------------
+
+1.2.12
+------
+- Hotfix: Fixed error when array_key_exits (kongoon)
 
 1.2.11
 ------
