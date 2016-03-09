@@ -66,12 +66,12 @@ abstract class BaseRenderer extends Object
     /**
      * @var array the HTML options for the `remove` button
      */
-    public $removeButtonOptions;
+    public $removeButtonOptions = [];
 
     /**
      * @var array the HTML options for the `add` button
      */
-    public $addButtonOptions;
+    public $addButtonOptions = [];
 
     /**
      * @var bool whether to allow the empty list
