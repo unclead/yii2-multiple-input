@@ -114,6 +114,7 @@ function($data) {}
 Each column in a row can has their own type. Widget supports:
 
 - all yii2 html input types:
+  - `static` for static html **output**
   - `textInput`
   - `dropDownList`
   - `radioList`
@@ -226,7 +227,7 @@ use unclead\widgets\MultipleInput;
                 return Html::tag('span', 'static content', ['class' => 'label label-info']);
             },
             'headerOptions' => [
-                'style' => 'width: 70px;',
+                'style' =t> 'width: 70px;',
             ]
         ]
     ]
