@@ -120,6 +120,7 @@ Each column in a row can has their own type. Widget supports:
   - `textarea`
   - For more detail look at [Html helper class](http://www.yiiframework.com/doc-2.0/yii-helpers-html.html)
 - input widget (widget that extends from `InputWidget` class). For example, `yii\widgets\MaskedInput`
+- `static` to output a static HTML content
 
 For using widget as column input you may use the following code:
 
