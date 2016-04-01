@@ -228,7 +228,13 @@ abstract class BaseColumn extends Object
      */
     public function renderInput($name, $options)
     {
-        $options = Arrayhelper::merge($this->options, $options);
+        if ($this->options instanceof \Closure) {
+            $optionsExt = call_user_func($this->options, $this->getModel());
+        } else {
+            $optionsExt = $this->options;
+        }
+        
+        $options = Arrayhelper::merge($optionsExt, $options);
         $method = 'render' . Inflector::camelize($this->type);
         $value = $this->prepareValue();
 
