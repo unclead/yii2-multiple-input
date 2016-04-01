@@ -101,7 +101,12 @@ or anonymous function which return array of items and has the following signatur
 function($data) {}
 ```
 
-**options** *array*: the HTML attributes for the input
+**options** *array*|*Closure*: the HTML attributes for the input, you can set it as array
+or an anonymous function with the following signature: 
+
+```php
+function($data) {}
+```
 
 **headerOptions** *array*: the HTML attributes for the header cell
 
