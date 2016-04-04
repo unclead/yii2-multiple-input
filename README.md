@@ -382,6 +382,19 @@ jQuery('#multiple-input').on('afterInit', function(){
 });
 ```
 
+## JavaScript operations
+Dynamically operations in widget:
+ - `add`: adding new row, **param** *object*: object with values for inputs, can be filled with <option> tags for dynamically added options for select (for ajax select).
+ - `remove`: remove row, **param** *integer*: row number for removing, if not specified then removes last row.
+ - `clear`: remove all rows
+
+Examples:
+```js
+$('#multiple-input').multipleInput('add', {first: 10, second: '<option value="2" selected="selected">second</option>'});
+$('#multiple-input').multipleInput('remove', 2);
+$('#multiple-input').multipleInput('clear');
+```
+
 ##Renderers
 
 > Section is under development
