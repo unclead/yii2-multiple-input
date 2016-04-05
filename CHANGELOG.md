@@ -4,6 +4,9 @@ Yii2 multiple input change log
 1.2.13 in development
 ---------------------
 
+- Added new js events (add/remove/clear inputs) and integrated the gulp for minification of assets (veksa)
+- Added support of closure for parameter `options` (veksa)
+
 1.2.12
 ------
 - Hotfix: Fixed error when array_key_exits (kongoon)
