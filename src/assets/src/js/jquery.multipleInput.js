@@ -90,7 +90,7 @@
                 addInput($(this));
             });
 
-            var intervalID = setInterval(function(){
+            var intervalID = setInterval(function () {
                 if (typeof form.data('yiiActiveForm') === 'object') {
                     var attribute = form.yiiActiveForm('find', id);
                     var attributeDefaults = [];
@@ -104,7 +104,7 @@
                     }
 
                     var attributeOptions = $.extend({}, defaultAttributeOptions, settings.attributeOptions);
-                    $.each(attributeOptions, function(key, value) {
+                    $.each(attributeOptions, function (key, value) {
                         if (typeof attributeDefaults[key] === 'undefined') {
                             attributeDefaults[key] = value;
                         }
@@ -122,16 +122,33 @@
                     $wrapper.trigger(event);
                 }
             }, 100);
+        },
+        add: function (values) {
+            addInput($(this), values);
+        },
+        remove: function (index) {
+            var row = null;
+            if (index) {
+                row = $(this).find('.js-input-remove:eq(' + index + ')');
+            } else {
+                row = $(this).find('.js-input-remove').last();
+            }
+            removeInput(row);
+        },
+        clear: function () {
+            $('.js-input-remove').each(function () {
+                removeInput($(this));
+            });
         }
     };
 
-    var addInput = function (btn) {
-        var $wrapper    = $(btn).closest('.multiple-input').first(),
-            data        = $wrapper.data('multipleInput'),
-            settings    = data.settings,
-            template    = settings.template,
-            inputList   = $wrapper.find('.multiple-input-list').first(),
-            count       = $wrapper.find('.multiple-input-list__item').length;
+    var addInput = function (btn, values) {
+        var $wrapper = $(btn).closest('.multiple-input').first(),
+            data = $wrapper.data('multipleInput'),
+            settings = data.settings,
+            template = settings.template,
+            inputList = $wrapper.find('.multiple-input-list').first(),
+            count = $wrapper.find('.multiple-input-list__item').length;
 
         if (settings.limit != null && count >= settings.limit) {
             return;
@@ -141,8 +158,43 @@
 
         $(template).hide().appendTo(inputList).fadeIn(300);
 
+        if (values instanceof Object) {
+            var tmp = [];
+            for (var key in values) {
+                if (values.hasOwnProperty(key)) {
+                    tmp.push(values[key]);
+                }
+            }
+            values = tmp;
+        }
+
+        var index = 0;
         $(template).find('input, select, textarea').each(function () {
-            addAttribute($(this));
+            var that = $(this),
+                tag = that.get(0).tagName,
+                id = getInputId(that),
+                obj = $('#' + id);
+
+            if (values) {
+                var val = values[index];
+
+                if (tag == 'INPUT' || tag == 'TEXTAREA') {
+                    obj.val(val);
+                } else if (tag == 'SELECT') {
+                    if (val && val.indexOf('option')) {
+                        obj.append(val);
+                    } else {
+                        var option = obj.find('option[value="' + val + '"]');
+                        if (option.length) {
+                            obj.val(val);
+                        }
+                    }
+                }
+            }
+
+            addAttribute(that);
+
+            index++;
         });
 
         var jsTemplate;
@@ -162,8 +214,8 @@
         var $wrapper = $btn.closest('.multiple-input').first(),
             $toDelete = $btn.closest('.multiple-input-list__item'),
             count = $('.multiple-input-list__item').length,
-            data        = $wrapper.data('multipleInput'),
-            settings    = data.settings;
+            data = $wrapper.data('multipleInput'),
+            settings = data.settings;
 
         if (count > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
@@ -230,7 +282,7 @@
         }
     };
 
-    var getInputId = function($input) {
+    var getInputId = function ($input) {
         var id = $input.attr('id');
 
         if (typeof id === 'undefined') {
@@ -244,7 +296,7 @@
         return id;
     };
 
-    String.prototype.replaceAll = function(search, replace){
+    String.prototype.replaceAll = function (search, replace) {
         return this.split(search).join(replace);
     };
 })(window.jQuery);
