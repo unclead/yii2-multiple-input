@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.14 in development
+1.2.15 in development
 ---------------------
+
+1.2.14
+------
+
+- Bug #71: trigger the event after actual removal of row
 
 1.2.13
 ------
