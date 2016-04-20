@@ -10,7 +10,7 @@ namespace unclead\widgets;
 
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\Html;
 use unclead\widgets\components\BaseColumn;
 
@@ -76,9 +76,10 @@ class MultipleInputColumn extends BaseColumn
     private function hasModelAttribute($name)
     {
         $model = $this->widget->model;
+
         if ($model->hasProperty($name)) {
             return true;
-        } elseif ($model instanceof ActiveRecord && $model->hasAttribute($name)) {
+        } elseif ($model instanceof ActiveRecordInterface && $model->hasAttribute($name)) {
             return true;
         } else {
             return false;
