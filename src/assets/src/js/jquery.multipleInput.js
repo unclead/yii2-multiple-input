@@ -198,7 +198,7 @@
         });
 
         var jsTemplate;
-        for (i in settings.jsTemplates) {
+        for (var i in settings.jsTemplates) {
             jsTemplate = settings.jsTemplates[i]
                 .replaceAll('{multiple_index}', data.currentIndex)
                 .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
@@ -230,10 +230,10 @@
 
             $toDelete.fadeOut(300, function () {
                 $(this).remove();
+                
+                event = $.Event(events.afterDeleteRow);
+                $wrapper.trigger(event);
             });
-
-            event = $.Event(events.afterDeleteRow);
-            $wrapper.trigger(event);
         }
     };
 
