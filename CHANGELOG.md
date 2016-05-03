@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.15 in development
+1.2.16 in development
 ---------------------
+
+1.2.15
+------
+
+- Added note about usage widget with ajax
 
 1.2.14
 ------
