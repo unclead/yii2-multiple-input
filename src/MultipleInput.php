@@ -129,9 +129,9 @@ class MultipleInput extends InputWidget
      */
     protected function guessColumns()
     {
-        if (empty($this->columns) && $this->hasModel()) {
+        if (empty($this->columns)) {
             $column = [
-                'name' => $this->attribute,
+                'name' => $this->hasModel() ? $this->attribute : $this->name,
                 'type' => MultipleInputColumn::TYPE_TEXT_INPUT
             ];
 

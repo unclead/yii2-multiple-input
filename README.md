@@ -357,6 +357,15 @@ In this case you can use `enableGuessTitle` option like in the example below:
 
 ```
 
+### Ajax load of a widget
+
+Assume you want to load a widget via ajax and then show it inside modal window. In this case you MUST:
+
+- Ensure that you specified ID of widget otherwise the widget will get random ID and it can be the same as id of others elements on the page.
+- Ensure that you use the widget inside ActiveForm because it works incorrectly in this case.
+
+You can fina an example of usage in a discussion of issue #58
+
 ## JavaScript events
 This widget has following events:
  - `afterInit`: triggered after initialization

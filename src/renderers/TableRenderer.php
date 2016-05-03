@@ -141,6 +141,7 @@ class TableRenderer extends BaseRenderer
     {
         $cells = [];
         $hiddenInputs = [];
+
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
