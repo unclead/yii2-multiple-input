@@ -261,7 +261,7 @@ Use the following code for this purpose:
         [
             'name'  => 'title',
             'title' => 'Title',
-            'type'  => \unclead\widgets\MultipleInputColumn::TYPE_TEXT_INPUT,
+            'type'  => TabularInputColumn::TYPE_TEXT_INPUT,
         ],
         [
             'name'  => 'description',
@@ -365,6 +365,51 @@ Assume you want to load a widget via ajax and then show it inside modal window. 
 - Ensure that you use the widget inside ActiveForm because it works incorrectly in this case.
 
 You can fina an example of usage in a discussion of [issue](https://github.com/unclead/yii2-multiple-input/issues/58)
+
+### Using of a placeholder {multiple_index}
+
+You can use a placeholder {multiple index} in a widget configuration, e.g. for implementation of dependent drop down lists.
+
+```php
+    <?= $form->field($model, 'field')->widget(MultipleInput::className(), [
+            'allowEmptyList' => false,
+            'rowOptions' => [
+                'id' => 'row{multiple_index}',
+            ],
+            'columns' => [
+                [
+                    'name'  => 'category',
+                    'type'  => 'dropDownList',
+                    'title' => 'Category',
+                    'defaultValue' => '1',
+                    'items' => [
+                        '1' => 'Test 1',
+                        '2' => 'Test 2',
+                        '3' => 'Test 3',
+                        '4' => 'Test 4',
+                    ],
+                    'options' => [
+                        'onchange' => <<< JS
+$.post("list?id=" + $(this).val(), function(data){
+    console.log(data);
+    $("select#subcat-{multiple_index}").html(data);
+});
+JS
+                    ],
+                ],
+                [
+                    'name'  => 'subcategory',
+                    'type'  => 'dropDownList',
+                    'title' => 'Subcategory',
+                    'items' => [],
+                    'options'=> [
+                        'id' => 'subcat-{multiple_index}'
+                    ],
+                ],
+            ]
+    ]);
+    ?>
+```
 
 ## JavaScript events
 This widget has following events:
