@@ -234,7 +234,7 @@ abstract class BaseColumn extends Object
             $optionsExt = $this->options;
         }
         
-        $options = ArrayHelper::merge($optionsExt, $options);
+        $options = ArrayHelper::merge($options, $optionsExt);
         $method = 'render' . Inflector::camelize($this->type);
         $value = $this->prepareValue();
 
