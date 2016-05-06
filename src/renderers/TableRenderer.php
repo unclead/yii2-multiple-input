@@ -164,6 +164,10 @@ class TableRenderer extends BaseRenderer
 
         $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
 
+        if ($index !== null) {
+            $content = str_replace('{multiple_index}', $index, $content);
+        }
+
         return $content;
     }
 

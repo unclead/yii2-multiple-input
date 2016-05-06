@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.16 in development
 ---------------------
 
+- Bug #70: replacing of the placeholder after preparing the content of row
+
 1.2.15
 ------
 
