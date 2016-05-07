@@ -16,6 +16,11 @@ Contents:
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Tips and tricks](#tips-and-tricks)
+ - [How to customize buttons](#how-to-customize-buttons)
+ - [Work with empty list](#work-with-empty-list)
+ - [Guess column title](#guess-column-title)
+ - [Ajax loading of a widget](#ajax-loading)
+ - [Using of a placeholder {multiple_index}](#using-placeholder)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -48,9 +53,9 @@ Widget support the following options that are additionally recognized over and a
 
 **attributeOptions** *array*: client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
   you use widget without a model, since in this case widget is not able to detect client-side options automatically
-  
+
 **addButtonPosition** *integer*: the position of `add` button. This can be MultipleInput::POS_HEADER or MultipleInput::POS_ROW.
- 
+
 **addButtonOptions** *array*: the HTML options for `add` button. Can contains `class` and `label` keys
 
 **removeButtonOptions** *array*: the HTML options for `add` button. Can contains `class` and `label` keys
@@ -61,7 +66,7 @@ Widget support the following options that are additionally recognized over and a
 
 **allowEmptyList** *boolean*: whether to allow the empty list
 
-**columnClass** *string*: the name of column class. You can specify your own class to extend base functionality. 
+**columnClass** *string*: the name of column class. You can specify your own class to extend base functionality.
 Defaults to `unclead\widgets\MultipleInputColumn` for `MultipleInput` and `unclead\widgets\TabularColumn` for `TabularInput`.
 
 **columns** *array*: the row columns configuration where you can set the properties which is described below
@@ -86,7 +91,7 @@ function ($model, $index, $context)
 
 **title** *string*: the column title
 
-**value** *Closure*: you can set it to an anonymous function with the following signature: 
+**value** *Closure*: you can set it to an anonymous function with the following signature:
 
 ```php
 function($data) {}
@@ -95,14 +100,14 @@ function($data) {}
 **defaultValue** *string*: default value of input
 
 **items** *array*|*Closure*: the items for input with type dropDownList, listBox, checkboxList, radioList
-or anonymous function which return array of items and has the following signature: 
+or anonymous function which return array of items and has the following signature:
 
 ```php
 function($data) {}
 ```
 
 **options** *array*|*Closure*: the HTML attributes for the input, you can set it as array
-or an anonymous function with the following signature: 
+or an anonymous function with the following signature:
 
 ```php
 function($data) {}
@@ -339,7 +344,7 @@ In some cases you need to have the ability to delete all rows in the list. For t
 
 ```
 
-Also you can set `0` in `min` option if you don't need first blank row when data is empty. 
+Also you can set `0` in `min` option if you don't need first blank row when data is empty.
 
 ### Guess column title
 
@@ -357,7 +362,7 @@ In this case you can use `enableGuessTitle` option like in the example below:
 
 ```
 
-### Ajax loading of a widget
+### Ajax loading of a widget <a id="ajax-loading"></a>
 
 Assume you want to load a widget via ajax and then show it inside modal window. In this case you MUST:
 
@@ -366,7 +371,7 @@ Assume you want to load a widget via ajax and then show it inside modal window. 
 
 You can fina an example of usage in a discussion of [issue](https://github.com/unclead/yii2-multiple-input/issues/58)
 
-### Using of a placeholder {multiple_index}
+### Using of a placeholder {multiple_index} <a id="using-placeholder"></a>
 
 You can use a placeholder {multiple index} in a widget configuration, e.g. for implementation of dependent drop down lists.
 
