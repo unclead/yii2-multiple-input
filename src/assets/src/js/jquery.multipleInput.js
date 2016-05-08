@@ -56,27 +56,21 @@
         // how many row has to renders
         limit: 1,
         // minimum number of rows
-        min: 1
-    };
+        min: 1,
 
-    var defaultAttributeOptions = {
-        enableAjaxValidation: false,
-        validateOnBlur: false,
-        validateOnChange: false,
-        validateOnType: false
+        attributes: {}
     };
 
     var methods = {
         init: function (options) {
             var settings = $.extend(true, {}, defaultOptions, options || {}),
                 $wrapper = $('#' + settings.id),
-                form = $wrapper.closest('form'),
-                id = this.selector.replace('#', '');
-
+                form = $wrapper.closest('form');
+ 
             $wrapper.data('multipleInput', {
                 settings: settings,
                 currentIndex: 0,
-                attributeDefaults: {}
+                attributes: {}
             });
 
 
@@ -92,25 +86,7 @@
 
             var intervalID = setInterval(function () {
                 if (typeof form.data('yiiActiveForm') === 'object') {
-                    var attribute = form.yiiActiveForm('find', id);
-                    var attributeDefaults = [];
-                    if (typeof attribute === 'object') {
-                        $.each(attribute, function (key, value) {
-                            if (['id', 'input', 'container'].indexOf(key) == -1) {
-                                attributeDefaults[key] = value;
-                            }
-                        });
-                        form.yiiActiveForm('remove', id);
-                    }
-
-                    var attributeOptions = $.extend({}, defaultAttributeOptions, settings.attributeOptions);
-                    $.each(attributeOptions, function (key, value) {
-                        if (typeof attributeDefaults[key] === 'undefined') {
-                            attributeDefaults[key] = value;
-                        }
-                    });
-
-                    $wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
+                    $wrapper.data('multipleInput').attributes = settings.attributes;
 
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         addAttribute($(this));
@@ -123,9 +99,11 @@
                 }
             }, 100);
         },
+
         add: function (values) {
             addInput($(this), values);
         },
+
         remove: function (index) {
             var row = null;
             if (index) {
@@ -135,6 +113,7 @@
             }
             removeInput(row);
         },
+
         clear: function () {
             $('.js-input-remove').each(function () {
                 removeInput($(this));
@@ -169,18 +148,17 @@
         }
 
         var index = 0;
+        
         $(template).find('input, select, textarea').each(function () {
-            var that = $(this),
-                tag = that.get(0).tagName,
-                id = getInputId(that),
+            var ele = $(this),
+                tagName = ele.get(0).tagName,
+                id = getInputId(ele),
                 obj = $('#' + id);
 
             if (values) {
                 var val = values[index];
 
-                if (tag == 'INPUT' || tag == 'TEXTAREA') {
-                    obj.val(val);
-                } else if (tag == 'SELECT') {
+                if (tagName == 'SELECT') {
                     if (val && val.indexOf('option')) {
                         obj.append(val);
                     } else {
@@ -189,10 +167,12 @@
                             obj.val(val);
                         }
                     }
+                } else {
+                    obj.val(val);
                 }
             }
 
-            addAttribute(that);
+            addAttribute(ele);
 
             index++;
         });
@@ -204,6 +184,7 @@
                 .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
             window.eval(jsTemplate);
         }
+        
         $wrapper.data('multipleInput').currentIndex++;
 
         var event = $.Event(events.afterAddRow);
@@ -249,7 +230,6 @@
             wrapper = ele.closest('.multiple-input').first(),
             form = ele.closest('form');
 
-
         // do not add attribute which are not the part of widget
         if (wrapper.length == 0) {
             return;
@@ -260,8 +240,9 @@
             return;
         }
 
-        var data = wrapper.data('multipleInput');
-        form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {
+        var bareID = id.replace(/-\d/, '').replace(/-\d-/, '');
+        
+        form.yiiActiveForm('add', $.extend({}, wrapper.data('multipleInput').attributes[bareID], {
             'id': id,
             'input': '#' + id,
             'container': '.field-' + id

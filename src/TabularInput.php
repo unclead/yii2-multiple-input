@@ -11,9 +11,10 @@ namespace unclead\widgets;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\bootstrap\Widget;
 use unclead\widgets\renderers\TableRenderer;
+use yii\widgets\ActiveForm;
 
 /**
  * Class TabularInput
@@ -62,7 +63,7 @@ class TabularInput extends Widget
     public $allowEmptyList = false;
 
     /**
-     * @var Model[]|ActiveRecord[]
+     * @var Model[]|ActiveRecordInterface[]
      */
     public $models;
 
@@ -93,6 +94,11 @@ class TabularInput extends Widget
      * Defaults to `unclead\widgets\TabularColumn`
      */
     public $columnClass;
+
+    /**
+     * @var ActiveForm the instance of `ActiveForm` class.
+     */
+    public $form;
 
     /**
      * Initialization.
@@ -138,7 +144,8 @@ class TabularInput extends Widget
             'min'               => $this->min,
             'rowOptions'        => $this->rowOptions,
             'addButtonPosition' => $this->addButtonPosition,
-            'context'           => $this
+            'context'           => $this,
+            'form'              => $this->form
         ];
 
         if (!is_null($this->removeButtonOptions)) {

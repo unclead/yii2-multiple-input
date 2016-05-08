@@ -73,6 +73,4 @@ class TabularColumn extends BaseColumn
             parent::setModel($model);
         }
     }
-
-
 }

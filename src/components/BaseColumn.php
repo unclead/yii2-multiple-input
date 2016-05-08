@@ -12,7 +12,7 @@ use Closure;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\Object;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
@@ -106,13 +106,27 @@ abstract class BaseColumn extends Object
     public $renderer;
 
     /**
-     * @var Model|ActiveRecord|array
+     * @var array client-side options of the attribute, e.g. enableAjaxValidation. 
+     * You can use this property for custom configuration of the column (attribute).
+     * By default, the column will use options which are defined on widget level.
+     *
+     * @since 1.3
+     */
+    public $attributeOptions = [];
+
+    /**
+     * @var mixed the context of using a column. It is an instance of widget(MultipleInput or TabularInput).
+     */
+    public $context;
+    
+    /**
+     * @var Model|ActiveRecordInterface|array
      */
     private $_model;
 
 
     /**
-     * @return Model|ActiveRecord|array
+     * @return Model|ActiveRecordInterface|array
      */
     public function getModel()
     {
@@ -120,7 +134,7 @@ abstract class BaseColumn extends Object
     }
 
     /**
-     * @param Model|ActiveRecord|array $model
+     * @param Model|ActiveRecordInterface|array $model
      */
     public function setModel($model)
     {
@@ -174,7 +188,7 @@ abstract class BaseColumn extends Object
         if ($this->value instanceof \Closure) {
             $value = call_user_func($this->value, $data);
         } else {
-            if ($data instanceof ActiveRecord ) {
+            if ($data instanceof ActiveRecordInterface ) {
                 $value = $data->getAttribute($this->name);
             } elseif ($data instanceof Model) {
                 $value = $data->{$this->name};

@@ -133,6 +133,7 @@ use kartik\date\DatePicker;
         ]
     ]
 ]);
+
 ?>
 
 <?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>

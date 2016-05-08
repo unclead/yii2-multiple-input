@@ -3,19 +3,16 @@
 use yii\bootstrap\ActiveForm;
 use unclead\widgets\TabularInput;
 use yii\helpers\Html;
-use \unclead\widgets\examples\models\Item;
+use unclead\widgets\examples\models\Item;
+use unclead\widgets\TabularColumn;
+
 
 /* @var $this \yii\web\View */
 /* @var $models Item[] */
 ?>
 
 <?php $form = \yii\bootstrap\ActiveForm::begin([
-    'id'                        => 'tabular-form',
-    'enableAjaxValidation'      => true,
-    'enableClientValidation'    => false,
-    'validateOnChange'          => false,
-    'validateOnSubmit'          => true,
-    'validateOnBlur'            => false,
+    'id' => 'tabular-form',
     'options' => [
         'enctype' => 'multipart/form-data'
     ]
@@ -23,25 +20,31 @@ use \unclead\widgets\examples\models\Item;
 
 <?= TabularInput::widget([
     'models' => $models,
+    'form' => $form,
     'attributeOptions' => [
-        'enableAjaxValidation'      => true,
-        'enableClientValidation'    => false,
-        'validateOnChange'          => false,
-        'validateOnSubmit'          => true,
-        'validateOnBlur'            => false,
+        'enableAjaxValidation' => true,
+        'enableClientValidation' => false,
+        'validateOnChange' => false,
+        'validateOnSubmit' => true,
+        'validateOnBlur' => false,
     ],
     'columns' => [
         [
             'name' => 'id',
-            'type' => \unclead\widgets\TabularColumn::TYPE_HIDDEN_INPUT
+            'type' => TabularColumn::TYPE_HIDDEN_INPUT
         ],
         [
-            'name'  => 'title',
+            'name' => 'title',
             'title' => 'Title',
-            'type'  => \unclead\widgets\MultipleInputColumn::TYPE_TEXT_INPUT,
+            'type' => TabularColumn::TYPE_TEXT_INPUT,
+            'attributeOptions' => [
+                'enableClientValidation' => true,
+                'validateOnChange' => true,
+            ],
+            'enableError' => true
         ],
         [
-            'name'  => 'description',
+            'name' => 'description',
             'title' => 'Description',
         ],
 //        [
@@ -55,7 +58,7 @@ use \unclead\widgets\examples\models\Item;
 //            ]
 //        ],
         [
-            'name'  => 'date',
+            'name' => 'date',
             'type'  => \kartik\date\DatePicker::className(),
             'title' => 'Day',
             'options' => [
@@ -73,5 +76,5 @@ use \unclead\widgets\examples\models\Item;
 ]) ?>
 
 
-<?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
-<?php ActiveForm::end();?>
+<?= Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
+<?php ActiveForm::end(); ?>

@@ -23,7 +23,7 @@ class MultipleInputColumn extends BaseColumn
     /**
      * @var MultipleInput
      */
-    public $widget;
+    public $context;
 
     /**
      * @throws InvalidConfigException
@@ -32,7 +32,7 @@ class MultipleInputColumn extends BaseColumn
     {
         parent::init();
 
-        if ($this->enableError && !$this->widget->model instanceof Model) {
+        if ($this->enableError && !$this->context->model instanceof Model) {
             throw new InvalidConfigException('Property "enableError" available only when model is defined.');
         }
     }
@@ -63,19 +63,19 @@ class MultipleInputColumn extends BaseColumn
      */
     private function getInputNamePrefix()
     {
-        $model = $this->widget->model;
+        $model = $this->context->model;
         if ($model instanceof Model) {
             if (empty($this->renderer->columns) || (count($this->renderer->columns) == 1 && $this->hasModelAttribute($this->name))) {
                 return $model->formName();
             }
-            return Html::getInputName($this->widget->model, $this->widget->attribute);
+            return Html::getInputName($this->context->model, $this->context->attribute);
         }
-        return $this->widget->name;
+        return $this->context->name;
     }
 
     private function hasModelAttribute($name)
     {
-        $model = $this->widget->model;
+        $model = $this->context->model;
 
         if ($model->hasProperty($name)) {
             return true;
@@ -88,7 +88,7 @@ class MultipleInputColumn extends BaseColumn
 
     public function getFirstError($index)
     {
-        $attribute = $this->widget->attribute . $this->getElementName($index, false);
-        return $this->widget->model->getFirstError($attribute);
+        $attribute = $this->context->attribute . $this->getElementName($index, false);
+        return $this->context->model->getFirstError($attribute);
     }
 }

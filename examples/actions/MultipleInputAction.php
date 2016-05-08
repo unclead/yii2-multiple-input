@@ -33,8 +33,7 @@ class MultipleInputAction extends Action
                 Yii::error('Validation errors: ' . print_r($model->getErrors(), true));
             }
         }
-
-
+        
         return $this->controller->render('@unclead-examples/views/multiple-input.php', ['model' => $model]);
     }
 }

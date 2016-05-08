@@ -22,16 +22,24 @@ class ExampleModel extends Model
     public $emails;
 
     /**
-     * @var
+     * @var array
      */
     public $phones;
 
     /**
-     * @var
+     * @var array
      */
     public $schedule;
 
+    /**
+     * @var bool
+     */
     public $enable;
+
+    /**
+     * @var string
+     */
+    public $title;
 
     public function init()
     {
@@ -62,6 +70,7 @@ class ExampleModel extends Model
     public function rules()
     {
         return [
+            ['title', 'required'],
             ['emails', 'validateEmails'],
             ['phones', 'validatePhones'],
             ['schedule', 'validateSchedule']
@@ -72,14 +81,16 @@ class ExampleModel extends Model
     {
         return [
             'emails',
-            'phones'
+            'phones',
+            'title',
+            'schedule'
         ];
     }
 
     public function scenarios()
     {
         return [
-            self::SCENARIO_DEFAULT => ['emails', 'phones', 'schedule']
+            self::SCENARIO_DEFAULT => ['emails', 'phones', 'schedule', 'title']
         ];
     }
 

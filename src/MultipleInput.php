@@ -10,8 +10,9 @@ namespace unclead\widgets;
 
 use Yii;
 use yii\base\Model;
+use yii\widgets\ActiveForm;
 use yii\widgets\InputWidget;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use unclead\widgets\renderers\TableRenderer;
 
 
@@ -26,7 +27,7 @@ class MultipleInput extends InputWidget
     const POS_ROW       = 1;
 
     /**
-     * @var ActiveRecord[]|array[] input data
+     * @var ActiveRecordInterface[]|array[] input data
      */
     public $data = null;
 
@@ -100,6 +101,11 @@ class MultipleInput extends InputWidget
     public $columnClass;
 
     /**
+     * @var ActiveForm the instance of `ActiveForm` class.
+     */
+    public $form;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -166,7 +172,8 @@ class MultipleInput extends InputWidget
             'min'               => $this->min,
             'addButtonPosition' => $this->addButtonPosition,
             'rowOptions'        => $this->rowOptions,
-            'context'           => $this
+            'context'           => $this,
+            'form'              => $this->form
         ];
 
         if (!is_null($this->removeButtonOptions)) {

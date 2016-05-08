@@ -20,7 +20,8 @@ Contents:
  - [Work with empty list](#work-with-empty-list)
  - [Guess column title](#guess-column-title)
  - [Ajax loading of a widget](#ajax-loading)
- - [Using of a placeholder {multiple_index}](#using-placeholder)
+ - [Use of a widget's placeholder](#using-placeholder)
+ - [How to enable client validation](#client-validation)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -118,6 +119,11 @@ function($data) {}
 **enableError** *boolean*: whether to render inline error for the input. Default to `false`
 
 **errorOptions** *array*: the HTMl attributes for the error tag
+
+**attributeOptions** *array*: client-side attribute options of the column.
+You can use it to configure a column in specific way, e.g. you can enable client validation for particular
+column meanwhile other columns will be validated via ajax validation
+
 
 ### Input types
 
@@ -371,9 +377,9 @@ Assume you want to load a widget via ajax and then show it inside modal window. 
 
 You can fina an example of usage in a discussion of [issue](https://github.com/unclead/yii2-multiple-input/issues/58)
 
-### Using of a placeholder {multiple_index} <a id="using-placeholder"></a>
+### se of a widget's placeholder <a id="using-placeholder"></a>
 
-You can use a placeholder {multiple index} in a widget configuration, e.g. for implementation of dependent drop down lists.
+You can use a placeholder `{multiple index}` in a widget configuration, e.g. for implementation of dependent drop down lists.
 
 ```php
     <?= $form->field($model, 'field')->widget(MultipleInput::className(), [
@@ -415,6 +421,51 @@ JS
     ]);
     ?>
 ```
+
+### How to enable client validation <a id="client-validation"></a>
+
+Apart of ajax validation you can use client validation but in this case you MUST set property `form`.
+Also ensure that you set `enableClientValidation` to `true` value in property `attributeOptions`. If you want to use client validation
+for particular column you can use `attributeOptions` property for this column. An example of using client validation is listed below:
+
+```php
+<?= TabularInput::widget([
+    'models' => $models,
+    'form' => $form,
+    'attributeOptions' => [
+        'enableAjaxValidation' => true,
+        'enableClientValidation' => false,
+        'validateOnChange' => false,
+        'validateOnSubmit' => true,
+        'validateOnBlur' => false,
+    ],
+    'columns' => [
+        [
+            'name' => 'id',
+            'type' => TabularColumn::TYPE_HIDDEN_INPUT
+        ],
+        [
+            'name' => 'title',
+            'title' => 'Title',
+            'type' => TabularColumn::TYPE_TEXT_INPUT,
+            'attributeOptions' => [
+                'enableClientValidation' => true,
+                'validateOnChange' => true,
+            ],
+            'enableError' => true
+        ],
+        [
+            'name' => 'description',
+            'title' => 'Description',
+        ],
+    ],
+]) ?>
+
+```
+
+In the example above we use client validation for column `title` and ajax validation for column `description`.
+As you can noticed we also enabled `validateOnChange` for column `title` thus you can use all client-side options from the `ActiveField` class.
+
 
 ## JavaScript events
 This widget has following events:

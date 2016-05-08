@@ -9,14 +9,16 @@
 namespace unclead\widgets\components;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\base\Object;
-use yii\db\ActiveRecord;
-use yii\helpers\Json;
+use yii\db\ActiveRecordInterface;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 use unclead\widgets\MultipleInput;
 use unclead\widgets\TabularInput;
 use unclead\widgets\assets\MultipleInputAsset;
@@ -31,17 +33,17 @@ abstract class BaseRenderer extends Object
     const POS_ROW       = 1;
 
     /**
-     * @var
+     * @var string the ID of the widget
      */
     public $id;
 
     /**
-     * @var ActiveRecord[]|Model[]|array[] input data
+     * @var ActiveRecordInterface[]|Model[]|array input data
      */
     public $data = null;
 
     /**
-     * @var array
+     * @var BaseColumn[] array of columns
      */
     public $columns = [];
 
@@ -99,17 +101,21 @@ abstract class BaseRenderer extends Object
      */
     public $columnClass;
 
-
-    /**
-     * @var TabularInput|MultipleInput
-     */
-    protected $context;
-
     /**
      * @var string position of add button. By default button is rendered in the row.
      */
     public $addButtonPosition = self::POS_ROW;
 
+    /**
+     * @var ActiveForm the instance of `ActiveForm` class.
+     */
+    public $form;
+
+    /**
+     * @var TabularInput|MultipleInput
+     */
+    protected $context;
+    
     /**
      * @param $context
      */
@@ -207,11 +213,12 @@ abstract class BaseRenderer extends Object
         foreach ($this->columns as $i => $column) {
             $definition = array_merge([
                 'class' => $this->columnClass,
-                'renderer' => $this
+                'renderer' => $this,
+                'context' => $this->context
             ], $column);
 
-            if ($this->context instanceof MultipleInput) {
-                $definition['widget'] = $this->context;
+            if (!array_key_exists('attributeOptions', $definition)) {
+                $definition['attributeOptions'] = $this->attributeOptions;
             }
 
             $this->columns[$i] = Yii::createObject($definition);
@@ -222,7 +229,7 @@ abstract class BaseRenderer extends Object
     {
         $this->initColumns();
         $content = $this->internalRender();
-        $this->registerClientScript();
+        $this->registerAssets();
         return $content;
     }
 
@@ -237,11 +244,11 @@ abstract class BaseRenderer extends Object
      *
      * @throws \yii\base\InvalidParamException
      */
-    protected function registerClientScript()
+    protected function registerAssets()
     {
         $view = $this->context->getView();
         MultipleInputAsset::register($view);
-
+        
         $jsBefore = $this->collectJsTemplates();
         $template = $this->prepareTemplate();
         $jsTemplates = $this->collectJsTemplates($jsBefore);
@@ -252,7 +259,7 @@ abstract class BaseRenderer extends Object
             'jsTemplates'       => $jsTemplates,
             'limit'             => $this->limit,
             'min'               => $this->min,
-            'attributeOptions'  => $this->attributeOptions,
+            'attributes'        => $this->prepareJsAttributes()
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
@@ -281,5 +288,41 @@ abstract class BaseRenderer extends Object
             }
         }
         return $output;
+    }
+
+    /**
+     * Prepares attributes options for client side.
+     *
+     * @return array
+     */
+    protected function prepareJsAttributes()
+    {
+        if (!$this->form instanceof ActiveForm) {
+            return [];
+        }
+
+        $attributes = [];
+        foreach ($this->columns as $column) {
+            $model = $column->getModel();
+            if ($model instanceof Model) {
+                $field = $this->form->field($model, $column->name);
+                foreach ($column->attributeOptions as $name => $value) {
+                    if ($field->hasProperty($name)) {
+                        $field->$name = $value;
+                    }
+                }
+                $field->render('');
+
+                $attributeOptions = array_pop($this->form->attributes);
+                $attributeOptions = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
+            } else {
+                $attributeOptions = $column->attributeOptions;
+            }
+
+            $inputID = str_replace(['-0', '-0-'], '', $column->getElementId(0));
+            $attributes[$inputID] = $attributeOptions;
+        }
+
+        return $attributes;
     }
 }

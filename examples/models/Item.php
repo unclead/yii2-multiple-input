@@ -50,6 +50,7 @@ class Item extends Model
     {
         return [
             [['title', 'description'], 'required'],
+            [['title'], 'string', 'min' => 5, 'max' => 64],
             [['id', 'file'], 'safe']
         ];
     }
