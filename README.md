@@ -372,7 +372,7 @@ Assume you want to load a widget via ajax and then show it inside modal window. 
 
 You can fina an example of usage in a discussion of [issue](https://github.com/unclead/yii2-multiple-input/issues/58)
 
-### se of a widget's placeholder <a id="using-placeholder"></a>
+### Use of a widget's placeholder <a id="using-placeholder"></a>
 
 You can use a placeholder `{multiple index}` in a widget configuration, e.g. for implementation of dependent drop down lists.
 
