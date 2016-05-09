@@ -37,10 +37,6 @@ use unclead\widgets\TabularColumn;
             'name' => 'title',
             'title' => 'Title',
             'type' => TabularColumn::TYPE_TEXT_INPUT,
-            'attributeOptions' => [
-                'enableClientValidation' => true,
-                'validateOnChange' => true,
-            ],
             'enableError' => true
         ],
         [

@@ -106,15 +106,6 @@ abstract class BaseColumn extends Object
     public $renderer;
 
     /**
-     * @var array client-side options of the attribute, e.g. enableAjaxValidation. 
-     * You can use this property for custom configuration of the column (attribute).
-     * By default, the column will use options which are defined on widget level.
-     *
-     * @since 1.3
-     */
-    public $attributeOptions = [];
-
-    /**
      * @var mixed the context of using a column. It is an instance of widget(MultipleInput or TabularInput).
      */
     public $context;

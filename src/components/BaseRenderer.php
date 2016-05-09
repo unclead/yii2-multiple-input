@@ -9,7 +9,6 @@
 namespace unclead\widgets\components;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\InvalidConfigException;
@@ -18,7 +17,6 @@ use yii\base\NotSupportedException;
 use yii\base\Object;
 use yii\db\ActiveRecordInterface;
 use yii\web\View;
-use yii\widgets\ActiveForm;
 use unclead\widgets\MultipleInput;
 use unclead\widgets\TabularInput;
 use unclead\widgets\assets\MultipleInputAsset;
@@ -105,11 +103,6 @@ abstract class BaseRenderer extends Object
      * @var string position of add button. By default button is rendered in the row.
      */
     public $addButtonPosition = self::POS_ROW;
-
-    /**
-     * @var ActiveForm the instance of `ActiveForm` class.
-     */
-    public $form;
 
     /**
      * @var TabularInput|MultipleInput
@@ -217,10 +210,6 @@ abstract class BaseRenderer extends Object
                 'context' => $this->context
             ], $column);
 
-            if (!array_key_exists('attributeOptions', $definition)) {
-                $definition['attributeOptions'] = $this->attributeOptions;
-            }
-
             $this->columns[$i] = Yii::createObject($definition);
         }
     }
@@ -259,7 +248,7 @@ abstract class BaseRenderer extends Object
             'jsTemplates'       => $jsTemplates,
             'limit'             => $this->limit,
             'min'               => $this->min,
-            'attributes'        => $this->prepareJsAttributes()
+            'attributeOptions'  => $this->attributeOptions
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
@@ -288,41 +277,5 @@ abstract class BaseRenderer extends Object
             }
         }
         return $output;
-    }
-
-    /**
-     * Prepares attributes options for client side.
-     *
-     * @return array
-     */
-    protected function prepareJsAttributes()
-    {
-        if (!$this->form instanceof ActiveForm) {
-            return [];
-        }
-
-        $attributes = [];
-        foreach ($this->columns as $column) {
-            $model = $column->getModel();
-            if ($model instanceof Model) {
-                $field = $this->form->field($model, $column->name);
-                foreach ($column->attributeOptions as $name => $value) {
-                    if ($field->hasProperty($name)) {
-                        $field->$name = $value;
-                    }
-                }
-                $field->render('');
-
-                $attributeOptions = array_pop($this->form->attributes);
-                $attributeOptions = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
-            } else {
-                $attributeOptions = $column->attributeOptions;
-            }
-
-            $inputID = str_replace(['-0', '-0-'], '', $column->getElementId(0));
-            $attributes[$inputID] = $attributeOptions;
-        }
-
-        return $attributes;
     }
 }

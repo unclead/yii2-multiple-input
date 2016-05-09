@@ -14,7 +14,6 @@ use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\bootstrap\Widget;
 use unclead\widgets\renderers\TableRenderer;
-use yii\widgets\ActiveForm;
 
 /**
  * Class TabularInput
@@ -96,11 +95,6 @@ class TabularInput extends Widget
     public $columnClass;
 
     /**
-     * @var ActiveForm the instance of `ActiveForm` class.
-     */
-    public $form;
-
-    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -145,7 +139,6 @@ class TabularInput extends Widget
             'rowOptions'        => $this->rowOptions,
             'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this,
-            'form'              => $this->form
         ];
 
         if (!is_null($this->removeButtonOptions)) {

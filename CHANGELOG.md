@@ -5,7 +5,6 @@ Yii2 multiple input change log
 ---------------------
 
 - Bug #70: replacing of the placeholder after preparing the content of row
-- Enh #37: Added support of client validation
 
 1.2.15
 ------
