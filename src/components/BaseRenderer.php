@@ -163,7 +163,7 @@ abstract class BaseRenderer extends Object
     private function prepareLimit()
     {
         if ($this->limit === null) {
-            $this->limit = 999;
+            $this->limit = PHP_INT_MAX;
         }
 
         if ($this->limit < 1) {
@@ -171,7 +171,7 @@ abstract class BaseRenderer extends Object
         }
 
         // Maximum number of rows cannot be less then minimum number.
-        if ($this->limit !== null && $this->limit < $this->min) {
+        if ($this->limit < $this->min) {
             $this->limit = $this->min;
         }
     }
