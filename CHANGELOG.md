@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.17 in development
 ---------------------
 
+- Enh: increased default value for the property `limit`
+
 1.2.16
 ------
 
