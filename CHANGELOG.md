@@ -5,6 +5,7 @@ Yii2 multiple input change log
 ---------------------
 
 - Enh: increased default value for the property `limit`
+- Added support of associative array in data
 
 1.2.16
 ------
