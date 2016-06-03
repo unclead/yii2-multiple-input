@@ -21,6 +21,7 @@ Contents:
  - [Guess column title](#guess-column-title)
  - [Ajax loading of a widget](#ajax-loading)
  - [Use of a widget's placeholder](#using-placeholder)
+ - [Custom index of the row](#custom-index)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -415,6 +416,34 @@ JS
             ]
     ]);
     ?>
+```
+
+### Custom index of the row <a id="custom-index"></a>
+
+Assume that you want to set specific index for each row. In this case you can pass the `data` attribute as associative array
+as in the example below:
+
+```php
+    <?= $form->field($model, 'field')->widget(MultipleInput::className(), [
+            'allowEmptyList' => false,
+            'data' => [
+                3 => [
+                    'day'       => '27.02.2015',
+                    'user_id'   => 31,
+                    'priority'  => 1,
+                    'enable'    => 1
+                ],
+
+                'some-key' => [
+                    'day'       => '27.02.2015',
+                    'user_id'   => 33,
+                    'priority'  => 2,
+                    'enable'    => 0
+                ],
+            ]
+
+    ...
+
 ```
 
 

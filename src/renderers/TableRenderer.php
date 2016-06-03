@@ -117,11 +117,13 @@ class TableRenderer extends BaseRenderer
             if ($this->min === $this->limit && $cnt < $this->limit) {
                 $cnt = $this->limit;
             }
-            $keys = array_keys($this->data);
+            
+            $indices = array_keys($this->data);
+
             for ($i = 0; $i < $cnt; $i++) {
-                $key = ArrayHelper::getValue($keys, $i, $i);
-                $item = ArrayHelper::getValue($this->data, $key, null);
-                $rows[] = $this->renderRowContent($key, $item);
+                $index = ArrayHelper::getValue($indices, $i, $i);
+                $item = ArrayHelper::getValue($this->data, $index, null);
+                $rows[] = $this->renderRowContent($index, $item);
             }
         } elseif ($this->min > 0) {
             for ($i = 0; $i < $this->min; $i++) {
