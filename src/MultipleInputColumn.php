@@ -61,7 +61,7 @@ class MultipleInputColumn extends BaseColumn
      *
      * @return string
      */
-    private function getInputNamePrefix()
+    protected function getInputNamePrefix()
     {
         $model = $this->context->model;
         if ($model instanceof Model) {
@@ -73,7 +73,7 @@ class MultipleInputColumn extends BaseColumn
         return $this->context->name;
     }
 
-    private function hasModelAttribute($name)
+    protected function hasModelAttribute($name)
     {
         $model = $this->context->model;
 
