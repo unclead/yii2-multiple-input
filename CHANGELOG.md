@@ -6,6 +6,7 @@ Yii2 multiple input change log
 
 - Enh: increased default value for the property `limit` (ivansal)
 - Enh: Added support of associative array in data (ivansal)
+- Bug: fixed double execution events for included MultipleInput (fiamma06)
 
 1.2.16
 ------

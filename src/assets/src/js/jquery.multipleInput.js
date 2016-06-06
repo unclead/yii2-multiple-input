@@ -81,12 +81,12 @@
 
 
             $wrapper.on('click.multipleInput', '.js-input-remove', function (e) {
-                e.preventDefault();
+                e.stopPropagation();
                 removeInput($(this));
             });
 
             $wrapper.on('click.multipleInput', '.js-input-plus', function (e) {
-                e.preventDefault();
+                e.stopPropagation();
                 addInput($(this));
             });
 
