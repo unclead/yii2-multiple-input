@@ -227,8 +227,8 @@ abstract class BaseColumn extends Object
     /**
      * Renders the input.
      *
-     * @param string $name name of the input
-     * @param array $options the input options
+     * @param string    $name the name of the input
+     * @param array     $options the HTML options of input
      * @return string
      */
     public function renderInput($name, $options)
@@ -288,9 +288,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders list box.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderListBox($name, $value, $options)
@@ -302,9 +302,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders hidden input.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderHiddenInput($name, $value, $options)
@@ -315,9 +315,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders radio button.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderRadio($name, $value, $options)
@@ -335,9 +335,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders radio button list.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderRadioList($name, $value, $options)
@@ -360,9 +360,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders checkbox.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderCheckbox($name, $value, $options)
@@ -380,9 +380,9 @@ abstract class BaseColumn extends Object
     /**
      * Renders checkbox list.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string    $name the name of input
+     * @param mixed     $value the value of input
+     * @param array     $options the HTMl options of input
      * @return string
      */
     protected function renderCheckboxList($name, $value, $options)
@@ -403,6 +403,17 @@ abstract class BaseColumn extends Object
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @param $options
+     * @return string
+     */
+    protected function renderStatic($name, $value, $options)
+    {
+        return Html::tag('p', $value, ['class' => 'form-control-static']);
+    }
+
+    /**
      * Renders an input.
      *
      * @param $name
@@ -415,9 +426,7 @@ abstract class BaseColumn extends Object
     {
         $type = $this->type;
 
-        if ($type == self::TYPE_STATIC) {
-            $input = Html::tag('p', $value, ['class' => 'form-control-static']);
-        } elseif (method_exists('yii\helpers\Html', $type)) {
+        if (method_exists('yii\helpers\Html', $type)) {
             Html::addCssClass($options, 'form-control');
             $input = Html::$type($name, $value, $options);
         } elseif (class_exists($type) && method_exists($type, 'widget')) {

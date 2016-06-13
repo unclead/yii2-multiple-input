@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.18 in development
 ---------------------
 
+- #81 fixed output of errors in case of non-ajax validation
+
 1.2.17
 ------
 

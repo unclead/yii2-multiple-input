@@ -49,11 +49,22 @@ class MultipleInputColumn extends BaseColumn
         if (is_null($index)) {
             $index = '{multiple_index}';
         }
-        $elementName = count($this->renderer->columns) > 1
-            ? '[' . $index . '][' . $this->name . ']'
-            : '[' . $this->name . '][' . $index . ']';
+        
+        $elementName = $this->isRendererHasOneColumn()
+            ? '[' . $this->name . '][' . $index . ']'
+            : '[' . $index . '][' . $this->name . ']';
+        
         $prefix = $withPrefix ? $this->getInputNamePrefix() : '';
+        
         return  $prefix . $elementName;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isRendererHasOneColumn()
+    {
+        return count($this->renderer->columns) === 1; 
     }
 
     /**
@@ -65,11 +76,13 @@ class MultipleInputColumn extends BaseColumn
     {
         $model = $this->context->model;
         if ($model instanceof Model) {
-            if (empty($this->renderer->columns) || (count($this->renderer->columns) == 1 && $this->hasModelAttribute($this->name))) {
+            if (empty($this->renderer->columns) || ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name))) {
                 return $model->formName();
             }
+            
             return Html::getInputName($this->context->model, $this->context->attribute);
         }
+        
         return $this->context->name;
     }
 
@@ -86,9 +99,27 @@ class MultipleInputColumn extends BaseColumn
         }
     }
 
+    /**
+     * @param int|string|null $index
+     * @return null|string
+     */
     public function getFirstError($index)
     {
-        $attribute = $this->context->attribute . $this->getElementName($index, false);
-        return $this->context->model->getFirstError($attribute);
+        if ($index === null) {
+            return null;
+        }
+        
+        if ($this->isRendererHasOneColumn()) {
+            $attribute = $this->name . '[' . $index . ']';
+        } else {
+            $attribute = $this->context->attribute . $this->getElementName($index, false);
+        }
+
+        $model = $this->context->model;
+        if ($model instanceof Model) {
+            return $model->getFirstError($attribute);
+        }
+
+        return null;
     }
 }

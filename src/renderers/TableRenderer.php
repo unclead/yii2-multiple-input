@@ -77,12 +77,14 @@ class TableRenderer extends BaseRenderer
         if ($this->min === 0) {
             return true;
         }
+        
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             if ($column->title) {
                 return true;
             }
         }
+        
         return false;
     }
 
@@ -98,6 +100,7 @@ class TableRenderer extends BaseRenderer
         }
         $options = $column->headerOptions;
         Html::addCssClass($options, 'list-cell__' . $column->name);
+        
         return Html::tag('th', $column->title, $options);
     }
 
@@ -130,6 +133,7 @@ class TableRenderer extends BaseRenderer
                 $rows[] = $this->renderRowContent($i);
             }
         }
+        
         return Html::tag('tbody', implode("\n", $rows));
     }
 
@@ -190,6 +194,7 @@ class TableRenderer extends BaseRenderer
         }
 
         Html::addCssClass($options, 'multiple-input-list__item');
+        
         return $options;
     }
 
@@ -213,10 +218,14 @@ class TableRenderer extends BaseRenderer
         }
 
         $hasError = false;
-        if ($column->enableError) {
+
+        if ($index !== null) {
             $error = $column->getFirstError($index);
             $hasError = !empty($error);
-            $input .= "\n" . $column->renderError($error);
+
+            if ($column->enableError) {
+                $input .= "\n" . $column->renderError($error);
+            }
         }
 
         $wrapperOptions = [
@@ -226,6 +235,7 @@ class TableRenderer extends BaseRenderer
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
         }
+        
         $input = Html::tag('div', $input, $wrapperOptions);
 
         return Html::tag('td', $input, [
@@ -270,6 +280,7 @@ class TableRenderer extends BaseRenderer
             'class' => 'btn multiple-input-list__btn js-input-plus',
         ];
         Html::addCssClass($options, $this->addButtonOptions['class']);
+        
         return Html::tag('div', $this->addButtonOptions['label'], $options);
     }
 
@@ -285,6 +296,7 @@ class TableRenderer extends BaseRenderer
             'class' => 'btn multiple-input-list__btn js-input-remove',
         ];
         Html::addCssClass($options, $this->removeButtonOptions['class']);
+        
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
     }
 
