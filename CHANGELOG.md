@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.18 in development
+1.2.19 in development
 ---------------------
+
+1.2.18
+------
 
 - #81 fixed output of errors in case of non-ajax validation
 
