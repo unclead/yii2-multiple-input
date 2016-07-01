@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.2.19 in development
+1.2.20 in development
 ---------------------
+
+1.2.19
+------
 
 - #85: fixed `$enableError` not render element in template (thiagotalma)
 
