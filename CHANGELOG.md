@@ -4,6 +4,8 @@ Yii2 multiple input change log
 1.2.19 in development
 ---------------------
 
+- #85: fixed `$enableError` not render element in template (@thiagotalma)
+
 1.2.18
 ------
 
