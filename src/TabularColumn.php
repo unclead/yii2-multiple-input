@@ -27,7 +27,7 @@ class TabularColumn extends BaseColumn
     public function getElementName($index, $withPrefix = true)
     {
         if (is_null($index)) {
-            $index = '{multiple_index}';
+            $index = '{multiple_index' . $this->context->options['id'] . '}';
         }
         $elementName = '[' . $index . '][' . $this->name . ']';
         $prefix = $withPrefix ? $this->getModel()->formName() : '';

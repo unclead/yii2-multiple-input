@@ -116,7 +116,9 @@ class MultipleInput extends InputWidget
      */
     protected function initData()
     {
-        if (is_null($this->data) && $this->model instanceof Model) {
+        if ($this->value !== null) {
+            $this->data = $this->value;
+        } else if (is_null($this->data) && $this->model instanceof Model) {
             foreach ((array) $this->model->{$this->attribute} as $index => $value) {
                 $this->data[$index] = $value;
             }
