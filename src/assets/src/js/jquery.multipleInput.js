@@ -154,7 +154,7 @@
             return;
         }
 
-        template = template.replaceAll('{multiple_index}', data.currentIndex);
+        template = template.replaceAll('{multiple_index' + settings.id + '}', data.currentIndex);
 
         $(template).hide().appendTo(inputList).fadeIn(300);
 
@@ -200,8 +200,10 @@
         var jsTemplate;
         for (var i in settings.jsTemplates) {
             jsTemplate = settings.jsTemplates[i]
-                .replaceAll('{multiple_index}', data.currentIndex)
-                .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
+                .replaceAll('{multiple_index' + settings.id + '}', data.currentIndex)
+                .replaceAll('%7Bmultiple_index' + settings.id + '%7D', data.currentIndex);
+            console.debug(settings.id)
+            console.debug(jsTemplate)
             window.eval(jsTemplate);
         }
         $wrapper.data('multipleInput').currentIndex++;

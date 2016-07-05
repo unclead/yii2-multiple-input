@@ -47,7 +47,7 @@ class MultipleInputColumn extends BaseColumn
     public function getElementName($index, $withPrefix = true)
     {
         if (is_null($index)) {
-            $index = '{multiple_index}';
+            $index = '{multiple_index' . $this->context->options['id'] . '}';
         }
         
         $elementName = $this->isRendererHasOneColumn()

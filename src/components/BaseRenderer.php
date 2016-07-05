@@ -117,8 +117,12 @@ abstract class BaseRenderer extends Object
         $this->context = $context;
     }
 
+    public static $indexCounterGlobal = 0;
+    public $indexCounter = 0;
     public function init()
     {
+        $this->indexCounter = self::$indexCounterGlobal;
+        self::$indexCounterGlobal++;
         parent::init();
 
         $this->prepareMinOption();
@@ -270,7 +274,7 @@ abstract class BaseRenderer extends Object
                 if (array_key_exists($key, $except)) {
                     continue;
                 }
-                if (preg_match('/^[^{]+{multiple_index}.*$/m', $js) === 1) {
+                if (preg_match('/^[^{]+{multiple_index' . $this->context->options['id'] . '}.*$/m', $js) === 1) {
                     $output[$key] = $js;
                     unset($view->js[View::POS_READY][$key]);
                 }
