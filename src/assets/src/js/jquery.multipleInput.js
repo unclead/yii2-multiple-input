@@ -75,7 +75,7 @@
 
             $wrapper.data('multipleInput', {
                 settings: settings,
-                currentIndex: 0,
+                currentIndex: $wrapper.find('.multiple-input-list__item').length,
                 attributeDefaults: {}
             });
 
@@ -115,7 +115,7 @@
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         addAttribute($(this));
                     });
-                    $wrapper.data('multipleInput').currentIndex = $wrapper.find('.multiple-input-list__item').length;
+
                     clearInterval(intervalID);
 
                     var event = $.Event(events.afterInit);
@@ -252,6 +252,10 @@
 
         // do not add attribute which are not the part of widget
         if (wrapper.length == 0) {
+            return;
+        }
+
+        if(form.length == 0) {
             return;
         }
 
