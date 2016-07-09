@@ -14,7 +14,7 @@ use kartik\date\DatePicker;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'enableAjaxValidation'      => false,
+    'enableAjaxValidation'      => true,
     'enableClientValidation'    => false,
     'validateOnChange'          => false,
     'validateOnSubmit'          => true,

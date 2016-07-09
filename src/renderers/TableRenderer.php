@@ -60,7 +60,7 @@ class TableRenderer extends BaseRenderer
         }
 
         if ($this->limit === null || ($this->limit >= 1 && $this->limit !== $this->min)) {
-            $button = $this->min === 0 || $this->addButtonPosition === self::POS_HEADER ? $this->renderAddButton() : '';
+            $button = $this->min === 0 || $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
 
             $cells[] = Html::tag('th', $button, [
                 'class' => 'list-cell__button'
@@ -71,13 +71,21 @@ class TableRenderer extends BaseRenderer
     }
 
     /**
+     * @return bool
+     */
+    private function isAddButtonPositionHeader()
+    {
+        return $this->addButtonPosition === self::POS_HEADER;
+    }
+
+    /**
      * Check that at least one column has a header.
      *
      * @return bool
      */
     private function hasHeader()
     {
-        if ($this->min === 0) {
+        if ($this->min === 0 || $this->isAddButtonPositionHeader()) {
             return true;
         }
         

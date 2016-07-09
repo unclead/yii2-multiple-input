@@ -53,7 +53,7 @@ class MultipleInputColumn extends BaseColumn
         $elementName = $this->isRendererHasOneColumn()
             ? '[' . $this->name . '][' . $index . ']'
             : '[' . $index . '][' . $this->name . ']';
-        
+
         $prefix = $withPrefix ? $this->getInputNamePrefix() : '';
         
         return  $prefix . $elementName;
@@ -121,5 +121,28 @@ class MultipleInputColumn extends BaseColumn
         }
 
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function renderWidget($type, $name, $value, $options)
+    {
+        // Extend options in case of rendering embedded MultipleInput
+        // We have to pass to the widget original model and attribute to be able get first error from model
+        // for embedded widget.
+        if ($type === MultipleInput::class && strpos($name, $this->renderer->getIndexPlaceholder()) === false) {
+            $model = $this->context->model;
+
+            $search = sprintf('%s[%s]', $model->formName(), $this->context->attribute);
+            $replace = $this->context->attribute;
+
+            $attribute = str_replace($search, $replace, $name);
+
+            $options['model'] = $model;
+            $options['attribute'] = $attribute;
+        }
+
+        return parent::renderWidget($type, $name, $value, $options);
     }
 }

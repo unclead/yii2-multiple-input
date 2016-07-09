@@ -22,6 +22,7 @@ Contents:
  - [Ajax loading of a widget](#ajax-loading)
  - [Use of a widget's placeholder](#using-placeholder)
  - [Custom index of the row](#custom-index)
+ - [Embedded MultipleInput widget](#enbedded)
 - [Javascript Events](#javascript-events)
 - [Renderers](#renderers)
 
@@ -446,6 +447,10 @@ as in the example below:
 
 ```
 
+
+### Embedded MultipleInput widget <a id="embedded"></a>
+
+TBD
 
 ## JavaScript events
 This widget has following events:
