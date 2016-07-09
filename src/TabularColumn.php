@@ -27,10 +27,12 @@ class TabularColumn extends BaseColumn
     public function getElementName($index, $withPrefix = true)
     {
         if (is_null($index)) {
-            $index = '{multiple_index}';
+            $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
+
         $elementName = '[' . $index . '][' . $this->name . ']';
         $prefix = $withPrefix ? $this->getModel()->formName() : '';
+
         return  $prefix . $elementName;
     }
 

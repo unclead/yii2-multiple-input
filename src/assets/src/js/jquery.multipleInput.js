@@ -56,7 +56,10 @@
         // how many row has to renders
         limit: 1,
         // minimum number of rows
-        min: 1
+        min: 1,
+        attributeOptions: {},
+        indexPlaceholder: 'multiple_index',
+        uniqueHash: null
     };
 
     var defaultAttributeOptions = {
@@ -115,7 +118,11 @@
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         addAttribute($(this));
                     });
-                    $wrapper.data('multipleInput').currentIndex = $wrapper.find('.multiple-input-list__item').length;
+
+                    $wrapper.data('multipleInput').currentIndex = $wrapper
+                        .find('.multiple-input-list__item.' + settings.uniqueHash)
+                        .length;
+
                     clearInterval(intervalID);
 
                     var event = $.Event(events.afterInit);
@@ -147,14 +154,14 @@
             data = $wrapper.data('multipleInput'),
             settings = data.settings,
             template = settings.template,
-            inputList = $wrapper.find('.multiple-input-list').first(),
-            count = $wrapper.find('.multiple-input-list__item').length;
+            inputList = $wrapper.find('.multiple-input-list.' + settings.uniqueHash).first(),
+            count = $wrapper.find('.multiple-input-list__item.' + settings.uniqueHash).length;
 
         if (settings.limit != null && count >= settings.limit) {
             return;
         }
 
-        template = template.replaceAll('{multiple_index}', data.currentIndex);
+        template = template.replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex);
 
         $(template).hide().appendTo(inputList).fadeIn(300);
 
@@ -165,10 +172,22 @@
                     tmp.push(values[key]);
                 }
             }
+
             values = tmp;
+        }       
+
+        var jsTemplate;
+
+        for (var i in settings.jsTemplates) {
+            jsTemplate = settings.jsTemplates[i]
+                .replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex)
+                .replaceAll('%7B' + settings.indexPlaceholder + '%7D', data.currentIndex);
+            
+            window.eval(jsTemplate);
         }
 
         var index = 0;
+        
         $(template).find('input, select, textarea').each(function () {
             var that = $(this),
                 tag = that.get(0).tagName,
@@ -197,13 +216,6 @@
             index++;
         });
 
-        var jsTemplate;
-        for (var i in settings.jsTemplates) {
-            jsTemplate = settings.jsTemplates[i]
-                .replaceAll('{multiple_index}', data.currentIndex)
-                .replaceAll('%7Bmultiple_index%7D', data.currentIndex);
-            window.eval(jsTemplate);
-        }
         $wrapper.data('multipleInput').currentIndex++;
 
         var event = $.Event(events.afterAddRow);
@@ -213,9 +225,9 @@
     var removeInput = function ($btn) {
         var $wrapper = $btn.closest('.multiple-input').first(),
             $toDelete = $btn.closest('.multiple-input-list__item'),
-            count = $('.multiple-input-list__item').length,
             data = $wrapper.data('multipleInput'),
-            settings = data.settings;
+            settings = data.settings,
+            count = $('.multiple-input-list__item.' + settings.uniqueHash).length;
 
         if (count > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
@@ -259,6 +271,7 @@
         if (typeof form.yiiActiveForm('find', id) !== 'undefined') {
             return;
         }
+
 
         var data = wrapper.data('multipleInput');
         form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {

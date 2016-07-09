@@ -3,6 +3,7 @@
 namespace unclead\widgets\examples\models;
 
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\validators\EmailValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -41,6 +42,11 @@ class ExampleModel extends Model
      */
     public $title;
 
+    /**
+     * @var array
+     */
+    public $questions;
+
     public function init()
     {
         parent::init();
@@ -64,6 +70,22 @@ class ExampleModel extends Model
                 'enable'    => 0
             ],
         ];
+
+        $this->questions = [
+            [
+                'question' => 'test1',
+                'answers' => [
+                    [
+                        'right' => 0,
+                        'answer' => 'test1'
+                    ],
+                    [
+                        'right' => 1,
+                        'answer' => 'test2'
+                    ]
+                ]
+            ]
+        ];
     }
 
 
@@ -73,7 +95,8 @@ class ExampleModel extends Model
             ['title', 'required'],
             ['emails', 'validateEmails'],
             ['phones', 'validatePhones'],
-            ['schedule', 'validateSchedule']
+            ['schedule', 'validateSchedule'],
+            ['questions', 'validateQuestions']
         ];
     }
 
@@ -83,14 +106,15 @@ class ExampleModel extends Model
             'emails',
             'phones',
             'title',
-            'schedule'
+            'schedule',
+            'questions'
         ];
     }
 
     public function scenarios()
     {
         return [
-            self::SCENARIO_DEFAULT => ['emails', 'phones', 'schedule', 'title']
+            self::SCENARIO_DEFAULT => $this->attributes()
         ];
     }
 
@@ -162,6 +186,43 @@ class ExampleModel extends Model
                     $key = $attribute . '[' . $index . '][' . $name . ']';
                     $this->addError($key, $error);
                 }
+            }
+        }
+    }
+
+    public function validateQuestions($attribute)
+    {
+        foreach($this->$attribute as $questionIndex => $question) {
+            $this->internalValidateQuestion($questionIndex, $question);
+            $this->internalValidateAnswers($questionIndex, $question['answers']);
+        }
+    }
+
+    private function internalValidateQuestion($questionIndex, $question)
+    {
+        $requiredValidator = new RequiredValidator();
+        $error = null;
+
+        $value = ArrayHelper::getValue($question, 'question', null);
+        $requiredValidator->validate($value, $error);
+        if (!empty($error)) {
+            $key = sprintf('questions[%d][question]', $questionIndex);
+            $this->addError($key, $error);
+        }
+    }
+
+    private function internalValidateAnswers($questionIndex, $answers)
+    {
+        $requiredValidator = new RequiredValidator();
+        $error = null;
+
+        foreach ($answers as $answerIndex => $answer) {
+            $error = null;
+            $value = ArrayHelper::getValue($answer, 'answer', null);
+            $requiredValidator->validate($value, $error);
+            if (!empty($error)) {
+                $key = sprintf('questions[%d][answers][%d][answer]', $questionIndex, $answerIndex);
+                $this->addError($key, $error);
             }
         }
     }

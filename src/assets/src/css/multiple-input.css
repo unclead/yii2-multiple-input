@@ -7,8 +7,7 @@
     width: 80%;
 }
 
-.multiple-input-list.no-buttons
-.multiple-input-list__input {
+.multiple-input-list.no-buttons .multiple-input-list__input {
     display: block;
     width: 100%;
 }
@@ -44,4 +43,7 @@ table.multiple-input-list tr > th {
 .multiple-input-list__item .radio-list .radio,
 .multiple-input-list__item .checkbox-list .checkbox {
     margin: 0;
+}
+.multiple-input-list .multiple-input-list {
+    margin-top: -5px;
 }

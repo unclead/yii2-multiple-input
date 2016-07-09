@@ -14,7 +14,7 @@ use kartik\date\DatePicker;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'enableAjaxValidation'      => true,
+    'enableAjaxValidation'      => false,
     'enableClientValidation'    => false,
     'validateOnChange'          => false,
     'validateOnSubmit'          => true,
@@ -24,17 +24,25 @@ use kartik\date\DatePicker;
 <h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit'             => 6,
-        'allowEmptyList'    => false,
-        'enableGuessTitle'  => true,
-        'min'               => 2, // should be at least 2 rows
+        'limit'  => 6,
+        'allowEmptyList' => false,
+        'columns' => [
+            [
+                'name' => 'emails',
+                'options' => [
+                    'placeholder' => 'E-mail'
+                ]
+            ]
+        ],
+        'min'  => 2, // should be at least 2 rows
         'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
     ])
     ->label(false);
 ?>
 
 <h3>Multiple columns</h3>
-<?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
+<?php
+echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
     'limit' => 4,
     'allowEmptyList' => true,
     'rowOptions' => function($model) {

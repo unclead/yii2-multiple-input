@@ -33,9 +33,12 @@ class TableRenderer extends BaseRenderer
         }
 
         $content[] = $this->renderBody();
-        $content = Html::tag('table', implode("\n", $content), [
-            'class' => 'multiple-input-list table table-condensed'
-        ]);
+
+        $options = [];
+        Html::addCssClass($options, 'multiple-input-list table table-condensed');
+        Html::addCssClass($options, $this->getUniqueHash());
+
+        $content = Html::tag('table', implode("\n", $content), $options);
 
         return Html::tag( 'div', $content, [
             'id' => $this->id,
@@ -172,7 +175,7 @@ class TableRenderer extends BaseRenderer
         $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
 
         if ($index !== null) {
-            $content = str_replace('{multiple_index}', $index, $content);
+            $content = str_replace('{' . $this->getIndexPlaceholder() . '}', $index, $content);
         }
 
         return $content;
@@ -194,7 +197,8 @@ class TableRenderer extends BaseRenderer
         }
 
         Html::addCssClass($options, 'multiple-input-list__item');
-        
+        Html::addCssClass($options, $this->getUniqueHash());
+
         return $options;
     }
 

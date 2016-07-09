@@ -252,6 +252,7 @@ abstract class BaseColumn extends Object
         } else {
             $input = $this->renderDefault($name, $value, $options);
         }
+
         return $input;
     }
 
@@ -267,6 +268,7 @@ abstract class BaseColumn extends Object
     protected function renderDropDownList($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
+
         return Html::dropDownList($name, $value, $this->prepareItems($this->items), $options);
     }
 
@@ -296,6 +298,7 @@ abstract class BaseColumn extends Object
     protected function renderListBox($name, $value, $options)
     {
         Html::addCssClass($options, 'form-control');
+
         return Html::listBox($name, $value, $this->prepareItems($this->items), $options);
     }
 
@@ -325,10 +328,13 @@ abstract class BaseColumn extends Object
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
+
         if (!array_key_exists('uncheck', $options)) {
             $options['uncheck'] = 0;
         }
+
         $input = Html::radio($name, $value, $options);
+
         return Html::tag('div', $input, ['class' => 'radio']);
     }
 
@@ -345,15 +351,19 @@ abstract class BaseColumn extends Object
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
+
         $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
             $content = Html::radio($name, $checked, [
                 'label'   => $label,
                 'value'   => $value,
                 'data-id' => ArrayHelper::getValue($options, 'id')
             ]);
+
             return Html::tag('div', $content, ['class' => 'radio']);
         };
+
         $input = Html::radioList($name, $value, $this->prepareItems($this->items), $options);
+
         return Html::tag('div', $input, ['class' => 'radio-list']);
     }
 
@@ -370,10 +380,13 @@ abstract class BaseColumn extends Object
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
+
         if (!array_key_exists('uncheck', $options)) {
             $options['uncheck'] = 0;
         }
+
         $input = Html::checkbox($name, $value, $options);
+
         return Html::tag('div', $input, ['class' => 'checkbox']);
     }
 
@@ -390,15 +403,19 @@ abstract class BaseColumn extends Object
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
+
         $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
             $content = Html::checkbox($name, $checked, [
                 'label'   => $label,
                 'value'   => $value,
                 'data-id' => ArrayHelper::getValue($options, 'id')
             ]);
+
             return Html::tag('div', $content, ['class' => 'checkbox']);
         };
+
         $input = Html::checkboxList($name, $value, $this->prepareItems($this->items), $options);
+
         return Html::tag('div', $input, ['class' => 'checkbox-list']);
     }
 
@@ -434,6 +451,7 @@ abstract class BaseColumn extends Object
         } else {
             throw new InvalidConfigException("Invalid column type '$type'");
         }
+
         return $input;
     }
 
@@ -465,7 +483,9 @@ abstract class BaseColumn extends Object
                 'value' => $value
             ];
         }
+
         $options = ArrayHelper::merge($options, $widgetOptions);
+
         return $type::widget($options);
     }
 
@@ -482,6 +502,7 @@ abstract class BaseColumn extends Object
         $tag = isset($options['tag']) ? $options['tag'] : 'div';
         $encode = !isset($options['encode']) || $options['encode'] !== false;
         unset($options['tag'], $options['encode']);
+
         return Html::tag($tag, $encode ? Html::encode($error) : $error, $options);
     }
 

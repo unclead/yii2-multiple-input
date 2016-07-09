@@ -108,6 +108,16 @@ abstract class BaseRenderer extends Object
      * @var TabularInput|MultipleInput
      */
     protected $context;
+
+    /**
+     * @var string
+     */
+    private $indexPlaceholder;
+
+    /**
+     * @var string
+     */
+    private $uniqueHash;
     
     /**
      * @param $context
@@ -125,6 +135,9 @@ abstract class BaseRenderer extends Object
         $this->prepareLimit();
         $this->prepareColumnClass();
         $this->prepareButtonsOptions();
+
+        $this->uniqueHash = uniqid();
+        $this->indexPlaceholder = 'multiple-index-' . $this->uniqueHash;
     }
 
     private function prepareColumnClass()
@@ -205,9 +218,9 @@ abstract class BaseRenderer extends Object
     {
         foreach ($this->columns as $i => $column) {
             $definition = array_merge([
-                'class' => $this->columnClass,
-                'renderer' => $this,
-                'context' => $this->context
+                'class'     => $this->columnClass,
+                'renderer'  => $this,
+                'context'   => $this->context
             ], $column);
 
             $this->columns[$i] = Yii::createObject($definition);
@@ -248,7 +261,9 @@ abstract class BaseRenderer extends Object
             'jsTemplates'       => $jsTemplates,
             'limit'             => $this->limit,
             'min'               => $this->min,
-            'attributeOptions'  => $this->attributeOptions
+            'attributeOptions'  => $this->attributeOptions,
+            'indexPlaceholder'  => $this->getIndexPlaceholder(),
+            'uniqueHash'        => $this->getUniqueHash()
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
@@ -270,12 +285,28 @@ abstract class BaseRenderer extends Object
                 if (array_key_exists($key, $except)) {
                     continue;
                 }
-                if (preg_match('/^[^{]+{multiple_index}.*$/m', $js) === 1) {
+                if (preg_match('/^[^{]+{' . $this->getIndexPlaceholder() . '}.*$/m', $js) === 1) {
                     $output[$key] = $js;
                     unset($view->js[View::POS_READY][$key]);
                 }
             }
         }
         return $output;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIndexPlaceholder()
+    {
+        return $this->indexPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueHash()
+    {
+        return $this->uniqueHash;
     }
 }
