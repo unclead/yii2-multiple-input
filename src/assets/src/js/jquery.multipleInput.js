@@ -200,7 +200,7 @@
                 if (tag == 'INPUT' || tag == 'TEXTAREA') {
                     obj.val(val);
                 } else if (tag == 'SELECT') {
-                    if (val && val.indexOf('option')) {
+                    if (val && val.indexOf('option') != -1) {
                         obj.append(val);
                     } else {
                         var option = obj.find('option[value="' + val + '"]');

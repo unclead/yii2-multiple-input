@@ -222,14 +222,15 @@ class TableRenderer extends BaseRenderer
         }
 
         $hasError = false;
+        $error = '';
 
         if ($index !== null) {
             $error = $column->getFirstError($index);
             $hasError = !empty($error);
+        }
 
-            if ($column->enableError) {
-                $input .= "\n" . $column->renderError($error);
-            }
+        if ($column->enableError) {
+            $input .= "\n" . $column->renderError($error);
         }
 
         $wrapperOptions = [
