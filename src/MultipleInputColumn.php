@@ -129,12 +129,18 @@ class MultipleInputColumn extends BaseColumn
     protected function renderWidget($type, $name, $value, $options)
     {
         // Extend options in case of rendering embedded MultipleInput
-        // We have to pass to the widget original model and attribute to be able get first error from model
+        // We have to pass to the widget an original model and an attribute to be able get a first error from model
         // for embedded widget.
         if ($type === MultipleInput::class && strpos($name, $this->renderer->getIndexPlaceholder()) === false) {
             $model = $this->context->model;
 
-            $search = sprintf('%s[%s]', $model->formName(), $this->context->attribute);
+            // in case of embedding level 2 and more
+            if (preg_match('/^([\w\.]+)(\[.*)$/', $this->context->attribute, $matches)) {
+                $search = sprintf('%s[%s]%s', $model->formName(), $matches[1], $matches[2]);
+            } else {
+                $search = sprintf('%s[%s]', $model->formName(), $this->context->attribute);
+            }
+
             $replace = $this->context->attribute;
 
             $attribute = str_replace($search, $replace, $name);
