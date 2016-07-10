@@ -5,6 +5,8 @@ Yii2 multiple input change log
 ---------------------
 
 - #79 Added support for embedded MultipleInput widget (unclead, execut)
+- Enh: Added ability to render `add` button in the footer (unclead)
+- Enh: Improving for better work without ActiveForm (unclead)
 
 1.2.19
 ------

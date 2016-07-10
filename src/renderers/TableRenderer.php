@@ -33,6 +33,7 @@ class TableRenderer extends BaseRenderer
         }
 
         $content[] = $this->renderBody();
+        $content[] = $this->renderFooter();
 
         $options = [];
         Html::addCssClass($options, 'multiple-input-list table table-condensed');
@@ -71,12 +72,25 @@ class TableRenderer extends BaseRenderer
     }
 
     /**
-     * @return bool
+     * Renders the footer.
+     *
+     * @return string
      */
-    private function isAddButtonPositionHeader()
+    public function renderFooter()
     {
-        return $this->addButtonPosition === self::POS_HEADER;
+        if (!$this->isAddButtonPositionFooter()) {
+            return '';
+        }
+
+        $cells = [];
+        $cells[] = Html::tag('td', '&nbsp;', ['colspan' => count($this->columns)]);
+        $cells[] = Html::tag('td', $this->renderAddButton(), [
+            'class' => 'list-cell__button'
+        ]);
+
+        return Html::tag('tfoot', Html::tag('tr', implode("\n", $cells)));
     }
+
 
     /**
      * Check that at least one column has a header.

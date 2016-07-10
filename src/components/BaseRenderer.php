@@ -27,8 +27,9 @@ use unclead\widgets\assets\MultipleInputAsset;
  */
 abstract class BaseRenderer extends Object
 {
-    const POS_HEADER    = 0;
-    const POS_ROW       = 1;
+    const POS_HEADER    = 'header';
+    const POS_ROW       = 'row';
+    const POS_FOOTER    = 'footer';
 
     /**
      * @var string the ID of the widget
@@ -308,5 +309,21 @@ abstract class BaseRenderer extends Object
     public function getUniqueHash()
     {
         return $this->uniqueHash;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isAddButtonPositionHeader()
+    {
+        return $this->addButtonPosition === self::POS_HEADER;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isAddButtonPositionFooter()
+    {
+        return $this->addButtonPosition === self::POS_FOOTER;
     }
 }

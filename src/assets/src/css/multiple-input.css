@@ -14,7 +14,7 @@
 table.multiple-input-list {
     margin: 0;
 }
-table.multiple-input-list tr > td {
+table.multiple-input-list tbody tr > td {
     border: 0 !important;
 }
 table.multiple-input-list tr > td:first-child {

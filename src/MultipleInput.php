@@ -22,8 +22,9 @@ use unclead\widgets\renderers\TableRenderer;
  */
 class MultipleInput extends InputWidget
 {
-    const POS_HEADER    = 0;
-    const POS_ROW       = 1;
+    const POS_HEADER    = TableRenderer::POS_HEADER;
+    const POS_ROW       = TableRenderer::POS_ROW;
+    const POS_FOOTER    = TableRenderer::POS_FOOTER;
 
     /**
      * @var ActiveRecordInterface[]|array[] input data
