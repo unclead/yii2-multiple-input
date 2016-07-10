@@ -17,15 +17,25 @@ $commonAttributeOptions = [
     'validateOnSubmit'       => true,
     'validateOnBlur'         => false,
 ];
+
+$enableActiveForm = false;
 ?>
 
-<?php $form = ActiveForm::begin([
-    'enableAjaxValidation'      => true,
-    'enableClientValidation'    => false,
-    'validateOnChange'          => false,
-    'validateOnSubmit'          => true,
-    'validateOnBlur'            => false,
-]);?>
+<?php
+
+if ($enableActiveForm) {
+    $form = ActiveForm::begin([
+        'enableAjaxValidation'      => true,
+        'enableClientValidation'    => false,
+        'validateOnChange'          => false,
+        'validateOnSubmit'          => true,
+        'validateOnBlur'            => false,
+    ]);
+} else {
+    echo Html::beginForm();
+}
+
+?>
 
 <?php
 
@@ -59,4 +69,10 @@ echo MultipleInput::widget([
 ?>
 
 <?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
-<?php ActiveForm::end();?>
+<?php
+if ($enableActiveForm) {
+    ActiveForm::end();
+} else {
+    echo Html::endForm();
+}
+?>

@@ -69,6 +69,8 @@
         validateOnType: false
     };
 
+    var isActiveFormEnabled = false;
+
     var methods = {
         init: function (options) {
             var settings = $.extend(true, {}, defaultOptions, options || {}),
@@ -93,20 +95,26 @@
                 addInput($(this));
             });
 
+            var i = 0,
+                event = $.Event(events.afterInit);
+
             var intervalID = setInterval(function () {
                 if (typeof form.data('yiiActiveForm') === 'object') {
-                    var attribute = form.yiiActiveForm('find', id);
-                    var attributeDefaults = [];
+                    var attribute = form.yiiActiveForm('find', id),
+                        attributeDefaults = [];
+
                     if (typeof attribute === 'object') {
                         $.each(attribute, function (key, value) {
                             if (['id', 'input', 'container'].indexOf(key) == -1) {
                                 attributeDefaults[key] = value;
                             }
                         });
+
                         form.yiiActiveForm('remove', id);
                     }
 
                     var attributeOptions = $.extend({}, defaultAttributeOptions, settings.attributeOptions);
+
                     $.each(attributeOptions, function (key, value) {
                         if (typeof attributeDefaults[key] === 'undefined') {
                             attributeDefaults[key] = value;
@@ -119,20 +127,32 @@
                         addAttribute($(this));
                     });
 
-                    $wrapper.data('multipleInput').currentIndex = $wrapper
-                        .find('.multiple-input-list__item.' + settings.uniqueHash)
-                        .length;
+                    $wrapper.data('multipleInput').currentIndex = getCurrentIndex($wrapper);
+                    isActiveFormEnabled = true;
 
                     clearInterval(intervalID);
+                    $wrapper.trigger(event);
+                } else {
+                    i++;
+                }
 
-                    var event = $.Event(events.afterInit);
+                // wait for initialization of ActiveForm a second
+                // If after a second system could not detect ActiveForm it means
+                // that widget is used without ActiveForm and we should just complete initialization of the widget
+                if (i > 10) {
+                    $wrapper.data('multipleInput').currentIndex = getCurrentIndex($wrapper);
+                    isActiveFormEnabled = false;
+
+                    clearInterval(intervalID);
                     $wrapper.trigger(event);
                 }
             }, 100);
         },
+
         add: function (values) {
             addInput($(this), values);
         },
+
         remove: function (index) {
             var row = null;
             if (index) {
@@ -140,8 +160,10 @@
             } else {
                 row = $(this).find('.js-input-remove').last();
             }
+
             removeInput(row);
         },
+
         clear: function () {
             $('.js-input-remove').each(function () {
                 removeInput($(this));
@@ -211,7 +233,9 @@
                 }
             }
 
-            addAttribute(that);
+            if (isActiveFormEnabled) {
+                addAttribute(that);
+            }
 
             index++;
         });
@@ -232,13 +256,16 @@
         if (count > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
             $wrapper.trigger(event, [$toDelete]);
+
             if (event.result === false) {
                 return;
             }
 
-            $toDelete.find('input, select, textarea').each(function () {
-                removeAttribute($(this));
-            });
+            if (isActiveFormEnabled) {
+                $toDelete.find('input, select, textarea').each(function () {
+                    removeAttribute($(this));
+                });
+            }
 
             $toDelete.fadeOut(300, function () {
                 $(this).remove();
@@ -249,6 +276,11 @@
         }
     };
 
+    /**
+     * Add an attribute to ActiveForm.
+     *
+     * @param input
+     */
     var addAttribute = function (input) {
         var id = getInputId(input);
 
@@ -281,6 +313,9 @@
         }));
     };
 
+    /**
+     * Removes an attribute from ActiveForm.
+     */
     var removeAttribute = function () {
         var id = getInputId($(this));
 
@@ -307,6 +342,16 @@
         }
 
         return id;
+    };
+
+    var getCurrentIndex = function($wrapper) {
+        if (typeof $wrapper.data('multipleInput') !== 'object') {
+            return 0;
+        }
+
+        return $wrapper
+            .find('.multiple-input-list__item.' + $wrapper.data('multipleInput').settings.uniqueHash)
+            .length;
     };
 
     String.prototype.replaceAll = function (search, replace) {
