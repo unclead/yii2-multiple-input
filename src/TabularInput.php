@@ -68,7 +68,7 @@ class TabularInput extends Widget
     public $models;
 
     /**
-     * @var string position of add button. By default button is rendered in the row.
+     * @var string|array position of add button. By default button is rendered in the row.
      */
     public $addButtonPosition = self::POS_ROW;
 

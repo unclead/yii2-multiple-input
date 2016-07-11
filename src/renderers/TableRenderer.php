@@ -295,7 +295,7 @@ class TableRenderer extends BaseRenderer
         if ($index < $this->min) {
             return '';
         } elseif ($index === $this->min) {
-            return $this->addButtonPosition === self::POS_ROW ? $this->renderAddButton() : '';
+            return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
         } else {
             return $this->renderRemoveButton();
         }

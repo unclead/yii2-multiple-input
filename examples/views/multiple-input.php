@@ -35,7 +35,11 @@ use kartik\date\DatePicker;
             ]
         ],
         'min'  => 2, // should be at least 2 rows
-        'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
+        'addButtonPosition' => [
+            MultipleInput::POS_HEADER,
+            MultipleInput::POS_FOOTER,
+            MultipleInput::POS_ROW
+        ]
     ])
     ->label(false);
 ?>

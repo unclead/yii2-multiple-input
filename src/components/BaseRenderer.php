@@ -135,10 +135,8 @@ abstract class BaseRenderer extends Object
         $this->prepareMinOption();
         $this->prepareLimit();
         $this->prepareColumnClass();
-        $this->prepareButtonsOptions();
-
-        $this->uniqueHash = uniqid();
-        $this->indexPlaceholder = 'multiple-index-' . $this->uniqueHash;
+        $this->prepareButtons();
+        $this->prepareIndexPlaceholder();
     }
 
     private function prepareColumnClass()
@@ -190,8 +188,12 @@ abstract class BaseRenderer extends Object
         }
     }
 
-    private function prepareButtonsOptions()
+    private function prepareButtons()
     {
+        if (!is_array($this->addButtonPosition)) {
+            $this->addButtonPosition = (array) $this->addButtonPosition;
+        }
+
         if (!array_key_exists('class', $this->removeButtonOptions)) {
             $this->removeButtonOptions['class'] = 'btn btn-danger';
         }
@@ -316,7 +318,7 @@ abstract class BaseRenderer extends Object
      */
     protected function isAddButtonPositionHeader()
     {
-        return $this->addButtonPosition === self::POS_HEADER;
+        return in_array(self::POS_HEADER, $this->addButtonPosition);
     }
 
     /**
@@ -324,6 +326,20 @@ abstract class BaseRenderer extends Object
      */
     protected function isAddButtonPositionFooter()
     {
-        return $this->addButtonPosition === self::POS_FOOTER;
+        return in_array(self::POS_FOOTER, $this->addButtonPosition);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isAddButtonPositionRow()
+    {
+        return in_array(self::POS_ROW, $this->addButtonPosition);
+    }
+
+    private function prepareIndexPlaceholder()
+    {
+        $this->uniqueHash = uniqid();
+        $this->indexPlaceholder = 'multiple-index-' . $this->uniqueHash;
     }
 }
