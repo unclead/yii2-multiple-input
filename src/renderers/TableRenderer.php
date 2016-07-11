@@ -37,7 +37,6 @@ class TableRenderer extends BaseRenderer
 
         $options = [];
         Html::addCssClass($options, 'multiple-input-list table table-condensed');
-        Html::addCssClass($options, $this->getUniqueHash());
 
         $content = Html::tag('table', implode("\n", $content), $options);
 
@@ -213,13 +212,12 @@ class TableRenderer extends BaseRenderer
     protected function prepareRowOptions($index, $item)
     {
         if (is_callable($this->rowOptions)) {
-            $options =call_user_func($this->rowOptions, $item, $index, $this->context);
+            $options = call_user_func($this->rowOptions, $item, $index, $this->context);
         } else {
             $options = $this->rowOptions;
         }
 
         Html::addCssClass($options, 'multiple-input-list__item');
-        Html::addCssClass($options, $this->getUniqueHash());
 
         return $options;
     }

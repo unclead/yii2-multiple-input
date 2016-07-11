@@ -114,11 +114,6 @@ abstract class BaseRenderer extends Object
      * @var string
      */
     private $indexPlaceholder;
-
-    /**
-     * @var string
-     */
-    private $uniqueHash;
     
     /**
      * @param $context
@@ -265,8 +260,7 @@ abstract class BaseRenderer extends Object
             'limit'             => $this->limit,
             'min'               => $this->min,
             'attributeOptions'  => $this->attributeOptions,
-            'indexPlaceholder'  => $this->getIndexPlaceholder(),
-            'uniqueHash'        => $this->getUniqueHash()
+            'indexPlaceholder'  => $this->getIndexPlaceholder()
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
@@ -306,14 +300,6 @@ abstract class BaseRenderer extends Object
     }
 
     /**
-     * @return string
-     */
-    public function getUniqueHash()
-    {
-        return $this->uniqueHash;
-    }
-
-    /**
      * @return bool
      */
     protected function isAddButtonPositionHeader()
@@ -339,7 +325,6 @@ abstract class BaseRenderer extends Object
 
     private function prepareIndexPlaceholder()
     {
-        $this->uniqueHash = uniqid();
-        $this->indexPlaceholder = 'multiple-index-' . $this->uniqueHash;
+        $this->indexPlaceholder = 'multiple_index_' . $this->id;
     }
 }

@@ -59,7 +59,6 @@
         min: 1,
         attributeOptions: {},
         indexPlaceholder: 'multiple_index',
-        uniqueHash: null
     };
 
     var defaultAttributeOptions = {
@@ -176,10 +175,9 @@
             data = $wrapper.data('multipleInput'),
             settings = data.settings,
             template = settings.template,
-            inputList = $wrapper.find('.multiple-input-list.' + settings.uniqueHash).first(),
-            count = $wrapper.find('.multiple-input-list__item.' + settings.uniqueHash).length;
+            inputList = $wrapper.children('.multiple-input-list').first();
 
-        if (settings.limit != null && count >= settings.limit) {
+        if (settings.limit != null && getCurrentIndex($wrapper) >= settings.limit) {
             return;
         }
 
@@ -250,10 +248,9 @@
         var $wrapper = $btn.closest('.multiple-input').first(),
             $toDelete = $btn.closest('.multiple-input-list__item'),
             data = $wrapper.data('multipleInput'),
-            settings = data.settings,
-            count = $('.multiple-input-list__item.' + settings.uniqueHash).length;
+            settings = data.settings;
 
-        if (count > settings.min) {
+        if (getCurrentIndex($wrapper) > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
             $wrapper.trigger(event, [$toDelete]);
 
@@ -345,12 +342,10 @@
     };
 
     var getCurrentIndex = function($wrapper) {
-        if (typeof $wrapper.data('multipleInput') !== 'object') {
-            return 0;
-        }
-
         return $wrapper
-            .find('.multiple-input-list__item.' + $wrapper.data('multipleInput').settings.uniqueHash)
+            .children('.multiple-input-list')
+            .children('tbody')
+            .children('.multiple-input-list__item')
             .length;
     };
 
