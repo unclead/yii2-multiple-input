@@ -8,7 +8,7 @@ Yii2 widget for handle multiple inputs for an attribute of model
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
 ##Latest release
-The latest version of the extension is v1.2.19. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
+The latest stable version of the extension is v1.3.0. Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
 
 ##Installation
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
