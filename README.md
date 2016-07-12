@@ -61,10 +61,6 @@ You can find more examples of usage [here](./docs/usage.md)
 - [Javascript Events and Operations](./docs/javascript.md)
 - [Renderers](./docs/renderers.md)
 
-##Contributing
-
-TBD
-
 ##License
 
 **yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled [LICENSE.md](./LICENSE.md) for details.
