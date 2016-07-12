@@ -1,5 +1,5 @@
 #Yii2 Multiple input widget.
-Yii2 widget for handle multiple inputs for an attribute of model
+Yii2 widget for handle multiple inputs for an attribute of model and tabular input for batch of models.
 
 [![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input)
 [![Total Downloads](https://poser.pugx.org/unclead/yii2-multiple-input/downloads)](https://packagist.org/packages/unclead/yii2-multiple-input)
