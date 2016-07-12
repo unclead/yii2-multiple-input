@@ -149,4 +149,36 @@ as in the example below:
 
 ##Embedded MultipleInput widget <a id="embedded"></a>
 
-TBD
+You can use nested `MultipleInput` as in the example below:
+
+```
+echo MultipleInput::widget([
+    'model' => $model,
+    'attribute' => 'questions',
+    'attributeOptions' => $commonAttributeOptions,
+    'columns' => [
+        [
+            'name' => 'question',
+            'type' => 'textarea',
+        ],
+        [
+            'name' => 'answers',
+            'type'  => MultipleInput::class,
+            'options' => [
+                'attributeOptions' => $commonAttributeOptions,
+                'columns' => [
+                    [
+                        'name' => 'right',
+                        'type' => MultipleInputColumn::TYPE_CHECKBOX
+                    ],
+                    [
+                        'name' => 'answer'
+                    ]
+                ]
+            ]
+        ]
+    ],
+]);
+```
+
+But in this case you have to pass `attributeOptions` to the widget otherwise you will not be able to use ajax or client side validation of data.

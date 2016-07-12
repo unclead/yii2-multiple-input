@@ -8,6 +8,14 @@ if you want to upgrade from version A to version C and there is
 version B between A and C, you need to following the instructions
 for both A and B.
 
+Upgrade from 1.2 to 1.3
+-----------------------
+
+- The mechanism of customization configuration by using index placeholder was changed in scope of implementing support of nested `MultipleInput`
+If you customize configuration by using index placeholder you have to add ID of widget to the placeholder.
+For example, `multiple_index` became `multiple_index_question_list`
+
+
 Upgrade from version less then 1.1.0
 ------------------------------------
 
