@@ -50,7 +50,7 @@ echo MultipleInput::widget([
         ],
         [
             'name' => 'answers',
-            'type'  => MultipleInput::class,
+            'type'  => MultipleInput::className(),
             'options' => [
                 'attributeOptions' => $commonAttributeOptions,
                 'columns' => [

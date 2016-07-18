@@ -131,7 +131,7 @@ class MultipleInputColumn extends BaseColumn
         // Extend options in case of rendering embedded MultipleInput
         // We have to pass to the widget an original model and an attribute to be able get a first error from model
         // for embedded widget.
-        if ($type === MultipleInput::class && strpos($name, $this->renderer->getIndexPlaceholder()) === false) {
+        if ($type === MultipleInput::className() && strpos($name, $this->renderer->getIndexPlaceholder()) === false) {
             $model = $this->context->model;
 
             // in case of embedding level 2 and more
