@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-1.3.1 in development
+1.3.2 in development
 --------------------
+
+1.3.1
+-----
+
+- Bug: Use method `::className` instead of `::class`
 
 1.3.0
 -----
