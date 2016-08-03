@@ -2,11 +2,11 @@
 
 > You can find source code of examples [here](./examples/)
 
-- [Input with one column](#one-column)
-- [Input with multiple column in each row](#multiple-columns)
-- [Tabular input](#tabular)
+- [One column](#one-column)
+- [Multiple columns](#multiple-columns-example)
+- [Tabular input](#tabular-input)
 
-##Input with one column <a href="one-column"></a>
+##One column
 
 ![Single column example](./images/single-column.gif?raw=true)
 
@@ -32,7 +32,7 @@ use unclead\widgets\MultipleInput;
 
 You can find more detail about this use case [here](multiple_input_single.md)
 
-##Input with multiple column in each row <a href="multiple-columns"></a>
+##Multiple columns
 
 ![Multiple columns example](./images/multiple-column.gif?raw=true)
 
@@ -105,7 +105,7 @@ use unclead\widgets\MultipleInput;
 
 You can find more detail about this use case [here](multiple_input_multiple.md)
 
-##Tabular input <a href="tabular"></a>
+##Tabular input
 
 For example you want to manage some models via tabular input. In this case you can use `TabularInput` widget which is based on `MultipleInput` widget.
 Use the following code for this purpose:

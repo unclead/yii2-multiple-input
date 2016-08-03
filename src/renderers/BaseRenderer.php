@@ -6,7 +6,7 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace unclead\widgets\components;
+namespace unclead\widgets\renderers;
 
 use Yii;
 use yii\helpers\Html;
@@ -20,17 +20,14 @@ use yii\web\View;
 use unclead\widgets\MultipleInput;
 use unclead\widgets\TabularInput;
 use unclead\widgets\assets\MultipleInputAsset;
+use unclead\widgets\components\BaseColumn;
 
 /**
  * Class BaseRenderer
- * @package unclead\widgets\components
+ * @package unclead\widgets\renderers
  */
-abstract class BaseRenderer extends Object
+abstract class BaseRenderer extends Object implements RendererInterface
 {
-    const POS_HEADER    = 'header';
-    const POS_ROW       = 'row';
-    const POS_FOOTER    = 'footer';
-
     /**
      * @var string the ID of the widget
      */
@@ -116,7 +113,7 @@ abstract class BaseRenderer extends Object
     private $indexPlaceholder;
     
     /**
-     * @param $context
+     * @inheritdoc
      */
     public function setContext($context)
     {

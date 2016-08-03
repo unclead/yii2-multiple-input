@@ -12,7 +12,6 @@ use yii\base\InvalidConfigException;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use unclead\widgets\components\BaseRenderer;
 use unclead\widgets\components\BaseColumn;
 
 /**
