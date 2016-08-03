@@ -1,8 +1,10 @@
 Yii2 multiple input change log
 ==============================
 
-1.3.2 in development
+1.4.0 in development
 --------------------
+
+- #94: added ability to set custom renderer (unclead, bokodi-dev)
 
 1.3.1
 -----

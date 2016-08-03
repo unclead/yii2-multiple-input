@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
 use unclead\widgets\renderers\TableRenderer;
+use unclead\widgets\renderers\RendererInterface;
 
 
 /**
@@ -23,9 +24,9 @@ use unclead\widgets\renderers\TableRenderer;
  */
 class MultipleInput extends InputWidget
 {
-    const POS_HEADER    = TableRenderer::POS_HEADER;
-    const POS_ROW       = TableRenderer::POS_ROW;
-    const POS_FOOTER    = TableRenderer::POS_FOOTER;
+    const POS_HEADER    = RendererInterface::POS_HEADER;
+    const POS_ROW       = RendererInterface::POS_ROW;
+    const POS_FOOTER    = RendererInterface::POS_FOOTER;
 
     /**
      * @var ActiveRecordInterface[]|array[] input data
@@ -100,6 +101,12 @@ class MultipleInput extends InputWidget
      * Defaults to `unclead\widgets\MultipleInputColumn`
      */
     public $columnClass;
+
+    /**
+     * @var string the name of renderer class. Defaults to `unclead\widgets\renderers\TableRenderer`.
+     * @since 1.4
+     */
+    public $rendererClass;
 
     /**
      * Initialization.
@@ -183,14 +190,18 @@ class MultipleInput extends InputWidget
             'context'           => $this,
         ];
 
-        if (!is_null($this->removeButtonOptions)) {
+        if ($this->removeButtonOptions !== null) {
             $config['removeButtonOptions'] = $this->removeButtonOptions;
         }
 
-        if (!is_null($this->addButtonOptions)) {
+        if ($this->addButtonOptions !== null) {
             $config['addButtonOptions'] = $this->addButtonOptions;
         }
 
+        if (!$this->rendererClass) {
+            $this->rendererClass = TableRenderer::className();
+        }
+        
         return new TableRenderer($config);
     }
 }
