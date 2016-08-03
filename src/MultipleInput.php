@@ -10,6 +10,7 @@ namespace unclead\widgets;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
 use unclead\widgets\renderers\TableRenderer;
@@ -127,7 +128,10 @@ class MultipleInput extends InputWidget
         }
 
         if ($this->model instanceof Model) {
-            foreach ((array)$this->model->{$this->attribute} as $index => $value) {
+            $data = $this->model->hasProperty($this->attribute)
+                ? ArrayHelper::getValue($this->model, $this->attribute, [])
+                : [];
+            foreach ((array) $data as $index => $value) {
                 $this->data[$index] = $value;
             }
         }
