@@ -27,6 +27,9 @@ This can be `MultipleInput::POS_HEADER`, `MultipleInput::POS_ROW` or `MultipleIn
 **columnClass** *string*: the name of column class. You can specify your own class to extend base functionality.
 Defaults to `unclead\widgets\MultipleInputColumn` for `MultipleInput` and `unclead\widgets\TabularColumn` for `TabularInput`.
 
+**rendererClass** *string*: the name of renderer class. You can specify your own class to extend base functionality.
+Defaults to `unclead\widgets\renderers\TableRenderer`.
+
 **columns** *array*: the row columns configuration where you can set the properties which is described below
 
 **rowOptions** *array|\Closure*: the HTML attributes for the table body rows. This can be either an array
