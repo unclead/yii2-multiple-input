@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
 use unclead\widgets\renderers\TableRenderer;
+use unclead\widgets\components\BaseRenderer;
 
 
 /**
@@ -23,9 +24,14 @@ use unclead\widgets\renderers\TableRenderer;
  */
 class MultipleInput extends InputWidget
 {
-    const POS_HEADER    = TableRenderer::POS_HEADER;
-    const POS_ROW       = TableRenderer::POS_ROW;
-    const POS_FOOTER    = TableRenderer::POS_FOOTER;
+    /** @var string */
+    public $posHeader;
+
+    /** @var string */
+    public $posRow;
+
+    /** @var string */
+    public $posFooter;
 
     /**
      * @var ActiveRecordInterface[]|array[] input data
@@ -77,7 +83,7 @@ class MultipleInput extends InputWidget
     /**
      * @var string|array position of add button. By default button is rendered in the row.
      */
-    public $addButtonPosition = self::POS_ROW;
+    public $addButtonPosition;
 
     /**
      * @var array|\Closure the HTML attributes for the table body rows. This can be either an array
@@ -101,6 +107,9 @@ class MultipleInput extends InputWidget
      */
     public $columnClass;
 
+    /** @var BaseRenderer */
+    public $renderer;
+
     /**
      * Initialization.
      *
@@ -108,9 +117,27 @@ class MultipleInput extends InputWidget
      */
     public function init()
     {
+        $this->initAttributes();
         $this->guessColumns();
         $this->initData();
         parent::init();
+    }
+
+    protected function initAttributes()
+	{
+        if(empty($this->renderer)) {
+            $this->renderer = TableRenderer::className();
+        } else if(!is_subclass_of($this->renderer, BaseRenderer::className())) {
+            throw new InvalidConfigException(basename(self::className()) . '::renderer must be a subclass of ' . BaseRenderer::className());
+        }
+
+        $this->posHeader = constant("{$this->renderer}::POS_HEADER");
+        $this->posRow = constant("{$this->renderer}::POS_ROW");
+        $this->posFooter = constant("{$this->renderer}::POS_FOOTER");
+
+        if(empty($this->addButtonPosition)) {
+            $this->addButtonPosition = $this->posRow;
+        }
     }
 
     /**
@@ -191,6 +218,6 @@ class MultipleInput extends InputWidget
             $config['addButtonOptions'] = $this->addButtonOptions;
         }
 
-        return new TableRenderer($config);
+        return new $this->renderer($config);
     }
 }
