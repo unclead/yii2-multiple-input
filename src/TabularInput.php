@@ -161,6 +161,8 @@ class TabularInput extends Widget
             $this->rendererClass = TableRenderer::className();
         }
 
-        return new TableRenderer($config);
+        $config['class'] = $this->rendererClass ?: TableRenderer::className();
+
+        return Yii::createObject($config);
     }
 }

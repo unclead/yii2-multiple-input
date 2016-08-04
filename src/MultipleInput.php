@@ -198,10 +198,8 @@ class MultipleInput extends InputWidget
             $config['addButtonOptions'] = $this->addButtonOptions;
         }
 
-        if (!$this->rendererClass) {
-            $this->rendererClass = TableRenderer::className();
-        }
-        
-        return new TableRenderer($config);
+        $config['class'] = $this->rendererClass ?: TableRenderer::className();
+
+        return Yii::createObject($config);
     }
 }
