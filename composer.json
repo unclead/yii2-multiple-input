@@ -25,10 +25,14 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "5.4.*"
+    },
     "autoload": {
         "psr-4": {
           "unclead\\widgets\\examples\\": "examples/",
-          "unclead\\widgets\\": "src/"
+          "unclead\\widgets\\": "src/",
+          "unclead\\multipleinput\\tests\\": "tests/"
         }
     }
 }
