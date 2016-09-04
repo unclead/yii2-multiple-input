@@ -76,9 +76,9 @@ class MultipleInput extends InputWidget
     public $min;
 
     /**
-     * @var string|array position of add button. By default button is rendered in the row.
+     * @var string|array position of add button.
      */
-    public $addButtonPosition = self::POS_ROW;
+    public $addButtonPosition;
 
     /**
      * @var array|\Closure the HTML attributes for the table body rows. This can be either an array

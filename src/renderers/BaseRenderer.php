@@ -182,6 +182,9 @@ abstract class BaseRenderer extends Object implements RendererInterface
 
     private function prepareButtons()
     {
+        if ($this->addButtonPosition === null || $this->addButtonPosition === []) {
+            $this->addButtonPosition = $this->min === 0 ? self::POS_HEADER : self::POS_ROW;
+        }
         if (!is_array($this->addButtonPosition)) {
             $this->addButtonPosition = (array) $this->addButtonPosition;
         }
