@@ -1,10 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-1.4.0 in development
---------------------
+1.4.0
+-----
 
 - #94: added ability to set custom renderer (unclead, bokodi-dev)
+- #97: Respect `addButtonPosition` when rendering the button (unclead)
 
 1.3.1
 -----

@@ -8,6 +8,11 @@ if you want to upgrade from version A to version C and there is
 version B between A and C, you need to following the instructions
 for both A and B.
 
+Upgrade from 1.3 to 1.4
+- In scope of #97 was changed a behavior of rendering add button. The button renders now depends on option `addButtonPosition` and now this
+option is not set by default. 
+-----------------------
+
 Upgrade from 1.2 to 1.3
 -----------------------
 
