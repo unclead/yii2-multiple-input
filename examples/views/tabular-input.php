@@ -19,7 +19,7 @@ use unclead\widgets\TabularColumn;
 ]) ?>
 
 <?= TabularInput::widget([
-    'models' => [],
+    'models' => $models,
     'attributeOptions' => [
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
