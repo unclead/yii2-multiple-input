@@ -477,6 +477,7 @@ abstract class BaseColumn extends Object
     {
         $model = $this->getModel();
         if ($model instanceof Model) {
+            $model->{$this->name} = $value;
             $widgetOptions = [
                 'model'     => $model,
                 'attribute' => $this->name,
