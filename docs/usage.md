@@ -3,7 +3,7 @@
 > You can find source code of examples [here](./examples/)
 
 - [One column](#one-column)
-- [Multiple columns](#multiple-columns-example)
+- [Multiple columns](#multiple-columns)
 - [Tabular input](#tabular-input)
 
 ##One column

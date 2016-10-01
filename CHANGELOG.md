@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+1.4.1
+=====
+
+- #99: Respect "defaultValue" if it is set and current value is empty (unclead)
+
 1.4.0
 -----
 

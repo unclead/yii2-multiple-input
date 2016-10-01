@@ -180,6 +180,7 @@ abstract class BaseColumn extends Object
         if ($this->value instanceof \Closure) {
             $value = call_user_func($this->value, $data);
         } else {
+            $value = null;
             if ($data instanceof ActiveRecordInterface ) {
                 $value = $data->getAttribute($this->name);
             } elseif ($data instanceof Model) {
@@ -188,11 +189,18 @@ abstract class BaseColumn extends Object
                 $value = ArrayHelper::getValue($data, $this->name, null);
             } elseif(is_string($data) || is_numeric($data)) {
                 $value = $data;
-            }else {
+            }
+
+            if ($this->isEmpty($value) && $this->defaultValue !== null) {
                 $value = $this->defaultValue;
             }
         }
         return $value;
+    }
+
+    protected function isEmpty($value)
+    {
+        return $value === null || $value === [] || $value === '';
     }
 
     /**
@@ -469,6 +477,7 @@ abstract class BaseColumn extends Object
     {
         $model = $this->getModel();
         if ($model instanceof Model) {
+            $model->{$this->name} = $value;
             $widgetOptions = [
                 'model'     => $model,
                 'attribute' => $this->name,

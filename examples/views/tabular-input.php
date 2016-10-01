@@ -36,6 +36,7 @@ use yii\multipleinput\TabularColumn;
             'name' => 'title',
             'title' => 'Title',
             'type' => TabularColumn::TYPE_TEXT_INPUT,
+            'defaultValue' => 'Test',
             'enableError' => true
         ],
         [
