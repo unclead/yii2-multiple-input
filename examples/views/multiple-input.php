@@ -1,10 +1,10 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
-use unclead\widgets\MultipleInput;
-use unclead\widgets\examples\models\ExampleModel;
+use yii\multipleinput\MultipleInput;
+use yii\multipleinput\examples\models\ExampleModel;
 use yii\helpers\Html;
-use unclead\widgets\MultipleInputColumn;
+use yii\multipleinput\MultipleInputColumn;
 
 // Note: You have to install https://github.com/kartik-v/yii2-widget-datepicker for correct work an example
 use kartik\date\DatePicker;

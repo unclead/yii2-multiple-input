@@ -6,7 +6,7 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace unclead\widgets\renderers;
+namespace yii\multipleinput\renderers;
 
 use Yii;
 use yii\helpers\Html;
@@ -17,14 +17,14 @@ use yii\base\NotSupportedException;
 use yii\base\Object;
 use yii\db\ActiveRecordInterface;
 use yii\web\View;
-use unclead\widgets\MultipleInput;
-use unclead\widgets\TabularInput;
-use unclead\widgets\assets\MultipleInputAsset;
-use unclead\widgets\components\BaseColumn;
+use yii\multipleinput\MultipleInput;
+use yii\multipleinput\TabularInput;
+use yii\multipleinput\assets\MultipleInputAsset;
+use yii\multipleinput\components\BaseColumn;
 
 /**
  * Class BaseRenderer
- * @package unclead\widgets\renderers
+ * @package yii\multipleinput\renderers
  */
 abstract class BaseRenderer extends Object implements RendererInterface
 {

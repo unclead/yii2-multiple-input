@@ -25,10 +25,10 @@ This can be `MultipleInput::POS_HEADER`, `MultipleInput::POS_ROW` or `MultipleIn
 **allowEmptyList** *boolean*: whether to allow the empty list
 
 **columnClass** *string*: the name of column class. You can specify your own class to extend base functionality.
-Defaults to `unclead\widgets\MultipleInputColumn` for `MultipleInput` and `unclead\widgets\TabularColumn` for `TabularInput`.
+Defaults to `yii\multipleinput\MultipleInputColumn` for `MultipleInput` and `yii\multipleinput\TabularColumn` for `TabularInput`.
 
 **rendererClass** *string*: the name of renderer class. You can specify your own class to extend base functionality.
-Defaults to `unclead\widgets\renderers\TableRenderer`.
+Defaults to `yii\multipleinput\renderers\TableRenderer`.
 
 **columns** *array*: the row columns configuration where you can set the properties which is described below
 

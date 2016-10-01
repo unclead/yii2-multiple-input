@@ -22,8 +22,8 @@ Then we have to use `MultipleInput` widget for rendering form field in the view 
 
 ```php
 use yii\bootstrap\ActiveForm;
-use unclead\widgets\MultipleInput;
-use unclead\widgets\examples\models\ExampleModel;
+use yii\multipleinput\MultipleInput;
+use yii\multipleinput\examples\models\ExampleModel;
 use yii\helpers\Html;
 
 /* @var $this \yii\base\View */

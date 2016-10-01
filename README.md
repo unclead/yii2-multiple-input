@@ -35,7 +35,7 @@ For example you want to have an ability of entering several emails of user on pr
 In this case you can use yii2-multiple-input widget like in the following code
 
 ```php
-use unclead\widgets\MultipleInput;
+use yii\multipleinput\MultipleInput;
 
 ...
 

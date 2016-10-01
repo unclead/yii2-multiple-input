@@ -27,8 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-          "unclead\\widgets\\examples\\": "examples/",
-          "unclead\\widgets\\": "src/"
+          "yii\\multipleinput\\examples\\": "examples/",
+          "yii\\multipleinput\\": "src/"
         }
     }
 }

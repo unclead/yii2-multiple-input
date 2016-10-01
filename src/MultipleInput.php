@@ -6,15 +6,15 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace unclead\widgets;
+namespace yii\multipleinput;
 
 use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
-use unclead\widgets\renderers\TableRenderer;
-use unclead\widgets\renderers\RendererInterface;
+use yii\multipleinput\renderers\TableRenderer;
+use yii\multipleinput\renderers\RendererInterface;
 
 
 /**
@@ -98,12 +98,12 @@ class MultipleInput extends InputWidget
 
     /**
      * @var string the name of column class. You can specify your own class to extend base functionality.
-     * Defaults to `unclead\widgets\MultipleInputColumn`
+     * Defaults to `yii\multipleinput\MultipleInputColumn`
      */
     public $columnClass;
 
     /**
-     * @var string the name of renderer class. Defaults to `unclead\widgets\renderers\TableRenderer`.
+     * @var string the name of renderer class. Defaults to `yii\multipleinput\renderers\TableRenderer`.
      * @since 1.4
      */
     public $rendererClass;

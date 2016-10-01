@@ -6,13 +6,13 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace unclead\widgets\assets;
+namespace yii\multipleinput\assets;
 
 use yii\web\AssetBundle;
 
 /**
  * Class MultipleInputAsset
- * @package unclead\widgets\assets
+ * @package yii\multipleinput\assets
  */
 class MultipleInputAsset extends AssetBundle
 {

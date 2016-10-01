@@ -6,10 +6,10 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace unclead\widgets\examples\actions;
+namespace yii\multipleinput\examples\actions;
 
 use Yii;
-use unclead\widgets\examples\models\Item;
+use yii\multipleinput\examples\models\Item;
 use yii\base\Action;
 use yii\base\Model;
 use yii\bootstrap\ActiveForm;
@@ -17,7 +17,7 @@ use yii\web\Response;
 
 /**
  * Class TabularInputAction
- * @package unclead\widgets\examples\actions
+ * @package yii\multipleinput\examples\actions
  */
 class TabularInputAction extends Action
 {
