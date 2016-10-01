@@ -32,9 +32,9 @@ class TabularInput extends Widget
     public $columns = [];
 
     /**
-     * @var integer inputs limit
+     * @var integer maximum number of rows
      */
-    public $limit;
+    public $max;
 
     /**
      * @var int minimum number of rows
@@ -138,12 +138,12 @@ class TabularInput extends Widget
         $config = [
             'id'                => $this->options['id'],
             'columns'           => $this->columns,
-            'limit'             => $this->limit,
+            'min'               => $this->min,
+            'max'               => $this->max,
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->models,
             'columnClass'       => $this->columnClass !== null ? $this->columnClass : TabularColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
-            'min'               => $this->min,
             'rowOptions'        => $this->rowOptions,
             'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this,

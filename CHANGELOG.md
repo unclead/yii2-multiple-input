@@ -1,6 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
+2.0
+===
+
+- Renamed `limit` option to `max`
+- Changed namespace from `unclead\widgets` to `yii\multipleinout`
+
 1.4.1
 =====
 

@@ -53,7 +53,7 @@ use yii\helpers\Html;
 ]);?>
 
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
-    'limit' => 4,
+    'max' => 4,
     'columns' => [
         [
             'name'  => 'user_id',

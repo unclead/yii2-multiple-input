@@ -54,7 +54,7 @@
         // string that collect js templates of widgets which uses in the columns
         jsTemplates: [],
         // how many row has to renders
-        limit: 1,
+        max: 1,
         // minimum number of rows
         min: 1,
         attributeOptions: {},
@@ -177,7 +177,7 @@
             template = settings.template,
             inputList = $wrapper.children('.multiple-input-list').first();
 
-        if (settings.limit != null && getCurrentIndex($wrapper) >= settings.limit) {
+        if (settings.max != null && getCurrentIndex($wrapper) >= settings.max) {
             return;
         }
 

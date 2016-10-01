@@ -20,7 +20,7 @@ use yii\multipleinput\MultipleInput;
 
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit'             => 6,
+        'max'               => 6,
         'allowEmptyList'    => false,
         'enableGuessTitle'  => true,
         'min'               => 2, // should be at least 2 rows
@@ -46,7 +46,7 @@ use yii\multipleinput\MultipleInput;
 ...
 
 <?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
-    'limit' => 4,
+    'max' => 4,
     'columns' => [
         [
             'name'  => 'user_id',

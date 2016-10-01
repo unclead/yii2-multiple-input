@@ -58,7 +58,7 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
 
-        if ($this->limit === null || ($this->limit >= 1 && $this->limit !== $this->min)) {
+        if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
             $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
 
             $cells[] = Html::tag('th', $button, [
@@ -140,8 +140,8 @@ class TableRenderer extends BaseRenderer
 
         if ($this->data) {
             $cnt = count($this->data);
-            if ($this->min === $this->limit && $cnt < $this->limit) {
-                $cnt = $this->limit;
+            if ($this->min === $this->max && $cnt < $this->max) {
+                $cnt = $this->max;
             }
             
             $indices = array_keys($this->data);
@@ -183,7 +183,7 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        if ($this->limit !== $this->min) {
+        if ($this->max !== $this->min) {
             $cells[] = $this->renderActionColumn($index);
         }
 

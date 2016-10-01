@@ -44,9 +44,9 @@ abstract class BaseRenderer extends Object implements RendererInterface
     public $columns = [];
 
     /**
-     * @var int inputs limit
+     * @var int maximum number of rows
      */
-    public $limit;
+    public $max;
 
     /**
      * @var int minimum number of rows.
@@ -125,7 +125,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
         parent::init();
 
         $this->prepareMinOption();
-        $this->prepareLimit();
+        $this->prepareMaxOption();
         $this->prepareColumnClass();
         $this->prepareButtons();
         $this->prepareIndexPlaceholder();
@@ -164,19 +164,19 @@ abstract class BaseRenderer extends Object implements RendererInterface
         }
     }
 
-    private function prepareLimit()
+    private function prepareMaxOption()
     {
-        if ($this->limit === null) {
-            $this->limit = PHP_INT_MAX;
+        if ($this->max === null) {
+            $this->max = PHP_INT_MAX;
         }
 
-        if ($this->limit < 1) {
-            $this->limit = 1;
+        if ($this->max < 1) {
+            $this->max = 1;
         }
 
         // Maximum number of rows cannot be less then minimum number.
-        if ($this->limit < $this->min) {
-            $this->limit = $this->min;
+        if ($this->max < $this->min) {
+            $this->max = $this->min;
         }
     }
 
@@ -257,7 +257,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
             'id'                => $this->id,
             'template'          => $template,
             'jsTemplates'       => $jsTemplates,
-            'limit'             => $this->limit,
+            'max'               => $this->max,
             'min'               => $this->min,
             'attributeOptions'  => $this->attributeOptions,
             'indexPlaceholder'  => $this->getIndexPlaceholder()

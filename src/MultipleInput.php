@@ -39,9 +39,9 @@ class MultipleInput extends InputWidget
     public $columns = [];
 
     /**
-     * @var integer inputs limit
+     * @var integer maximum number of rows
      */
-    public $limit;
+    public $max;
 
     /**
      * @var array client-side attribute options, e.g. enableAjaxValidation. You may use this property in case when
@@ -179,12 +179,12 @@ class MultipleInput extends InputWidget
         $config = [
             'id'                => $this->options['id'],
             'columns'           => $this->columns,
-            'limit'             => $this->limit,
+            'min'               => $this->min,
+            'max'               => $this->max,
             'attributeOptions'  => $this->attributeOptions,
             'data'              => $this->data,
             'columnClass'       => $this->columnClass !== null ? $this->columnClass : MultipleInputColumn::className(),
             'allowEmptyList'    => $this->allowEmptyList,
-            'min'               => $this->min,
             'addButtonPosition' => $this->addButtonPosition,
             'rowOptions'        => $this->rowOptions,
             'context'           => $this,

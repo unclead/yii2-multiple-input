@@ -39,14 +39,14 @@ use yii\helpers\Html;
 ]);?>
 
 <?= $form->field($model, 'emails')->widget(MultipleInput::className(), [
-    'limit' => 4,
+    'max' => 4,
  ]);
 ?>
 <?= Html::submitButton('Update', ['class' => 'btn btn-success']);?>
 <?php ActiveForm::end();?>
 ```
 
-Options `limit` means that user able to input only 4 emails
+Options `max` means that user able to input only 4 emails
 
 For validation emails you can use the following code
 

@@ -11,6 +11,7 @@ for both A and B.
 Upgrade from 1.4 to 2.0
 -----------------------
 
+- Rename option `limit` to `max`
 - Change namespace prefix `unclead\widgets\` to `yii\multipleinput\`.
 
 Upgrade from 1.3 to 1.4

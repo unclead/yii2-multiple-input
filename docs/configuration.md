@@ -4,7 +4,7 @@ Widget support the following options that are additionally recognized over and a
 
 ##Base options
 
-**limit** *integer*: rows limit. If not set will defaul to unlimited
+**max** *integer*: maximux number of rows. If not set will default to unlimited
 
 **min** *integer*: minimum number of rows. Set to `0` if you need the empty list in case you don't have any data
 

@@ -24,7 +24,7 @@ use kartik\date\DatePicker;
 <h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit'  => 6,
+        'max'  => 6,
         'allowEmptyList' => false,
         'columns' => [
             [
@@ -47,7 +47,7 @@ use kartik\date\DatePicker;
 <h3>Multiple columns</h3>
 <?php
 echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
-    'limit' => 4,
+    'max' => 4,
     'allowEmptyList' => true,
     'rowOptions' => function($model) {
         $options = [];

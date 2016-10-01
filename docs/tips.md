@@ -16,7 +16,7 @@ how you can use those options:
 ```php
 
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5,
+        'max' => 5,
         'addButtonOptions' => [
             'class' => 'btn btn-success',
             'label' => 'add' // also you can use html code
@@ -36,7 +36,7 @@ In some cases you need to have the ability to delete all rows in the list. For t
 ```php
 
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5,
+        'max' => 5,
         'allowEmptyList' => true
     ])
     ->label(false);
@@ -53,7 +53,7 @@ In this case you can use `enableGuessTitle` option like in the example below:
 ```php
 
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-        'limit' => 5,
+        'max' => 5,
         'allowEmptyList' => true,
         'enableGuessTitle' => true
     ])
