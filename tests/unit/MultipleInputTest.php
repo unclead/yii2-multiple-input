@@ -1,14 +1,14 @@
 <?php
 
-namespace unclead\multipleinput\tests\unit;
+namespace yii\multipleinput\tests\unit;
 
-use unclead\multipleinput\tests\unit\data\TestModel;
-use unclead\widgets\MultipleInput;
-use unclead\widgets\MultipleInputColumn;
+use yii\multipleinput\tests\unit\data\TestModel;
+use yii\multipleinput\MultipleInput;
+use yii\multipleinput\MultipleInputColumn;
 
 /**
  * Class MultipleInputTest
- * @package unclead\multipleinput\tests\unit
+ * @package yii\multipleinput\tests\unit
  */
 class MultipleInputTest extends TestCase
 {

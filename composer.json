@@ -31,7 +31,8 @@
     "autoload": {
         "psr-4": {
           "yii\\multipleinput\\examples\\": "examples/",
-          "yii\\multipleinput\\": "src/"
+          "yii\\multipleinput\\": "src/",
+          "yii\\multipleinput\\tests\\": "tests/"
         }
     }
 }
