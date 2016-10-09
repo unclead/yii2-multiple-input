@@ -16,13 +16,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require  unclead/yii2-multiple-input "~1.0"
+php composer.phar require  unclead/yii2-multiple-input "~2.0"
 ```
 
 or add
 
 ```
-"unclead/yii2-multiple-input": "~1.0"
+"unclead/yii2-multiple-input": "~2.0"
 ```
 
 to the require section of your `composer.json` file.
