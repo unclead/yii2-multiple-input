@@ -109,6 +109,12 @@ class MultipleInput extends InputWidget
     public $rendererClass;
 
     /**
+     * @var bool whether the widget is embedded or not.
+     * @internal this property is used for internal purposes. Do not use it in your code. 
+     */
+    public $isEmbedded;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -117,6 +123,7 @@ class MultipleInput extends InputWidget
     {
         $this->guessColumns();
         $this->initData();
+
         parent::init();
     }
 

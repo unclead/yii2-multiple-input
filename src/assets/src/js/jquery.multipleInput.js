@@ -138,7 +138,7 @@
                 // wait for initialization of ActiveForm a second
                 // If after a second system could not detect ActiveForm it means
                 // that widget is used without ActiveForm and we should just complete initialization of the widget
-                if (i > 10) {
+                if (form.length === 0 || i > 10) {
                     $wrapper.data('multipleInput').currentIndex = getCurrentIndex($wrapper);
                     isActiveFormEnabled = false;
 

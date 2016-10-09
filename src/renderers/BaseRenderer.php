@@ -111,7 +111,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
      * @var string
      */
     private $indexPlaceholder;
-    
+
     /**
      * @inheritdoc
      */
@@ -248,10 +248,29 @@ abstract class BaseRenderer extends Object implements RendererInterface
     {
         $view = $this->context->getView();
         MultipleInputAsset::register($view);
-        
-        $jsBefore = $this->collectJsTemplates();
+
+        $view = $this->context->getView();
+
+        $jsBefore= [];
+        if (is_array($view->js) && array_key_exists(View::POS_READY, $view->js)) {
+            foreach ($view->js[View::POS_READY] as $key => $js) {
+                $jsBefore[$key] = $js;
+            }
+        }
+
         $template = $this->prepareTemplate();
-        $jsTemplates = $this->collectJsTemplates($jsBefore);
+
+        $jsTemplates = [];
+        if (is_array($view->js) && array_key_exists(View::POS_READY, $view->js)) {
+            foreach ($view->js[View::POS_READY] as $key => $js) {
+                if (array_key_exists($key, $jsBefore)) {
+                    continue;
+                }
+
+                $jsTemplates[$key] = $js;
+                unset($view->js[View::POS_READY][$key]);
+            }
+        }
 
         $options = Json::encode([
             'id'                => $this->id,
@@ -271,25 +290,6 @@ abstract class BaseRenderer extends Object implements RendererInterface
      * @return string
      */
     abstract protected function prepareTemplate();
-
-
-    protected function collectJsTemplates($except = [])
-    {
-        $view = $this->context->getView();
-        $output = [];
-        if (is_array($view->js) && array_key_exists(View::POS_READY, $view->js)) {
-            foreach ($view->js[View::POS_READY] as $key => $js) {
-                if (array_key_exists($key, $except)) {
-                    continue;
-                }
-                if (preg_match('/^[^{]+{' . $this->getIndexPlaceholder() . '}.*$/m', $js) === 1) {
-                    $output[$key] = $js;
-                    unset($view->js[View::POS_READY][$key]);
-                }
-            }
-        }
-        return $output;
-    }
 
     /**
      * @return mixed

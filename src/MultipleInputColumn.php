@@ -49,13 +49,20 @@ class MultipleInputColumn extends BaseColumn
         if (is_null($index)) {
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
-        
+
         $elementName = $this->isRendererHasOneColumn()
             ? '[' . $this->name . '][' . $index . ']'
             : '[' . $index . '][' . $this->name . ']';
 
-        $prefix = $withPrefix ? $this->getInputNamePrefix() : '';
-        
+        if (!$withPrefix) {
+            return $elementName;
+        }
+
+        $prefix = $this->getInputNamePrefix();
+        if ($this->context->isEmbedded && strpos($prefix, $this->context->name) === false) {
+            $prefix = $this->context->name;
+        }
+
         return  $prefix . $elementName;
     }
 
@@ -147,6 +154,12 @@ class MultipleInputColumn extends BaseColumn
 
             $options['model'] = $model;
             $options['attribute'] = $attribute;
+
+            // Remember current name and mark the widget as embedded to prevent
+            // generation of wrong prefix in case when column is associated with AR relation
+            // @see https://github.com/unclead/yii2-multiple-input/issues/92
+            $options['name'] = $name;
+            $options['isEmbedded'] = true;
         }
 
         return parent::renderWidget($type, $name, $value, $options);
