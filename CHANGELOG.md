@@ -7,6 +7,7 @@ Yii2 multiple input change log
 - Renamed `limit` option to `max`
 - Changed namespace from `unclead\widgets` to `yii\multipleinout`
 - #92: Adjustments for correct work with AR relations
+- Enh #104: Added method to set value of an particular option
 
 1.4.1
 =====

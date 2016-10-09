@@ -167,6 +167,23 @@
             $('.js-input-remove').each(function () {
                 removeInput($(this));
             });
+        },
+
+        option: function(name, value) {
+            value = value || null;
+
+            var data = $(this).data('multipleInput'),
+                settings = data.settings;
+            if (value === null) {
+                if (!settings.hasOwnProperty(name)) {
+                    throw new Error('Option "' + name + '" does not exist');
+                }
+                return settings[name];
+            } else if (settings.hasOwnProperty(name)) {
+                settings[name] = value;
+                data.settings = settings;
+                $(this).data('multipleInput', data);
+            }
         }
     };
 
