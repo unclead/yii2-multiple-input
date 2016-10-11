@@ -1,10 +1,15 @@
 Yii2 multiple input change log
 ==============================
 
+2.1.0
+=====
+
+- Enh #37: Support of client validation
+
 2.0.1
 =====
 
-- Bug #105: Change vendor name in namespace from yii to unclead
+- Bug #105: Change vendor name in namespace from yii to unclead to respect Yii recommendations
 
 2.0.0
 =====

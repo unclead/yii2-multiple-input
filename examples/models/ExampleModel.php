@@ -93,6 +93,7 @@ class ExampleModel extends Model
     {
         return [
             ['title', 'required'],
+            ['title', 'string', 'min' => 5],
             ['emails', 'validateEmails'],
             ['phones', 'validatePhones'],
             ['schedule', 'validateSchedule'],

@@ -9,6 +9,7 @@
 namespace unclead\multipleinput\renderers;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\InvalidConfigException;
@@ -17,6 +18,7 @@ use yii\base\NotSupportedException;
 use yii\base\Object;
 use yii\db\ActiveRecordInterface;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 use unclead\multipleinput\MultipleInput;
 use unclead\multipleinput\TabularInput;
 use unclead\multipleinput\assets\MultipleInputAsset;
@@ -111,6 +113,11 @@ abstract class BaseRenderer extends Object implements RendererInterface
      * @var string
      */
     private $indexPlaceholder;
+
+    /**
+     * @var ActiveForm the instance of `ActiveForm` class.
+     */
+    public $form;
 
     /**
      * @inheritdoc
@@ -221,6 +228,14 @@ abstract class BaseRenderer extends Object implements RendererInterface
                 'context'   => $this->context
             ], $column);
 
+            if (!is_array($this->addButtonOptions)) {
+                $this->addButtonOptions = [$this->addButtonOptions];
+            }
+
+            if (!array_key_exists('attributeOptions', $definition)) {
+                $definition['attributeOptions'] = $this->attributeOptions;
+            }
+
             $this->columns[$i] = Yii::createObject($definition);
         }
     }
@@ -278,7 +293,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
             'jsTemplates'       => $jsTemplates,
             'max'               => $this->max,
             'min'               => $this->min,
-            'attributeOptions'  => $this->attributeOptions,
+            'attributes'        => $this->prepareJsAttributes(),
             'indexPlaceholder'  => $this->getIndexPlaceholder()
         ]);
 
@@ -326,5 +341,35 @@ abstract class BaseRenderer extends Object implements RendererInterface
     private function prepareIndexPlaceholder()
     {
         $this->indexPlaceholder = 'multiple_index_' . $this->id;
+    }
+
+    /**
+     * Prepares attributes options for client side.
+     *
+     * @return array
+     */
+    protected function prepareJsAttributes()
+    {
+        $attributes = [];
+        foreach ($this->columns as $column) {
+            $model = $column->getModel();
+            if ($this->form instanceof ActiveForm && $model instanceof Model) {
+                $field = $this->form->field($model, $column->name);
+                foreach ($column->attributeOptions as $name => $value) {
+                    if ($field->hasProperty($name)) {
+                        $field->$name = $value;
+                    }
+                }
+                $field->render('');
+                $attributeOptions = array_pop($this->form->attributes);
+                $attributeOptions = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
+            } else {
+                $attributeOptions = $column->attributeOptions;
+            }
+            $inputID = str_replace(['-0', '-0-'], '', $column->getElementId(0));
+            $attributes[$inputID] = $attributeOptions;
+        }
+
+        return $attributes;
     }
 }

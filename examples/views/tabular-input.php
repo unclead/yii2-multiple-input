@@ -27,6 +27,7 @@ use unclead\multipleinput\TabularColumn;
         'validateOnSubmit' => true,
         'validateOnBlur' => false,
     ],
+    'form' => $form,
     'columns' => [
         [
             'name' => 'id',
@@ -36,6 +37,10 @@ use unclead\multipleinput\TabularColumn;
             'name' => 'title',
             'title' => 'Title',
             'type' => TabularColumn::TYPE_TEXT_INPUT,
+            'attributeOptions' => [
+                'enableClientValidation' => true,
+                'validateOnChange' => true,
+            ],
             'defaultValue' => 'Test',
             'enableError' => true
         ],

@@ -9,8 +9,10 @@
 namespace unclead\multipleinput;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
 use unclead\multipleinput\renderers\TableRenderer;
@@ -115,12 +117,22 @@ class MultipleInput extends InputWidget
     public $isEmbedded;
 
     /**
+     * @var ActiveForm an instance of ActiveForm which you have to pass in case of using client validation
+     * @since 2.1
+     */
+    public $form;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
+        if ($this->form !== null && !$this->form instanceof ActiveForm) {
+            throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
+        }
+
         $this->guessColumns();
         $this->initData();
 
@@ -196,6 +208,7 @@ class MultipleInput extends InputWidget
             'addButtonPosition' => $this->addButtonPosition,
             'rowOptions'        => $this->rowOptions,
             'context'           => $this,
+            'form'              => $this->form
         ];
 
         if ($this->removeButtonOptions !== null) {

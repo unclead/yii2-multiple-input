@@ -110,6 +110,15 @@ abstract class BaseColumn extends Object
      * @var mixed the context of using a column. It is an instance of widget(MultipleInput or TabularInput).
      */
     public $context;
+
+    /**
+     * @var array client-side options of the attribute, e.g. enableAjaxValidation.
+     * You can use this property for custom configuration of the column (attribute).
+     * By default, the column will use options which are defined on widget level.
+     *
+     * @since 2.1
+     */
+    public $attributeOptions = [];
     
     /**
      * @var Model|ActiveRecordInterface|array

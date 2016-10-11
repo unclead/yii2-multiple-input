@@ -13,6 +13,7 @@ use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\bootstrap\Widget;
+use yii\widgets\ActiveForm;
 use unclead\multipleinput\renderers\TableRenderer;
 use unclead\multipleinput\renderers\RendererInterface;
 
@@ -103,6 +104,12 @@ class TabularInput extends Widget
     public $rendererClass;
 
     /**
+     * @var ActiveForm an instance of ActiveForm which you have to pass in case of using client validation
+     * @since 2.1
+     */
+    public $form;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -111,6 +118,10 @@ class TabularInput extends Widget
     {
         if (empty($this->models)) {
             throw new InvalidConfigException('You must specify "models"');
+        }
+
+        if ($this->form !== null && !$this->form instanceof ActiveForm) {
+            throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
         }
 
         foreach ($this->models as $model) {
@@ -147,6 +158,7 @@ class TabularInput extends Widget
             'rowOptions'        => $this->rowOptions,
             'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this,
+            'form'              => $this->form
         ];
 
         if ($this->removeButtonOptions !== null) {

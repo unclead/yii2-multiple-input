@@ -57,15 +57,8 @@
         max: 1,
         // minimum number of rows
         min: 1,
-        attributeOptions: {},
-        indexPlaceholder: 'multiple_index',
-    };
-
-    var defaultAttributeOptions = {
-        enableAjaxValidation: false,
-        validateOnBlur: false,
-        validateOnChange: false,
-        validateOnType: false
+        attributes: {},
+        indexPlaceholder: 'multiple_index'
     };
 
     var isActiveFormEnabled = false;
@@ -79,8 +72,7 @@
 
             $wrapper.data('multipleInput', {
                 settings: settings,
-                currentIndex: 0,
-                attributeDefaults: {}
+                currentIndex: 0
             });
 
 
@@ -100,27 +92,32 @@
             var intervalID = setInterval(function () {
                 if (typeof form.data('yiiActiveForm') === 'object') {
                     var attribute = form.yiiActiveForm('find', id),
-                        attributeDefaults = [];
+                        defaultAttributeOptions = {
+                            enableAjaxValidation: false,
+                            validateOnBlur: false,
+                            validateOnChange: false,
+                            validateOnType: false,
+                            validationDelay: 500
+                        };
 
+                    // fetch default attribute options from active from attribute
                     if (typeof attribute === 'object') {
                         $.each(attribute, function (key, value) {
                             if (['id', 'input', 'container'].indexOf(key) == -1) {
-                                attributeDefaults[key] = value;
+                                defaultAttributeOptions[key] = value;
                             }
                         });
 
                         form.yiiActiveForm('remove', id);
                     }
 
-                    var attributeOptions = $.extend({}, defaultAttributeOptions, settings.attributeOptions);
-
-                    $.each(attributeOptions, function (key, value) {
-                        if (typeof attributeDefaults[key] === 'undefined') {
-                            attributeDefaults[key] = value;
-                        }
+                    // append default options to option from settings
+                    $.each(settings.attributes, function (attribute, attributeOptions) {
+                        attributeOptions = $.extend({}, defaultAttributeOptions, attributeOptions);
+                        settings.attributes[attribute] = attributeOptions;
                     });
 
-                    $wrapper.data('multipleInput').attributeDefaults = attributeDefaults;
+                    $wrapper.data('multipleInput').settings = settings;
 
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
                         addAttribute($(this));
@@ -318,9 +315,10 @@
             return;
         }
 
-
         var data = wrapper.data('multipleInput');
-        form.yiiActiveForm('add', $.extend({}, data.attributeDefaults, {
+        var bareID = id.replace(/-\d/, '').replace(/-\d-/, '');
+
+        form.yiiActiveForm('add', $.extend({}, data.settings.attributes[bareID], {
             'id': id,
             'input': '#' + id,
             'container': '.field-' + id
