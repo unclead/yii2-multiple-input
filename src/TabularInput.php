@@ -6,19 +6,19 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput;
+namespace unclead\multipleinput;
 
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\bootstrap\Widget;
-use yii\multipleinput\renderers\TableRenderer;
-use yii\multipleinput\renderers\RendererInterface;
+use unclead\multipleinput\renderers\TableRenderer;
+use unclead\multipleinput\renderers\RendererInterface;
 
 /**
  * Class TabularInput
- * @package yii\multipleinput
+ * @package unclead\multipleinput
  */
 class TabularInput extends Widget
 {
@@ -92,12 +92,12 @@ class TabularInput extends Widget
 
     /**
      * @var string the name of column class. You can specify your own class to extend base functionality.
-     * Defaults to `yii\multipleinput\TabularColumn`
+     * Defaults to `unclead\multipleinput\TabularColumn`
      */
     public $columnClass;
 
     /**
-     * @var string the name of renderer class. Defaults to `yii\multipleinput\renderers\TableRenderer`.
+     * @var string the name of renderer class. Defaults to `unclead\multipleinput\renderers\TableRenderer`.
      * @since 1.4
      */
     public $rendererClass;

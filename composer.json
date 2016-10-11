@@ -9,7 +9,7 @@
         "yii2 tabular input"
     ],
     "type": "yii2-extension",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/unclead/yii2-multiple-input/issues?state=open",
@@ -30,9 +30,9 @@
     },
     "autoload": {
         "psr-4": {
-          "yii\\multipleinput\\examples\\": "examples/",
-          "yii\\multipleinput\\": "src/",
-          "yii\\multipleinput\\tests\\": "tests/"
+          "unclead\\multipleinput\\examples\\": "examples/",
+          "unclead\\multipleinput\\": "src/",
+          "unclead\\multipleinput\\tests\\": "tests/"
         }
     }
 }

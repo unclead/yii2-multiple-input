@@ -14,7 +14,7 @@ For example you want to have an ability of entering several emails of user on pr
 In this case you can use yii2-multiple-input widget like in the following code
 
 ```php
-use yii\multipleinput\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 
 ...
 
@@ -41,7 +41,7 @@ For example you keep some data in json format in attribute of model. Imagine tha
 On the edit page you want to be able to manage this schedule and you can you yii2-multiple-input widget like in the following code
 
 ```php
-use yii\multipleinput\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 
 ...
 

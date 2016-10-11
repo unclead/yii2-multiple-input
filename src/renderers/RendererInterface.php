@@ -6,12 +6,12 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput\renderers;
+namespace unclead\multipleinput\renderers;
 
 
 /**
  * Interface RendererInterface
- * @package yii\multipleinput\renderers
+ * @package unclead\multipleinput\renderers
  */
 interface RendererInterface
 {

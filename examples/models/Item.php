@@ -6,14 +6,14 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput\examples\models;
+namespace unclead\multipleinput\examples\models;
 
 use Yii;
 use yii\base\Model;
 
 /**
  * Class Item
- * @package yii\multipleinput\examples\models
+ * @package unclead\multipleinput\examples\models
  */
 class Item extends Model
 {

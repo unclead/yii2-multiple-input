@@ -7,7 +7,7 @@ In this case you can use `yii2-multiple-input` widget for supporting tabular inp
 Our test model can looks like as the following snippet
 
 ```php
-namespace yii\multipleinput\examples\models;
+namespace unclead\multipleinput\examples\models;
 
 use Yii;
 use yii\base\Model;
@@ -16,7 +16,7 @@ use vova07\fileapi\behaviors\UploadBehavior;
 
 /**
  * Class Item
- * @package yii\multipleinput\examples\models
+ * @package unclead\multipleinput\examples\models
  */
 class Item extends Model
 {
@@ -57,9 +57,9 @@ Then we have to use `TabularInput` widget for rendering form field in the view f
 <?php
 
 use yii\bootstrap\ActiveForm;
-use yii\multipleinput\TabularInput;
+use unclead\multipleinput\TabularInput;
 use yii\helpers\Html;
-use \yii\multipleinput\examples\models\Item;
+use \unclead\multipleinput\examples\models\Item;
 
 /* @var $this \yii\web\View */
 /* @var $models Item[] */
@@ -90,7 +90,7 @@ use \yii\multipleinput\examples\models\Item;
         [
             'name'  => 'title',
             'title' => 'Title',
-            'type'  => \yii\multipleinput\MultipleInputColumn::TYPE_TEXT_INPUT,
+            'type'  => \unclead\multipleinput\MultipleInputColumn::TYPE_TEXT_INPUT,
         ],
         [
             'name'  => 'description',
@@ -135,7 +135,7 @@ Your action can looks like the following code
 ```php
 /**
  * Class TabularInputAction
- * @package yii\multipleinput\examples\actions
+ * @package unclead\multipleinput\examples\actions
  */
 class TabularInputAction extends Action
 {

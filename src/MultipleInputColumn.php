@@ -6,17 +6,17 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput;
+namespace unclead\multipleinput;
 
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\Html;
-use yii\multipleinput\components\BaseColumn;
+use unclead\multipleinput\components\BaseColumn;
 
 /**
  * Class MultipleInputColumn
- * @package yii\multipleinput
+ * @package unclead\multipleinput
  */
 class MultipleInputColumn extends BaseColumn
 {

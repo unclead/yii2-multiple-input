@@ -6,7 +6,7 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput\components;
+namespace unclead\multipleinput\components;
 
 use Closure;
 use yii\base\InvalidConfigException;
@@ -16,12 +16,12 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\multipleinput\renderers\BaseRenderer;
+use unclead\multipleinput\renderers\BaseRenderer;
 
 /**
  * Class BaseColumn.
  *
- * @package yii\multipleinput\components
+ * @package unclead\multipleinput\components
  */
 abstract class BaseColumn extends Object
 {

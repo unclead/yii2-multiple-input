@@ -1,16 +1,16 @@
 <?php
 
-namespace yii\multipleinput\examples\actions;
+namespace unclead\multipleinput\examples\actions;
 
 use Yii;
 use yii\base\Action;
 use yii\bootstrap\ActiveForm;
 use yii\web\Response;
-use yii\multipleinput\examples\models\ExampleModel;
+use unclead\multipleinput\examples\models\ExampleModel;
 
 /**
  * Class MultipleInputAction
- * @package yii\multipleinput\examples\actions
+ * @package unclead\multipleinput\examples\actions
  */
 class MultipleInputAction extends Action
 {

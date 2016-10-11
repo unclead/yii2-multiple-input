@@ -1,10 +1,10 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
-use yii\multipleinput\TabularInput;
+use unclead\multipleinput\TabularInput;
 use yii\helpers\Html;
-use yii\multipleinput\examples\models\Item;
-use yii\multipleinput\TabularColumn;
+use unclead\multipleinput\examples\models\Item;
+use unclead\multipleinput\TabularColumn;
 
 
 /* @var $this \yii\web\View */

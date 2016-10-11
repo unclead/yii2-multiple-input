@@ -6,17 +6,17 @@
  * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
-namespace yii\multipleinput\renderers;
+namespace unclead\multipleinput\renderers;
 
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\multipleinput\components\BaseColumn;
+use unclead\multipleinput\components\BaseColumn;
 
 /**
  * Class TableRenderer
- * @package yii\multipleinput\renderers
+ * @package unclead\multipleinput\renderers
  */
 class TableRenderer extends BaseRenderer
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace yii\multipleinput\examples\models;
+namespace unclead\multipleinput\examples\models;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -10,7 +10,7 @@ use yii\validators\RequiredValidator;
 
 /**
  * Class ExampleModel
- * @package yii\multipleinput\examples\actions
+ * @package unclead\multipleinput\examples\actions
  */
 class ExampleModel extends Model
 {

@@ -1,11 +1,16 @@
 Yii2 multiple input change log
 ==============================
 
-2.0
-===
+2.0.1
+=====
+
+- Bug #104: Change vendor name in namespace from yii to unclead
+
+2.0.0
+=====
 
 - Renamed `limit` option to `max`
-- Changed namespace from `unclead\widgets` to `yii\multipleinout`
+- Changed namespace from `unclead\widgets` to `yii\multipleinput`
 - #92: Adjustments for correct work with AR relations
 - Enh #104: Added method to set value of an particular option
 
