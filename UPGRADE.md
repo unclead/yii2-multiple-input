@@ -11,7 +11,7 @@ for both A and B.
 Upgrade from 2.0.0 tp 2.0.1
 ---------------------------
 
-- Change namespace prefix `yii\multipleinout\` to `unclead\multipleinput\`.
+- Change namespace prefix `yii\multipleinput\` to `unclead\multipleinput\`.
 
 Upgrade from 1.4 to 2.0
 -----------------------
