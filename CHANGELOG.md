@@ -4,7 +4,7 @@ Yii2 multiple input change log
 2.0.1
 =====
 
-- Bug #104: Change vendor name in namespace from yii to unclead
+- Bug #105: Change vendor name in namespace from yii to unclead
 
 2.0.0
 =====
