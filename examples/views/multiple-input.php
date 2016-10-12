@@ -164,8 +164,9 @@ $js = <<< JS
             console.log(item);
             console.log('calls on before remove row event');
             return confirm('Are you sure you want to delete row?')
-        }).on('afterDeleteRow', function(){
+        }).on('afterDeleteRow', function(e, item){       
             console.log('calls on after remove row event');
+            console.log('User_id:' + item.find('.list-cell__user_id').find('select').first().val());
         });
 JS;
 

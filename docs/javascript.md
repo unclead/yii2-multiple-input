@@ -20,8 +20,9 @@ jQuery('#multiple-input').on('afterInit', function(){
     // For TableRenderer it is tr.multiple-input-list__item
     console.log('calls on before remove row event.');
     return confirm('Are you sure you want to delete row?')
-}).on('afterDeleteRow', function(){
+}).on('afterDeleteRow', function(e, row){
     console.log('calls on after remove row event');
+    console.log(row);
 });
 ```
 

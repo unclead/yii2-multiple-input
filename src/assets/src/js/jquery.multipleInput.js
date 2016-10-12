@@ -282,7 +282,7 @@
                 $(this).remove();
 
                 event = $.Event(events.afterDeleteRow);
-                $wrapper.trigger(event);
+                $wrapper.trigger(event, [$toDelete]);
             });
         }
     };
