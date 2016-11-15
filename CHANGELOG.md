@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.2.0 in development
+====================
+
+- #104: Fixed preparation of js attributes (Choate, unclead)
+
 2.1.1
 =====
 
