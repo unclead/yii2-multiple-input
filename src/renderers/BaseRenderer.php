@@ -353,6 +353,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
         $attributes = [];
         foreach ($this->columns as $column) {
             $model = $column->getModel();
+            $inputID = str_replace(['-0', '-0-'], '', $column->getElementId(0));
             if ($this->form instanceof ActiveForm && $model instanceof Model) {
                 $field = $this->form->field($model, $column->name);
                 foreach ($column->attributeOptions as $name => $value) {
@@ -362,12 +363,14 @@ abstract class BaseRenderer extends Object implements RendererInterface
                 }
                 $field->render('');
                 $attributeOptions = array_pop($this->form->attributes);
-                $attributeOptions = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
+                if (isset($attributeOptions['name']) && $attributeOptions['name'] === $column->name) {
+                    $attributes[$inputID] = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
+                } else {
+                    array_push($this->form->attributes, $attributeOptions);
+                }
             } else {
-                $attributeOptions = $column->attributeOptions;
+                $attributes[$inputID] = $column->attributeOptions;
             }
-            $inputID = str_replace(['-0', '-0-'], '', $column->getElementId(0));
-            $attributes[$inputID] = $attributeOptions;
         }
 
         return $attributes;
