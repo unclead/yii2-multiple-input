@@ -147,7 +147,7 @@ class TabularInput extends Widget
     private function createRenderer()
     {
         $config = [
-            'id'                => $this->getId(),
+            'id'                => $this->options['id'],
             'columns'           => $this->columns,
             'min'               => $this->min,
             'max'               => $this->max,

@@ -5,7 +5,6 @@ Yii2 multiple input change log
 =====
 
 - #104: Fixed preparation of js attributes (Choate, unclead)
-- #109: Using the ID of a widget instead of ID which can be passed via options property (unclead)
 
 2.1.1
 =====
