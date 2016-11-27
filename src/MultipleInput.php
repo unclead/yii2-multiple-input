@@ -197,7 +197,7 @@ class MultipleInput extends InputWidget
     private function createRenderer()
     {
         $config = [
-            'id'                => $this->options['id'],
+            'id'                => $this->getId(),
             'columns'           => $this->columns,
             'min'               => $this->min,
             'max'               => $this->max,
