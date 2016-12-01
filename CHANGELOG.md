@@ -1,15 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-2.2.1
-=====
-
-- Fixed removal of row with index 0 via js api method (pvlg)
-
 2.2.0
 =====
 
 - #104: Fixed preparation of js attributes (Choate, unclead)
+- Fixed removal of row with index 0 via js api method (pvlg)
+
 
 2.1.1
 =====
