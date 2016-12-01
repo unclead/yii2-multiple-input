@@ -151,7 +151,7 @@
 
         remove: function (index) {
             var row = null;
-            if (index) {
+            if (index != undefined) {
                 row = $(this).find('.js-input-remove:eq(' + index + ')');
             } else {
                 row = $(this).find('.js-input-remove').last();
