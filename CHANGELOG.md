@@ -1,8 +1,8 @@
 Yii2 multiple input change log
 ==============================
 
-2.2.1 in development
-====================
+2.2.1
+=====
 
 - Fixed removal of row with index 0 via js api method (pvlg)
 
