@@ -65,6 +65,11 @@
 
     var methods = {
         init: function (options) {
+            if (typeof options !== 'object') {
+                console.error('Options must be an object');
+                return;
+            }
+
             var settings = $.extend(true, {}, defaultOptions, options || {}),
                 $wrapper = $('#' + settings.id),
                 form = $wrapper.closest('form'),
