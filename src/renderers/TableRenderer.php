@@ -39,7 +39,7 @@ class TableRenderer extends BaseRenderer
 
         $content = Html::tag('table', implode("\n", $content), $options);
 
-        return Html::tag( 'div', $content, [
+        return Html::tag('div', $content, [
             'id' => $this->id,
             'class' => 'multiple-input'
         ]);

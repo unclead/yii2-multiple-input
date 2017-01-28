@@ -12,6 +12,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\InputWidget;
 use yii\db\ActiveRecordInterface;
@@ -188,7 +189,15 @@ class MultipleInput extends InputWidget
      */
     public function run()
     {
-        return $this->createRenderer()->render();
+        $content = '';
+        if ($this->hasModel()) {
+            $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null, [
+                'id' => Html::getInputId($this->model, $this->attribute)
+            ]);
+        }
+        $content .= $this->createRenderer()->render();
+
+        return $content;
     }
 
     /**
@@ -197,7 +206,7 @@ class MultipleInput extends InputWidget
     private function createRenderer()
     {
         $config = [
-            'id'                => $this->options['id'],
+            'id'                => $this->getId(),
             'columns'           => $this->columns,
             'min'               => $this->min,
             'max'               => $this->max,

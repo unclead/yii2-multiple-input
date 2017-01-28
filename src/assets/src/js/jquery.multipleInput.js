@@ -48,16 +48,37 @@
     };
 
     var defaultOptions = {
+        /**
+         * the ID of widget
+         */
         id: null,
-        // the template of row
+        /**
+         * the ID of related input in case of using widget for an active field
+         */
+        inputId: null,
+        /**
+         * the template of row
+         */
         template: null,
-        // string that collect js templates of widgets which uses in the columns
+        /**
+         * string that collect js templates of widgets which uses in the columns
+         */
         jsTemplates: [],
-        // how many row has to renders
+        /**
+         * how many row are allowed to render
+         */
         max: 1,
-        // minimum number of rows
+        /**
+         * a minimum number of rows
+         */
         min: 1,
+        /**
+         * active form options of attributes
+         */
         attributes: {},
+        /**
+         * default prefix of a widget's placeholder
+         */
         indexPlaceholder: 'multiple_index'
     };
 
@@ -73,7 +94,7 @@
             var settings = $.extend(true, {}, defaultOptions, options || {}),
                 $wrapper = $('#' + settings.id),
                 form = $wrapper.closest('form'),
-                id = this.selector.replace('#', '');
+                inputId = settings.inputId;
 
             $wrapper.data('multipleInput', {
                 settings: settings,
@@ -96,7 +117,7 @@
 
             var intervalID = setInterval(function () {
                 if (typeof form.data('yiiActiveForm') === 'object') {
-                    var attribute = form.yiiActiveForm('find', id),
+                    var attribute = form.yiiActiveForm('find', inputId),
                         defaultAttributeOptions = {
                             enableAjaxValidation: false,
                             validateOnBlur: false,
@@ -113,7 +134,7 @@
                             }
                         });
 
-                        form.yiiActiveForm('remove', id);
+                        form.yiiActiveForm('remove', inputId);
                     }
 
                     // append default options to option from settings

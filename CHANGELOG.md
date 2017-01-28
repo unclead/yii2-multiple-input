@@ -1,6 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
+2.3.0
+=====
+
+- #107: render a hidden input when `MultipleInput` is used for active field
+- #109: respect ID when using a widget's placeholder
+
 2.2.0
 =====
 

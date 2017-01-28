@@ -289,6 +289,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
 
         $options = Json::encode([
             'id'                => $this->id,
+            'inputId'           => $this->context->options['id'],
             'template'          => $template,
             'jsTemplates'       => $jsTemplates,
             'max'               => $this->max,
