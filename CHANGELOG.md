@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.3.1
+=====
+
+- Fixed ajax validation for embedded fields
+
 2.3.0
 =====
 
