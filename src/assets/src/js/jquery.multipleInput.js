@@ -341,10 +341,25 @@
             return;
         }
 
-        var data = wrapper.data('multipleInput');
-        var bareID = id.replace(/-\d/, '').replace(/-\d-/, '');
+        var data = wrapper.data('multipleInput'),
+            attributeOptions = {};
 
-        form.yiiActiveForm('add', $.extend({}, data.settings.attributes[bareID], {
+        // try to find options for embedded attribute at first.
+        // For example the id of new input is example-1-field-0.
+        // We remove last index and check whether attribute with such id exists or not.
+        var bareId = id.replace(/-\d-([^\d]+)$/, '-$1');
+        if (data.settings.attributes.hasOwnProperty(bareId)) {
+            attributeOptions = data.settings.attributes[bareId];
+        } else {
+            // fallback in case of using flatten widget - just remove all digital indexes and check whether attribute
+            // exists or not.
+            bareId = bareId.replaceAll(/-\d-/, '-').replaceAll(/-\d/, '');
+            if (data.settings.attributes.hasOwnProperty(bareId)) {
+                attributeOptions = data.settings.attributes[bareId];
+            }
+        }
+
+        form.yiiActiveForm('add', $.extend({}, attributeOptions, {
             'id': id,
             'input': '#' + id,
             'container': '.field-' + id

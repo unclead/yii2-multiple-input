@@ -113,7 +113,7 @@ class MultipleInput extends InputWidget
 
     /**
      * @var bool whether the widget is embedded or not.
-     * @internal this property is used for internal purposes. Do not use it in your code. 
+     * @internal this property is used for internal purposes. Do not use it in your code.
      */
     public $isEmbedded;
 
@@ -190,7 +190,7 @@ class MultipleInput extends InputWidget
     public function run()
     {
         $content = '';
-        if ($this->hasModel()) {
+        if ($this->hasModel() && $this->isEmbedded === false) {
             $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null, [
                 'id' => Html::getInputId($this->model, $this->attribute)
             ]);

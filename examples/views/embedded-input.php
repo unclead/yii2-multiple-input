@@ -11,14 +11,14 @@ use unclead\multipleinput\MultipleInputColumn;
 /* @var $model ExampleModel */
 
 $commonAttributeOptions = [
-    'enableAjaxValidation'   => false,
+    'enableAjaxValidation'   => true,
     'enableClientValidation' => false,
     'validateOnChange'       => false,
     'validateOnSubmit'       => true,
     'validateOnBlur'         => false,
 ];
 
-$enableActiveForm = false;
+$enableActiveForm = true;
 ?>
 
 <?php
