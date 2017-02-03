@@ -115,7 +115,7 @@ class MultipleInput extends InputWidget
      * @var bool whether the widget is embedded or not.
      * @internal this property is used for internal purposes. Do not use it in your code.
      */
-    public $isEmbedded;
+    public $isEmbedded = false;
 
     /**
      * @var ActiveForm an instance of ActiveForm which you have to pass in case of using client validation
