@@ -15,10 +15,10 @@ use yii\helpers\Html;
 use unclead\multipleinput\components\BaseColumn;
 
 /**
- * Class TableRenderer
+ * Class ListRenderer
  * @package unclead\multipleinput\renderers
  */
-class TableRenderer extends BaseRenderer
+class ListRenderer extends BaseRenderer
 {
     /**
      * @return mixed
@@ -27,15 +27,12 @@ class TableRenderer extends BaseRenderer
     {
         $content = [];
 
-        if ($this->hasHeader()) {
-            $content[] = $this->renderHeader();
-        }
-
+        $content[] = $this->renderHeader();
         $content[] = $this->renderBody();
         $content[] = $this->renderFooter();
 
         $options = [];
-        Html::addCssClass($options, 'multiple-input-list table table-condensed table-renderer');
+        Html::addCssClass($options, 'multiple-input-list list-renderer table form-horizontal');
 
         $content = Html::tag('table', implode("\n", $content), $options);
 
@@ -52,21 +49,19 @@ class TableRenderer extends BaseRenderer
      */
     public function renderHeader()
     {
-        $cells = [];
-        foreach ($this->columns as $column) {
-            /* @var $column BaseColumn */
-            $cells[] = $this->renderHeaderCell($column);
+        if ($this->min !== 0 || !$this->isAddButtonPositionHeader()) {
+            return '';
         }
 
-        if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
-            $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
+        $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
 
-            $cells[] = Html::tag('th', $button, [
-                'class' => 'list-cell__button'
-            ]);
-        }
+        $content = [];
+        $content[] = Html::tag('td', '&nbsp;');
+        $content[] = Html::tag('td', $button, [
+            'class' => 'list-cell__button',
+        ]);
 
-        return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
+        return Html::tag('thead', Html::tag('tr', implode("\n", $content)));
     }
 
     /**
@@ -81,50 +76,12 @@ class TableRenderer extends BaseRenderer
         }
 
         $cells = [];
-        $cells[] = Html::tag('td', '&nbsp;', ['colspan' => count($this->columns)]);
+        $cells[] = Html::tag('td', '&nbsp;');
         $cells[] = Html::tag('td', $this->renderAddButton(), [
             'class' => 'list-cell__button'
         ]);
 
         return Html::tag('tfoot', Html::tag('tr', implode("\n", $cells)));
-    }
-
-
-    /**
-     * Check that at least one column has a header.
-     *
-     * @return bool
-     */
-    private function hasHeader()
-    {
-        if ($this->min === 0 || $this->isAddButtonPositionHeader()) {
-            return true;
-        }
-        
-        foreach ($this->columns as $column) {
-            /* @var $column BaseColumn */
-            if ($column->title) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
-    /**
-     * Renders the header cell.
-     * @param BaseColumn $column
-     * @return null|string
-     */
-    private function renderHeaderCell($column)
-    {
-        if ($column->isHiddenInput()) {
-            return null;
-        }
-        $options = $column->headerOptions;
-        Html::addCssClass($options, 'list-cell__' . $column->name);
-        
-        return Html::tag('th', $column->title, $options);
     }
 
     /**
@@ -143,7 +100,7 @@ class TableRenderer extends BaseRenderer
             if ($this->min === $this->max && $cnt < $this->max) {
                 $cnt = $this->max;
             }
-            
+
             $indices = array_keys($this->data);
 
             for ($i = 0; $i < $cnt; $i++) {
@@ -156,7 +113,7 @@ class TableRenderer extends BaseRenderer
                 $rows[] = $this->renderRowContent($i);
             }
         }
-        
+
         return Html::tag('tbody', implode("\n", $rows));
     }
 
@@ -170,29 +127,20 @@ class TableRenderer extends BaseRenderer
      */
     private function renderRowContent($index = null, $item = null)
     {
-        $cells = [];
-        $hiddenInputs = [];
-
+        $elements = [];
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
-            if ($column->isHiddenInput()) {
-                $hiddenInputs[] = $this->renderCellContent($column, $index);
-            } else {
-                $cells[] = $this->renderCellContent($column, $index);
-            }
+            $elements[] = $this->renderCellContent($column, $index);
         }
 
+        $content = [];
+        $content[] = Html::tag('td', implode("\n", $elements));
         if ($this->max !== $this->min) {
-            $cells[] = $this->renderActionColumn($index);
+            $content[] = $this->renderActionColumn($index);
         }
 
-        if ($hiddenInputs) {
-            $hiddenInputs = implode("\n", $hiddenInputs);
-            $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
-        }
-        
-        $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
+        $content = Html::tag('tr', implode("\n", $content), $this->prepareRowOptions($index, $item));
 
         if ($index !== null) {
             $content = str_replace('{' . $this->getIndexPlaceholder() . '}', $index, $content);
@@ -253,20 +201,24 @@ class TableRenderer extends BaseRenderer
         }
 
         $wrapperOptions = [
-            'class' => 'form-group field-' . $id
+            'class' => 'field-' . $id
         ];
 
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
         }
-        
+
         $input = Html::tag('div', $input, $wrapperOptions);
 
-        return Html::tag('td', $input, [
-            'class' => 'list-cell__' . $column->name,
+        $content = Html::beginTag('div', ['class' => 'form-group list-cell__' . $column->name]);
+        $content .= Html::label($column->title, $id, [
+            'class' => 'col-sm-2 control-label' . (empty($column->title) ? ' sr-only' : '')
         ]);
-    }
+        $content .= Html::tag('div', $input, ['class' => 'col-sm-10']);
+        $content .= Html::endTag('div');
 
+        return $content;
+    }
 
     /**
      * Renders the action column.
@@ -304,7 +256,7 @@ class TableRenderer extends BaseRenderer
             'class' => 'btn multiple-input-list__btn js-input-plus',
         ];
         Html::addCssClass($options, $this->addButtonOptions['class']);
-        
+
         return Html::tag('div', $this->addButtonOptions['label'], $options);
     }
 
@@ -320,7 +272,7 @@ class TableRenderer extends BaseRenderer
             'class' => 'btn multiple-input-list__btn js-input-remove',
         ];
         Html::addCssClass($options, $this->removeButtonOptions['class']);
-        
+
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
     }
 

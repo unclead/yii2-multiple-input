@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.4.0
+=====
+
+- Implemented `ListRenderer`
+
 2.3.1
 =====
 
