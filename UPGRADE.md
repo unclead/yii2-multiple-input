@@ -8,7 +8,7 @@ if you want to upgrade from version A to version C and there is
 version B between A and C, you need to following the instructions
 for both A and B.
 
-Upgrade from 2.0.0 tp 2.0.1
+Upgrade from 2.0.0 to 2.0.1
 ---------------------------
 
 - Change namespace prefix `yii\multipleinput\` to `unclead\multipleinput\`.
