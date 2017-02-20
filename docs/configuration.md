@@ -12,7 +12,7 @@ Widget support the following options that are additionally recognized over and a
 you use widget without a model, since in this case widget is not able to detect client-side options automatically
 
 **addButtonPosition** *integer|array*: the position(s) of `add` button.
-This can be `MultipleInput::POS_HEADER`, `MultipleInput::POS_ROW` or `MultipleInput:PO_FOOTER`
+This can be `MultipleInput::POS_HEADER`, `MultipleInput::POS_ROW` or `MultipleInput:POS_FOOTER`
 
 **addButtonOptions** *array*: the HTML options for `add` button. Can contains `class` and `label` keys
 
