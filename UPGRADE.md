@@ -11,7 +11,7 @@ for both A and B.
 Upgrade from 2.2.0 tp 2.3.0
 ---------------------------
 
-- Ensure that you set `id` option in case you are using js actions, otherwise you old code won't work.
+- Ensure that you set `id` option in case you are using js actions, otherwise your old code won't work.
 
 Upgrade from 2.0.0 tp 2.0.1
 ---------------------------
