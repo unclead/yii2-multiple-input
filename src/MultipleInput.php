@@ -195,9 +195,7 @@ class MultipleInput extends InputWidget
     {
         $content = '';
         if ($this->hasModel() && $this->isEmbedded === false) {
-            $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null, [
-                'id' => Html::getInputId($this->model, $this->attribute)
-            ]);
+            $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null);
         }
         $content .= $this->createRenderer()->render();
 

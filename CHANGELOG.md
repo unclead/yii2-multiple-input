@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.5.0
+=====
+
+- #127: fixed js actions
+
 2.4.0
 =====
 
