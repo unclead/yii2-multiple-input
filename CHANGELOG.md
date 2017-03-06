@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.5.1
+=====
+- Implemented `Sortting`
+- fixed if attribute is set and hasProperty return false
+
 2.5.0
 =====
 
