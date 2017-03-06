@@ -110,6 +110,12 @@ class TabularInput extends Widget
     public $form;
 
     /**
+     * @var bool allow sorting.
+     * @internal this property is used when need to allow sorting rows.
+     */
+    public $sortable = false;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -158,7 +164,8 @@ class TabularInput extends Widget
             'rowOptions'        => $this->rowOptions,
             'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this,
-            'form'              => $this->form
+            'form'              => $this->form,
+            'sortable'          => $this->sortable
         ];
 
         if ($this->removeButtonOptions !== null) {
