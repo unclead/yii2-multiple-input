@@ -1,14 +1,23 @@
-.multiple-input-list__item,
+.drag-handle,
 .dragging,
 .dragging * {
     cursor: move !important;
 }
 
 .dragged {
-    position: absolute
-    top: 0
-    opacity: .5
-    z-index: 2000
+    position: absolute;
+    top: 0;
+    opacity: .5;
+    z-index: 2000;
+}
+
+.drag-handle {
+    opacity: .5;
+    padding: 7.5px;
+}
+
+.drag-handle:hover {
+    opacity: 1;
 }
 
 tr.placeholder {

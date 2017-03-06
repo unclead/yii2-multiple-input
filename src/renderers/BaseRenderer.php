@@ -309,7 +309,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
 
         if($this->sortable) {
             MultipleInputSortableAsset::register($view);
-            $js .= "$('#{$this->id} > table').sortable({containerSelector: 'table', itemPath: '> tbody', itemSelector: 'tr', placeholder: '<tr class=\"placeholder\"/>'});";
+            $js .= "$('#{$this->id} table').sortable({containerSelector: 'table', itemPath: '> tbody', itemSelector: 'tr', placeholder: '<tr class=\"placeholder\"/>', handle:'.drag-handle'});";
         }
 
         $view->registerJs($js);

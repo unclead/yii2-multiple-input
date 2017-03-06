@@ -161,7 +161,7 @@ class MultipleInput extends InputWidget
         }
 
         if ($this->model instanceof Model) {
-            $data = $this->model->hasAttribute($this->attribute)
+            $data = ($this->model->hasProperty($this->attribute) || isset($this->model->{$this->attribute}))
                 ? ArrayHelper::getValue($this->model, $this->attribute, [])
                 : [];
 
@@ -213,6 +213,18 @@ class MultipleInput extends InputWidget
      */
     private function createRenderer()
     {
+        if($this->sortable) {
+            $drag = [
+                'name'  => 'drag',
+                'type'  => MultipleInputColumn::TYPE_DRAGCOLUMN,
+                'headerOptions' => [
+                    'style' => 'width: 20px;',
+                ]
+            ];
+
+            array_unshift($this->columns, $drag);
+        }
+        
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
