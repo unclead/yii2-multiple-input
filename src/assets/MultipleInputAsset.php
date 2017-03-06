@@ -17,7 +17,7 @@ use yii\web\AssetBundle;
 class MultipleInputAsset extends AssetBundle
 {
     public $css = [
-        'css/multiple-input.css'
+        YII_DEBUG ? 'css/multiple-input.css' : 'css/multiple-input.min.css'
     ];
 
     public $js = [];
