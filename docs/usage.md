@@ -24,7 +24,8 @@ use unclead\multipleinput\MultipleInput;
         'allowEmptyList'    => false,
         'enableGuessTitle'  => true,
         'min'               => 2, // should be at least 2 rows
-        'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
+        'addButtonPosition' => MultipleInput::POS_HEADER, // show add button in the header
+        'sortable'          => true, // optional. user can change order of rows
     ])
     ->label(false);
 ?>
