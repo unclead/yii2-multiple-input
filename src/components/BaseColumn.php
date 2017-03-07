@@ -34,6 +34,7 @@ abstract class BaseColumn extends Object
     const TYPE_STATIC           = 'static';
     const TYPE_CHECKBOX         = 'checkbox';
     const TYPE_RADIO            = 'radio';
+    const TYPE_DRAGCOLUMN       = 'dragColumn';
 
     /**
      * @var string input name
@@ -446,6 +447,17 @@ abstract class BaseColumn extends Object
     protected function renderStatic($name, $value, $options)
     {
         return Html::tag('p', $value, ['class' => 'form-control-static']);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @param $options
+     * @return string
+     */
+    protected function renderDragColumn($name, $options)
+    {
+        return Html::tag('span', $value, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
     }
 
     /**

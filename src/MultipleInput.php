@@ -124,6 +124,12 @@ class MultipleInput extends InputWidget
     public $form;
 
     /**
+     * @var bool allow sorting.
+     * @internal this property is used when need to allow sorting rows.
+     */
+    public $sortable = false;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -155,7 +161,7 @@ class MultipleInput extends InputWidget
         }
 
         if ($this->model instanceof Model) {
-            $data = $this->model->hasProperty($this->attribute)
+            $data = ($this->model->hasProperty($this->attribute) || isset($this->model->{$this->attribute}))
                 ? ArrayHelper::getValue($this->model, $this->attribute, [])
                 : [];
 
@@ -207,6 +213,18 @@ class MultipleInput extends InputWidget
      */
     private function createRenderer()
     {
+        if($this->sortable) {
+            $drag = [
+                'name'  => 'drag',
+                'type'  => MultipleInputColumn::TYPE_DRAGCOLUMN,
+                'headerOptions' => [
+                    'style' => 'width: 20px;',
+                ]
+            ];
+
+            array_unshift($this->columns, $drag);
+        }
+        
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -219,7 +237,8 @@ class MultipleInput extends InputWidget
             'addButtonPosition' => $this->addButtonPosition,
             'rowOptions'        => $this->rowOptions,
             'context'           => $this,
-            'form'              => $this->form
+            'form'              => $this->form,
+            'sortable'          => $this->sortable
         ];
 
         if ($this->removeButtonOptions !== null) {

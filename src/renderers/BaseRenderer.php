@@ -22,6 +22,7 @@ use yii\widgets\ActiveForm;
 use unclead\multipleinput\MultipleInput;
 use unclead\multipleinput\TabularInput;
 use unclead\multipleinput\assets\MultipleInputAsset;
+use unclead\multipleinput\assets\MultipleInputSortableAsset;
 use unclead\multipleinput\components\BaseColumn;
 
 /**
@@ -118,6 +119,12 @@ abstract class BaseRenderer extends Object implements RendererInterface
      * @var ActiveForm the instance of `ActiveForm` class.
      */
     public $form;
+
+    /**
+     * @var bool allow sorting.
+     * @internal this property is used when need to allow sorting rows.
+     */
+    public $sortable = false;
 
     /**
      * @inheritdoc
@@ -299,6 +306,12 @@ abstract class BaseRenderer extends Object implements RendererInterface
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
+
+        if($this->sortable) {
+            MultipleInputSortableAsset::register($view);
+            $js .= "$('#{$this->id} table').sortable({containerSelector: 'table', itemPath: '> tbody', itemSelector: 'tr', placeholder: '<tr class=\"placeholder\"/>', handle:'.drag-handle'});";
+        }
+
         $view->registerJs($js);
     }
 
