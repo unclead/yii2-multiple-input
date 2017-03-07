@@ -1,10 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-2.5.1
+2.6.0
 =====
-- Implemented `Sortting`
-- fixed if attribute is set and hasProperty return false
+
+- PR#132: Implemented `Sortting` (sankam-nikolya)
+- PR#132: fixed if attribute is set and hasProperty return false (sankam-nikolya)
 
 2.5.0
 =====
