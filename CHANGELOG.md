@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.6.1
+=====
+
+- Fixed assets
+
 2.6.0
 =====
 
