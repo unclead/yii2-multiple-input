@@ -450,14 +450,11 @@ abstract class BaseColumn extends Object
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @param $options
      * @return string
      */
-    protected function renderDragColumn($name, $options)
+    protected function renderDragColumn()
     {
-        return Html::tag('span', $value, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
+        return Html::tag('span', $null, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
     }
 
     /**
