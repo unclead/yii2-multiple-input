@@ -1,4 +1,4 @@
-#Yii2 Multiple input widget.
+# Yii2 Multiple input widget.
 Yii2 widget for handle multiple inputs for an attribute of model and tabular input for batch of models.
 
 [![Latest Stable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/stable)](https://packagist.org/packages/unclead/yii2-multiple-input)
@@ -7,10 +7,10 @@ Yii2 widget for handle multiple inputs for an attribute of model and tabular inp
 [![Latest Unstable Version](https://poser.pugx.org/unclead/yii2-multiple-input/v/unstable)](https://packagist.org/packages/unclead/yii2-multiple-input) 
 [![License](https://poser.pugx.org/unclead/yii2-multiple-input/license)](https://packagist.org/packages/unclead/yii2-multiple-input)
 
-##Latest release
+## Latest release
 The latest stable version of the extension is v2.7.0 Follow the [instruction](./UPGRADE.md) for upgrading from previous versions
 
-##Installation
+## Installation
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
@@ -27,9 +27,9 @@ or add
 
 to the require section of your `composer.json` file.
 
-##Basic usage
+## Basic usage
 
-![Single column example](./docs/images/single-column.gif?raw=true)
+![Single column example](./resources/images/single-column.gif?raw=true)
 
 For example you want to have an ability of entering several emails of user on profile page.
 In this case you can use yii2-multiple-input widget like in the following code
@@ -51,16 +51,11 @@ use unclead\multipleinput\MultipleInput;
 ?>
 ```
 
-You can find more examples of usage [here](./docs/usage.md)
+## Documentation
 
-##Documentation
+You can find a full version of documentation is available in [wiki](https://github.com/unclead/yii2-multiple-input/wiki/Usage)
 
-- [Configuration](./docs/configuration.md)
-- [Usage](./docs/usage.md)
-- [Tips and tricks](./docs/tips.md)
-- [Javascript Events and Operations](./docs/javascript.md)
-- [Renderers](./docs/renderers.md)
 
-##License
+## License
 
 **yii2-multiple-input** is released under the BSD 3-Clause License. See the bundled [LICENSE.md](./LICENSE.md) for details.
