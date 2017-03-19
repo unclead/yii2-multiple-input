@@ -250,42 +250,46 @@ abstract class BaseRenderer extends Object implements RendererInterface
     public function render()
     {
         $this->initColumns();
-        $content = $this->internalRender();
-        $this->registerAssets();
-        return $content;
-    }
 
-    /**
-     * @return mixed
-     * @throws NotSupportedException
-     */
-    abstract protected function internalRender();
-
-    /**
-     * Register script.
-     *
-     * @throws \yii\base\InvalidParamException
-     */
-    protected function registerAssets()
-    {
         $view = $this->context->getView();
         MultipleInputAsset::register($view);
 
-        $view = $this->context->getView();
-
+        // Collect all js scripts which were added before rendering of our widget
         $jsBefore= [];
-        if (is_array($view->js) && array_key_exists(View::POS_READY, $view->js)) {
-            foreach ($view->js[View::POS_READY] as $key => $js) {
-                $jsBefore[$key] = $js;
+        if (is_array($view->js)) {
+            foreach ($view->js as $position => $scripts) {
+                foreach ($scripts as $key => $js) {
+                    if (!isset($jsBefore[$position])) {
+                        $jsBefore[$position] = [];
+                    }
+                    $jsBefore[$position][$key] = $js;
+                }
+            }
+        }
+
+        $content  = $this->internalRender();
+
+        // Collect all js scripts which has to be appended to page before initialization widget
+        $jsInit = [];
+        if (is_array($view->js)) {
+            foreach ($view->js as $position => $scripts) {
+                foreach ($scripts as $key => $js) {
+                    if (isset($jsBefore[$position][$key])) {
+                        continue;
+                    }
+                    $jsInit[$key] = $js;
+                    $jsBefore[$position][$key] = $js;
+                    unset($view->js[$position][$key]);
+                }
             }
         }
 
         $template = $this->prepareTemplate();
 
         $jsTemplates = [];
-        if (is_array($view->js) && array_key_exists(View::POS_READY, $view->js)) {
+        if (is_array($view->js) && isset($view->js[View::POS_READY])) {
             foreach ($view->js[View::POS_READY] as $key => $js) {
-                if (array_key_exists($key, $jsBefore)) {
+                if (isset($jsBefore[View::POS_READY][$key])) {
                     continue;
                 }
 
@@ -298,6 +302,7 @@ abstract class BaseRenderer extends Object implements RendererInterface
             'id'                => $this->id,
             'inputId'           => $this->context->options['id'],
             'template'          => $template,
+            'jsInit'            => $jsInit,
             'jsTemplates'       => $jsTemplates,
             'max'               => $this->max,
             'min'               => $this->min,
@@ -313,7 +318,15 @@ abstract class BaseRenderer extends Object implements RendererInterface
         }
 
         $view->registerJs($js);
+
+        return $content;
     }
+
+    /**
+     * @return mixed
+     * @throws NotSupportedException
+     */
+    abstract protected function internalRender();
 
     /**
      * @return string

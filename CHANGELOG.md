@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.7.0
+=====
+
+- Fixed an incorrect behavior of widget in case of ajax loading (e.g. in modal window)
+
 2.6.1
 =====
 

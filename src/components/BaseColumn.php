@@ -439,9 +439,11 @@ abstract class BaseColumn extends Object
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @param $options
+     * Renders a text.
+     *
+     * @param string $name the name of input
+     * @param mixed $value the value of input
+     * @param array $options the HTMl options of input
      * @return string
      */
     protected function renderStatic($name, $value, $options)
@@ -450,22 +452,24 @@ abstract class BaseColumn extends Object
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @param $options
+     * Renders a drag&drop column.
+     *
+     * @param string $name the name of input
+     * @param mixed $value the value of input
+     * @param array $options the HTMl options of input
      * @return string
      */
-    protected function renderDragColumn($name, $options)
+    protected function renderDragColumn($name, $value, $options)
     {
-        return Html::tag('span', $value, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
+        return Html::tag('span', null, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
     }
 
     /**
      * Renders an input.
      *
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string $name the name of input
+     * @param mixed $value the value of input
+     * @param array $options the HTMl options of input
      * @return string
      * @throws InvalidConfigException
      */
@@ -488,10 +492,10 @@ abstract class BaseColumn extends Object
     /**
      * Renders a widget.
      *
-     * @param $type
-     * @param $name
-     * @param $value
-     * @param $options
+     * @param string $type
+     * @param string $name the name of input
+     * @param mixed $value the value of input
+     * @param array $options the HTMl options of input
      * @return mixed
      */
     protected function renderWidget($type, $name, $value, $options)
