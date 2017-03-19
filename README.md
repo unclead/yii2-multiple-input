@@ -53,7 +53,7 @@ use unclead\multipleinput\MultipleInput;
 
 ## Documentation
 
-You can find a full version of documentation is available in [wiki](https://github.com/unclead/yii2-multiple-input/wiki/Usage)
+You can find a full version of documentation in [wiki](https://github.com/unclead/yii2-multiple-input/wiki/Usage)
 
 
 ## License
