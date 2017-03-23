@@ -16,16 +16,6 @@ use yii\web\AssetBundle;
  */
 class MultipleInputAsset extends AssetBundle
 {
-    /**
-     * @var array
-     */
-    public $css = [];
-
-    /**
-     * @var array
-     */
-    public $js = [];
-
     public $depends = [
         'yii\web\JqueryAsset'
     ];

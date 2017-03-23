@@ -16,18 +16,14 @@ use yii\web\AssetBundle;
  */
 class MultipleInputSortableAsset extends AssetBundle
 {
-    public $sourcePath = __DIR__ . '/src/';
-    
-    public $css = [];
-
-    public $js = [];
-
     public $depends = [
         'unclead\multipleinput\assets\MultipleInputAsset',
     ];
 
     public function init()
     {
+        $this->sourcePath = __DIR__ . '/src/';
+
         $this->js = [
             YII_DEBUG ? 'js/jquery-sortable.js' : 'js/jquery-sortable.min.js'
         ];
