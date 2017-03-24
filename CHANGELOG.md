@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.8.0
+=====
+
+- #137: added option `nameSuffix` to avoid errors related to duplication of id in case when you use several copies of the widget on a page
+
 2.7.1
 =====
 

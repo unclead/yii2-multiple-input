@@ -120,6 +120,12 @@ abstract class BaseColumn extends Object
      * @since 2.1
      */
     public $attributeOptions = [];
+
+    /**
+     * @var string the unique prefix for attribute's name to avoid id duplication e.g. in case of using Select2 widget.
+     * @since 2.8
+     */
+    public $nameSuffix;
     
     /**
      * @var Model|ActiveRecordInterface|array
