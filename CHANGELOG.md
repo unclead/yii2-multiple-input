@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.8.1
+=====
+
+- Fixed client validation
+
 2.8.0
 =====
 
