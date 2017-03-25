@@ -356,7 +356,7 @@
         // try to find options for embedded attribute at first.
         // For example the id of new input is example-1-field-0.
         // We remove last index and check whether attribute with such id exists or not.
-        var bareId = id.replace(/-\d-([^\d]+)$/, '-$1');
+        var bareId = id.replace(/-\d+-([^\d]+)$/, '-$1');
         if (data.settings.attributes.hasOwnProperty(bareId)) {
             attributeOptions = data.settings.attributes[bareId];
         } else {
