@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+2.8.2
+=====
+
+- Fixed conflict with jQuery UI sortable
+
 2.8.1
 =====
 
