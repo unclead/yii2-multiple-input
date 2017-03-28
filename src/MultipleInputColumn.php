@@ -63,7 +63,7 @@ class MultipleInputColumn extends BaseColumn
             $prefix = $this->context->name;
         }
 
-        return  $prefix . $elementName;
+        return $prefix . $elementName . (empty($this->nameSuffix) ? '' : ('_' . $this->nameSuffix));
     }
 
     /**

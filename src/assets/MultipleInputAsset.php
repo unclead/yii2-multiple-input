@@ -16,12 +16,6 @@ use yii\web\AssetBundle;
  */
 class MultipleInputAsset extends AssetBundle
 {
-    public $css = [
-        YII_DEBUG ? 'css/multiple-input.css' : 'css/multiple-input.min.css'
-    ];
-
-    public $js = [];
-
     public $depends = [
         'yii\web\JqueryAsset'
     ];
@@ -29,9 +23,15 @@ class MultipleInputAsset extends AssetBundle
     public function init()
     {
         $this->sourcePath = __DIR__ . '/src/';
+
         $this->js = [
             YII_DEBUG ? 'js/jquery.multipleInput.js' : 'js/jquery.multipleInput.min.js'
         ];
+
+        $this->css = [
+            YII_DEBUG ? 'css/multiple-input.css' : 'css/multiple-input.min.css'
+        ];
+
         parent::init();
     }
 

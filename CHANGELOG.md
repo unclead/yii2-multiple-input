@@ -1,10 +1,36 @@
 Yii2 multiple input change log
 ==============================
 
-2.5.1
+2.8.1
 =====
-- Implemented `Sortting`
-- fixed if attribute is set and hasProperty return false
+
+- Fixed client validation
+
+2.8.0
+=====
+
+- #137: added option `nameSuffix` to avoid errors related to duplication of id in case when you use several copies of the widget on a page
+
+2.7.1
+=====
+
+- Fixed assets
+
+2.7.0
+=====
+
+- Fixed an incorrect behavior of widget in case of ajax loading (e.g. in modal window)
+
+2.6.1
+=====
+
+- Fixed assets
+
+2.6.0
+=====
+
+- PR#132: Implemented `Sortting` (sankam-nikolya)
+- PR#132: fixed if attribute is set and hasProperty return false (sankam-nikolya)
 
 2.5.0
 =====

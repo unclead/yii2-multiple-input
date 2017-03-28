@@ -61,9 +61,13 @@
          */
         template: null,
         /**
-         * string that collect js templates of widgets which uses in the columns
+         * array that collect js templates of widgets which uses in the columns
          */
         jsTemplates: [],
+        /**
+         * array of scripts which need to execute before initialization
+         */
+        jsInit: [],
         /**
          * how many row are allowed to render
          */
@@ -96,11 +100,16 @@
                 form = $wrapper.closest('form'),
                 inputId = settings.inputId;
 
+            for (i in settings.jsInit) {
+                var script = document.createElement("script");
+                script.innerHTML = settings.jsInit[i];
+                document.body.appendChild(script);
+            }
+
             $wrapper.data('multipleInput', {
                 settings: settings,
                 currentIndex: 0
             });
-
 
             $wrapper.on('click.multipleInput', '.js-input-remove', function (e) {
                 e.stopPropagation();
@@ -347,7 +356,7 @@
         // try to find options for embedded attribute at first.
         // For example the id of new input is example-1-field-0.
         // We remove last index and check whether attribute with such id exists or not.
-        var bareId = id.replace(/-\d-([^\d]+)$/, '-$1');
+        var bareId = id.replace(/-\d+-([^\d]+)$/, '-$1');
         if (data.settings.attributes.hasOwnProperty(bareId)) {
             attributeOptions = data.settings.attributes[bareId];
         } else {
