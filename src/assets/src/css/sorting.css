@@ -40,3 +40,7 @@ tr.placeholder:before {
     left: -5px;
     border-right: none;
 }
+
+table.multiple-input-list.table-renderer tr > td.list-cell__drag {
+    width: 35px;
+}
