@@ -690,4 +690,4 @@
     });
   };
 
-}(jQuery, window, 'sortable');
+}(jQuery, window, 'sorting');
