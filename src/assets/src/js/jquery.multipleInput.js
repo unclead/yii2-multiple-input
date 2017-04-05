@@ -22,7 +22,7 @@
         /**
          * afterAddRow event is triggered after successful adding new row.
          * The signature of the event handler should be:
-         *     function (event)
+         *     function (event, row)
          * where event is an Event object.
          *
          */
@@ -231,8 +231,9 @@
         }
 
         template = template.replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex);
+        var $addedInput = $(template);
 
-        $(template).hide().appendTo(inputList).fadeIn(300);
+        $addedInput.hide().appendTo(inputList).fadeIn(300);
 
         if (values instanceof Object) {
             var tmp = [];
@@ -290,7 +291,7 @@
         $wrapper.data('multipleInput').currentIndex++;
 
         var event = $.Event(events.afterAddRow);
-        $wrapper.trigger(event);
+        $wrapper.trigger(event, [$addedInput]);
     };
 
     var removeInput = function ($btn) {
