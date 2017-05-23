@@ -159,6 +159,7 @@ $js = <<< JS
             console.log('calls on after initialization event');
         }).on('beforeAddRow', function(e) {
             console.log('calls on before add row event');
+            return confirm('Are you sure you want to add row?')
         }).on('afterAddRow', function(e, row) {
             console.log('calls on after add row event', $(row));
         }).on('beforeDeleteRow', function(e, item){
