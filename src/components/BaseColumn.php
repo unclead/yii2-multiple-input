@@ -128,6 +128,26 @@ abstract class BaseColumn extends Object
     public $nameSuffix;
     
     /**
+     * @var \Closure Generates options for the widget that depend on the model in each line, e. g. 'initValueText' in 'kartik\Select2'. It's 
+     * an anonymous function that return array with following signature:
+     * ```
+     *
+     * 'columns' => [
+     *     ...
+     *     [
+     *          'name' => 'column',
+     *          'wdgtOptions' => function($model) {
+     *             // do your magic
+     *          }
+     *          ....
+     *      ]
+     * ...
+     *
+     * ```
+     */
+    public $wdgtOptions;     
+    
+    /**
      * @var Model|ActiveRecordInterface|array
      */
     private $_model;
@@ -516,8 +536,14 @@ abstract class BaseColumn extends Object
                 'options'   => [
                     'id' => $this->normalize($name),
                     'name' => $name
-                ]
+                ]                
             ];
+            
+            if ( $this->wdgtOptions instanceof \Closure && !empty($value)) {
+                $wgOp = call_user_func($this->wdgtOptions, $model);
+                $widgetOptions = ArrayHelper::merge($wgOp ,$widgetOptions );
+            }            
+            
         } else {
             $widgetOptions = [
                 'name'  => $name,
