@@ -22,7 +22,15 @@
         /**
          * afterAddRow event is triggered after successful adding new row.
          * The signature of the event handler should be:
-         *     function (event)
+         *     function (event, row)
+         * where event is an Event object.
+         *
+         */
+        beforeAddRow: 'beforeAddRow',
+        /**
+         * afterAddRow event is triggered after successful adding new row.
+         * The signature of the event handler should be:
+         *     function (event, row)
          * where event is an Event object.
          *
          */
@@ -231,8 +239,16 @@
         }
 
         template = template.replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex);
+        var $addedInput = $(template);
 
-        $(template).hide().appendTo(inputList).fadeIn(300);
+        var beforeAddEvent = $.Event(events.beforeAddRow);
+        $wrapper.trigger(beforeAddEvent, [$addedInput]);
+
+        if (beforeAddEvent.result === false) {
+            return;
+        }
+
+        $addedInput.hide().appendTo(inputList).fadeIn(300);
 
         if (values instanceof Object) {
             var tmp = [];
@@ -289,8 +305,8 @@
 
         $wrapper.data('multipleInput').currentIndex++;
 
-        var event = $.Event(events.afterAddRow);
-        $wrapper.trigger(event);
+        var afterAddEvent = $.Event(events.afterAddRow);
+        $wrapper.trigger(afterAddEvent, [$addedInput]);
     };
 
     var removeInput = function ($btn) {

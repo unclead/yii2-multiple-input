@@ -5,7 +5,6 @@ use unclead\multipleinput\MultipleInput;
 use unclead\multipleinput\examples\models\ExampleModel;
 use yii\helpers\Html;
 use unclead\multipleinput\MultipleInputColumn;
-use yii\widgets\MaskedInput;
 
 // Note: You have to install https://github.com/kartik-v/yii2-widget-datepicker for correct work an example
 use kartik\date\DatePicker;
@@ -24,25 +23,25 @@ use kartik\date\DatePicker;
 
 <h3>Single column</h3>
 <?php
-//    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
-//        'max'  => 6,
-//        'allowEmptyList' => false,
-//        'columns' => [
-//            [
-//                'name' => 'emails',
-//                'options' => [
-//                    'placeholder' => 'E-mail'
-//                ]
-//            ]
-//        ],
-//        'min'  => 2, // should be at least 2 rows
-//        'addButtonPosition' => [
-//            MultipleInput::POS_HEADER,
-//            MultipleInput::POS_FOOTER,
-//            MultipleInput::POS_ROW
-//        ]
-//    ])
-//    ->label(false);
+    echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
+        'max'  => 6,
+        'allowEmptyList' => false,
+        'columns' => [
+            [
+                'name' => 'emails',
+                'options' => [
+                    'placeholder' => 'E-mail'
+                ]
+            ]
+        ],
+        'min'  => 2, // should be at least 2 rows
+        'addButtonPosition' => [
+            MultipleInput::POS_HEADER,
+            MultipleInput::POS_FOOTER,
+            MultipleInput::POS_ROW
+        ]
+    ])
+    ->label(false);
 ?>
 
 <h3>Multiple columns</h3>
@@ -89,7 +88,7 @@ echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
         ],
         [
             'name'  => 'day',
-            'type'  => MaskedInput::className(),
+            'type'  => DatePicker::className(),
             'title' => 'Day',
             'value' => function($data) {
                 return $data['day'];
@@ -99,15 +98,11 @@ echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
                 '1' => 'Monday'
             ],
             'options' => [
-                'mask' => '99.99.9999'
-
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'todayHighlight' => true
+                ]
             ],
-//            'options' => [
-//                'pluginOptions' => [
-//                    'format' => 'dd.mm.yyyy',
-//                    'todayHighlight' => true
-//                ]
-//            ],
             'headerOptions' => [
                 'style' => 'width: 250px;',
                 'class' => 'day-css-class'
@@ -164,8 +159,9 @@ $js = <<< JS
             console.log('calls on after initialization event');
         }).on('beforeAddRow', function(e) {
             console.log('calls on before add row event');
-        }).on('afterAddRow', function(e) {
-            console.log('calls on after add row event');
+            return confirm('Are you sure you want to add row?')
+        }).on('afterAddRow', function(e, row) {
+            console.log('calls on after add row event', $(row));
         }).on('beforeDeleteRow', function(e, item){
             console.log(item);
             console.log('calls on before remove row event');

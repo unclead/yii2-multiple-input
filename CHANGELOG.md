@@ -1,6 +1,16 @@
 Yii2 multiple input change log
 ==============================
 
+2.10.0
+======
+
+- #154: Added missing js event: beforeAddRow
+
+2.9.0
+=====
+
+- Pass the added row to `afterAddRow` event
+
 2.8.2
 =====
 
