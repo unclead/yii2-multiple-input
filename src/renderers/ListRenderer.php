@@ -211,10 +211,13 @@ class ListRenderer extends BaseRenderer
         $input = Html::tag('div', $input, $wrapperOptions);
 
         $content = Html::beginTag('div', ['class' => 'form-group list-cell__' . $column->name]);
-        $content .= Html::label($column->title, $id, [
-            'class' => 'col-sm-2 control-label' . (empty($column->title) ? ' sr-only' : '')
-        ]);
-        $content .= Html::tag('div', $input, ['class' => 'col-sm-10']);
+        if(!empty($column->title)) {
+            $content .= Html::label($column->title, $id, [
+                'class' => (!empty($column->titleClass)) ? $column->titleClass : null
+            ]);
+        }
+        
+        $content .= Html::tag('div', $input, ['class' => (!empty($column->contentClass)) ? $column->contentClass : null]);
         $content .= Html::endTag('div');
 
         return $content;

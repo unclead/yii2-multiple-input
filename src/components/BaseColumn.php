@@ -47,6 +47,11 @@ abstract class BaseColumn extends Object
     public $title;
 
     /**
+     * @var string the header cell class. Note that it will not be HTML-encoded.
+     */
+    public $titleClass = 'col-sm-2 control-label';
+
+    /**
      * @var string input type
      */
     public $type;
@@ -55,6 +60,11 @@ abstract class BaseColumn extends Object
      * @var string|\Closure
      */
     public $value;
+
+    /**
+     * @var string the content cell class. Note that it will not be HTML-encoded.
+     */
+    public $contentClass = 'col-sm-10';
 
     /**
      * @var mixed default value for input
