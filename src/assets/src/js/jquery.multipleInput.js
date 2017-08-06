@@ -228,10 +228,10 @@
     };
 
     var addInput = function (btn, values) {
-        var $wrapper = $(btn).closest('.multiple-input').first(),
-            data = $wrapper.data('multipleInput'),
-            settings = data.settings,
-            template = settings.template,
+        var $wrapper  = $(btn).closest('.multiple-input').first(),
+            data      = $wrapper.data('multipleInput'),
+            settings  = data.settings,
+            template  = settings.template,
             inputList = $wrapper.children('.multiple-input-list').first();
 
         if (settings.max != null && getCurrentIndex($wrapper) >= settings.max) {
@@ -273,10 +273,10 @@
 
         var index = 0;
         
-        $(template).find('input, select, textarea').each(function () {
-            var that = $(this),
-                tag = that.get(0).tagName,
-                id = getInputId(that),
+        $(template).find('input, select, textarea').each(function (k, v) {
+            var ele = $(v),
+                tag = v.tagName,
+                id  = getInputId(ele),
                 obj = $('#' + id);
 
             if (values) {
@@ -297,7 +297,7 @@
             }
 
             if (isActiveFormEnabled) {
-                addAttribute(that);
+                addAttribute(ele);
             }
 
             index++;
@@ -310,10 +310,10 @@
     };
 
     var removeInput = function ($btn) {
-        var $wrapper = $btn.closest('.multiple-input').first(),
+        var $wrapper  = $btn.closest('.multiple-input').first(),
             $toDelete = $btn.closest('.multiple-input-list__item'),
-            data = $wrapper.data('multipleInput'),
-            settings = data.settings;
+            data      = $wrapper.data('multipleInput'),
+            settings  = data.settings;
 
         if (getCurrentIndex($wrapper) > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
@@ -324,8 +324,8 @@
             }
 
             if (isActiveFormEnabled) {
-                $toDelete.find('input, select, textarea').each(function () {
-                    removeAttribute($(this));
+                $toDelete.find('input, select, textarea').each(function (index, ele) {
+                    removeAttribute($(ele));
                 });
             }
 
@@ -394,8 +394,8 @@
     /**
      * Removes an attribute from ActiveForm.
      */
-    var removeAttribute = function () {
-        var id = getInputId($(this));
+    var removeAttribute = function (ele) {
+        var id = getInputId(ele);
 
         if (id === null) {
             return;
