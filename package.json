@@ -3,7 +3,7 @@
   "version": "2.9.0",
   "description": "jQuery multipleInput",
   "scripts": {
-	  "build": "npm install && (gulp || node node_modules/gulp/bin/gulp.js)"
+    "build": "npm install && (gulp || node node_modules/gulp/bin/gulp.js)"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "email": "unclead.nsk@gmail.com"
   },
   "keywords": [
-	"jquery"
+    "jquery"
   ],
   "license": "BSD-3-Clause",
   "bugs": {

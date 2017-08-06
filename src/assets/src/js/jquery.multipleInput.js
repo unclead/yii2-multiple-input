@@ -424,10 +424,10 @@
 
     var getCurrentIndex = function($wrapper) {
         return $wrapper
-            .children('.multiple-input-list')
-            .children('tbody')
-            .children('.multiple-input-list__item')
-            .length;
+            .find('.multiple-input-list .multiple-input-list__item')
+            .filter(function(){
+                return $(this).parents('.multiple-input').first().attr('id') === $wrapper.attr('id');
+            }).length;
     };
 
     String.prototype.replaceAll = function (search, replace) {
