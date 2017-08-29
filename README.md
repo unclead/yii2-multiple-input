@@ -50,6 +50,64 @@ use unclead\multipleinput\MultipleInput;
     ->label(false);
 ?>
 ```
+See more in [single column](https://github.com/unclead/yii2-multiple-input/wiki/Usage#one-column)
+
+## Advanced usage
+
+![Multiple columns example](https://raw.githubusercontent.com/unclead/yii2-multiple-input/master/resources/images/multiple-column.gif)
+
+For example you want to have an interface for manage user schedule. For simplicity we will store the schedule in json string.
+In this case you can use yii2-multiple-input widget like in the following code
+
+```php
+use unclead\multipleinput\MultipleInput;
+
+...
+
+<?= $form->field($model, 'schedule')->widget(MultipleInput::className(), [
+    'max' => 4,
+    'columns' => [
+        [
+            'name'  => 'user_id',
+            'type'  => 'dropDownList',
+            'title' => 'User',
+            'defaultValue' => 1,
+            'items' => [
+                1 => 'User 1',
+                2 => 'User 2'
+            ]
+        ],
+        [
+            'name'  => 'day',
+            'type'  => \kartik\date\DatePicker::className(),
+            'title' => 'Day',
+            'value' => function($data) {
+                return $data['day'];
+            },
+            'items' => [
+                '0' => 'Saturday',
+                '1' => 'Monday'
+            ],
+            'options' => [
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'todayHighlight' => true
+                ]
+            ]
+        ],
+        [
+            'name'  => 'priority',
+            'title' => 'Priority',
+            'enableError' => true,
+            'options' => [
+                'class' => 'input-priority'
+            ]
+        ]
+    ]
+ ]);
+?>
+```
+See more in [multiple columns](https://github.com/unclead/yii2-multiple-input/wiki/Usage#multiple-columns)
 
 ## Documentation
 
