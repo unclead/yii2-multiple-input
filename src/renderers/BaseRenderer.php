@@ -127,6 +127,12 @@ abstract class BaseRenderer extends Object implements RendererInterface
     public $sortable = false;
 
     /**
+     * @var bool whether to render inline error for all input. Default to `false`. Can be override in `columns`
+     * @since 2.10
+     */
+    public $enableError = false;
+
+    /**
      * @inheritdoc
      */
     public function setContext($context)
@@ -241,6 +247,10 @@ abstract class BaseRenderer extends Object implements RendererInterface
 
             if (!array_key_exists('attributeOptions', $definition)) {
                 $definition['attributeOptions'] = $this->attributeOptions;
+            }
+
+            if (!array_key_exists('enableError', $definition)) {
+                $definition['enableError'] = $this->enableError;
             }
 
             $this->columns[$i] = Yii::createObject($definition);
