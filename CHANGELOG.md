@@ -3,7 +3,7 @@ Yii2 multiple input change log
 
 2.10.0
 ======
-
+- #170: Added global options `enableError`
 - #154: Added missing js event: beforeAddRow
 
 2.9.0

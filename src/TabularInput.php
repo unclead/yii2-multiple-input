@@ -116,6 +116,12 @@ class TabularInput extends Widget
     public $sortable = false;
 
     /**
+     * @var bool whether to render inline error for all input. Default to `false`. Can be override in `columns`
+     * @since 2.10
+     */
+    public $enableError = false;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -165,7 +171,8 @@ class TabularInput extends Widget
             'addButtonPosition' => $this->addButtonPosition,
             'context'           => $this,
             'form'              => $this->form,
-            'sortable'          => $this->sortable
+            'sortable'          => $this->sortable,
+            'enableError'       => $this->enableError,
         ];
 
         if ($this->removeButtonOptions !== null) {
