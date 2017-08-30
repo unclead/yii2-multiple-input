@@ -1,6 +1,9 @@
 Yii2 multiple input change log
 ==============================
 
+2.11.0
+======
+
 2.10.0
 ======
 - #170: Added global options `enableError`
