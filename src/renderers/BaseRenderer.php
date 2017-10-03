@@ -375,6 +375,14 @@ abstract class BaseRenderer extends Object implements RendererInterface
         return in_array(self::POS_ROW, $this->addButtonPosition);
     }
 
+    /**
+     * @return bool
+     */
+    protected function isAddButtonPositionRowBegin()
+    {
+        return in_array(self::POS_ROW_BEGIN, $this->addButtonPosition);
+    }
+
     private function prepareIndexPlaceholder()
     {
         $this->indexPlaceholder = 'multiple_index_' . $this->id;
