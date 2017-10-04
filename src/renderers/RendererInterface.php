@@ -17,6 +17,7 @@ interface RendererInterface
 {
     const POS_HEADER    = 'header';
     const POS_ROW       = 'row';
+    const POS_ROW_BEGIN = 'row_begin';
     const POS_FOOTER    = 'footer';
 
     /**

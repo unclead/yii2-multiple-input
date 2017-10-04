@@ -172,6 +172,10 @@ class TableRenderer extends BaseRenderer
     {
         $cells = [];
         $hiddenInputs = [];
+        $isLastRow = $this->max === $this->min;
+        if (!$isLastRow && $this->isAddButtonPositionRowBegin()) {
+            $cells[] = $this->renderActionColumn($index);
+        }
 
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
@@ -183,7 +187,7 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        if ($this->max !== $this->min) {
+        if (!$isLastRow && $this->isAddButtonPositionRow()) {
             $cells[] = $this->renderActionColumn($index);
         }
 
@@ -292,7 +296,7 @@ class TableRenderer extends BaseRenderer
         if ($index < $this->min) {
             return '';
         } elseif ($index === $this->min) {
-            return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
+            return ($this->isAddButtonPositionRow() || $this->isAddButtonPositionRowBegin()) ? $this->renderAddButton() : '';
         } else {
             return $this->renderRemoveButton();
         }
