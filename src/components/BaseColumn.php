@@ -11,7 +11,7 @@ namespace unclead\multipleinput\components;
 use Closure;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
