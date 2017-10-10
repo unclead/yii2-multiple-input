@@ -1,6 +1,10 @@
 Yii2 multiple input change log
 ==============================
 
+2.12.0
+======
+
+
 2.11.0
 ======
 - Added the possibility to substitute buttons before rows
