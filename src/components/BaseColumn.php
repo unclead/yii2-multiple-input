@@ -11,7 +11,7 @@ namespace unclead\multipleinput\components;
 use Closure;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\base\BaseObject;
+use yii\base\Object;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -23,7 +23,7 @@ use unclead\multipleinput\renderers\BaseRenderer;
  *
  * @package unclead\multipleinput\components
  */
-abstract class BaseColumn extends BaseObject
+abstract class BaseColumn extends Object
 {
     const TYPE_TEXT_INPUT       = 'textInput';
     const TYPE_HIDDEN_INPUT     = 'hiddenInput';

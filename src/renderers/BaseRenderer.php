@@ -15,7 +15,7 @@ use yii\helpers\Json;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\NotSupportedException;
-use yii\base\BaseObject;
+use yii\base\Object;
 use yii\db\ActiveRecordInterface;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -29,7 +29,7 @@ use unclead\multipleinput\components\BaseColumn;
  * Class BaseRenderer
  * @package unclead\multipleinput\renderers
  */
-abstract class BaseRenderer extends BaseObject implements RendererInterface
+abstract class BaseRenderer extends Object implements RendererInterface
 {
     /**
      * @var string the ID of the widget
