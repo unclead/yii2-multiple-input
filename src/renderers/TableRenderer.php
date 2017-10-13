@@ -187,7 +187,7 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        if (!$isLastRow && $this->isAddButtonPositionRow()) {
+        if (!$isLastRow && !$this->isAddButtonPositionRow()) {
             $cells[] = $this->renderActionColumn($index);
         }
 

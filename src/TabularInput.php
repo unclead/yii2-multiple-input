@@ -26,6 +26,7 @@ class TabularInput extends Widget
     const POS_HEADER    = RendererInterface::POS_HEADER;
     const POS_ROW       = RendererInterface::POS_ROW;
     const POS_FOOTER    = RendererInterface::POS_FOOTER;
+    const POS_ROW_BEGIN = RendererInterface::POS_ROW_BEGIN;
 
     /**
      * @var array
