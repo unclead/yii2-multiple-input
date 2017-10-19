@@ -174,7 +174,7 @@ class TableRenderer extends BaseRenderer
         $hiddenInputs = [];
         $isLastRow = $this->max === $this->min;
         if (!$isLastRow && $this->isAddButtonPositionRowBegin()) {
-            $cells[] = $this->renderActionColumn($index);
+            $cells[] = $this->renderActionColumn($index, true);
         }
 
         foreach ($this->columns as $column) {
@@ -187,8 +187,8 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        if (!$isLastRow && !$this->isAddButtonPositionRow()) {
-            $cells[] = $this->renderActionColumn($index);
+        if (!$isLastRow) {
+            $cells[] = $this->renderActionColumn($index, false);
         }
 
         if ($hiddenInputs) {
@@ -276,30 +276,44 @@ class TableRenderer extends BaseRenderer
      * Renders the action column.
      *
      * @param null|int $index
+     * @param bool $isFirstColumn
      * @return string
-     * @throws \Exception
      */
-    private function renderActionColumn($index = null)
+    private function renderActionColumn($index = null, $isFirstColumn = false)
     {
-        return Html::tag('td', $this->getActionButton($index), [
+        return Html::tag('td', $this->getActionButton($index, $isFirstColumn), [
             'class' => 'list-cell__button',
         ]);
     }
 
-    private function getActionButton($index)
+    private function getActionButton($index, $isFirstColumn)
     {
         if ($index === null || $this->min === 0) {
-            return $this->renderRemoveButton();
+            if ($isFirstColumn) {
+                return $this->isAddButtonPositionRowBegin() ? $this->renderRemoveButton() : '';
+            }
+
+            return $this->isAddButtonPositionRowBegin() ? '' : $this->renderRemoveButton();
         }
 
         $index++;
         if ($index < $this->min) {
             return '';
-        } elseif ($index === $this->min) {
-            return ($this->isAddButtonPositionRow() || $this->isAddButtonPositionRowBegin()) ? $this->renderAddButton() : '';
-        } else {
-            return $this->renderRemoveButton();
         }
+
+        if ($index === $this->min) {
+            if ($isFirstColumn) {
+                return $this->isAddButtonPositionRowBegin() ? $this->renderAddButton() : '';
+            }
+
+            return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
+        }
+
+        if ($isFirstColumn) {
+            return $this->isAddButtonPositionRowBegin() ? $this->renderRemoveButton() : '';
+        }
+
+        return $this->isAddButtonPositionRowBegin() ? '' : $this->renderRemoveButton();
     }
 
     private function renderAddButton()
