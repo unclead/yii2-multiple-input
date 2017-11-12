@@ -8,8 +8,8 @@ if you want to upgrade from version A to version C and there is
 version B between A and C, you need to following the instructions
 for both A and B.
 
-Upgrade 2.12.0 (when yii2 2.0.13 will be released)
---------------------------------------------------
+Upgrade 2.12.0
+--------------
 - Ensure you use yii2 2.0.13 and higher, otherwise you have to use previous version of the widget
 
 Upgrade from 2.2.0 tp 2.3.0

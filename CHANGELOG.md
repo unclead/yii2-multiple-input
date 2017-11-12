@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
+2.13.0
+======
+
 2.12.0
 ======
+- Rename yii\base\Object to yii\base\BaseObject
 
 
 2.11.0
