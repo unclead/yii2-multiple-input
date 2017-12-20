@@ -198,12 +198,9 @@ abstract class BaseColumn extends BaseObject
         } else {
             $value = null;
             if ($data instanceof ActiveRecordInterface ) {
-                if ($data->getRelation($this->name, false) && $data->canSetProperty($this->name)) {
+                if ($data->canGetProperty($this->name)) {
                     $value = $data->{$this->name};
-                } else {
-                    $value = $data->getAttribute($this->name);
                 }
-
             } elseif ($data instanceof Model) {
                 $value = $data->{$this->name};
             } elseif (is_array($data)) {
