@@ -68,7 +68,7 @@ class TabularInput extends Widget
     /**
      * @var Model[]|ActiveRecordInterface[]
      */
-    public $models;
+    public $models = [];
 
     /**
      * @var string|array position of add button.
@@ -123,24 +123,46 @@ class TabularInput extends Widget
     public $enableError = false;
 
     /**
+     * @var string a class of model which is used to render the widget.
+     * You have to specify this property in case you set `min` property to 0 (when you want to allow an empty list)
+     * @since 2.13
+     */
+    public $modelClass;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
-        if (empty($this->models)) {
-            throw new InvalidConfigException('You must specify "models"');
+        if (empty($this->models) && !$this->modelClass) {
+            throw new InvalidConfigException('You must at least specify "models" or "modelClass"');
         }
 
         if ($this->form !== null && !$this->form instanceof ActiveForm) {
             throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
         }
 
-        foreach ($this->models as $model) {
-            if (!$model instanceof Model) {
-                throw new InvalidConfigException('Model has to be an instance of yii\base\Model');
+        if (!is_array($this->models)) {
+            throw new InvalidConfigException('Property "models" must be an array');
+        }
+
+        if ($this->models) {
+            $modelClasses = [];
+            foreach ($this->models as $model) {
+                if (!$model instanceof Model) {
+                    throw new InvalidConfigException('Model has to be an instance of yii\base\Model');
+                }
+
+                $modelClasses[get_class($model)] = true;
             }
+
+            if (count($modelClasses) > 1) {
+                throw new InvalidConfigException("You cannot use models of different classes");
+            }
+
+            $this->modelClass = key($modelClasses);
         }
 
         parent::init();

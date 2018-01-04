@@ -3,6 +3,7 @@ Yii2 multiple input change log
 
 2.13.0
 ======
+- #152 added ability to allow an empty list (or set `min` property to 0) for TabularInput
 
 2.12.0
 ======

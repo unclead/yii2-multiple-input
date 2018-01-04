@@ -20,6 +20,8 @@ use unclead\multipleinput\TabularColumn;
 
 <?= TabularInput::widget([
     'models' => $models,
+    'modelClass' => Item::class,
+    'min' => 0,
     'attributeOptions' => [
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,
