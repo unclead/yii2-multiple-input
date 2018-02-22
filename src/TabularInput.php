@@ -61,6 +61,11 @@ class TabularInput extends Widget
     public $addButtonOptions;
 
     /**
+     * @var array the HTML options for the `clone` button
+     */
+    public $cloneButtonOptions;
+
+    /**
      * @var bool whether to allow the empty list
      */
     public $allowEmptyList = false;
@@ -121,6 +126,11 @@ class TabularInput extends Widget
      * @since 2.10
      */
     public $enableError = false;
+
+    /**
+     * @var bool whether to render clone button. Default to `false`.
+     */
+    public $cloneButton = false;
 
     /**
      * @var string a class of model which is used to render the widget.
@@ -204,6 +214,10 @@ class TabularInput extends Widget
 
         if ($this->addButtonOptions !== null) {
             $config['addButtonOptions'] = $this->addButtonOptions;
+        }
+
+        if ($this->cloneButtonOptions !== null) {
+            $config['cloneButtonOptions'] = $this->cloneButtonOptions;
         }
 
         if (!$this->rendererClass) {

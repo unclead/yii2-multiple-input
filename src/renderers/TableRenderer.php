@@ -61,9 +61,9 @@ class TableRenderer extends BaseRenderer
         if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
             $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
 
-            $cells[] = Html::tag('th', $button, [
-                'class' => 'list-cell__button'
-            ]);
+            $cells[] = $this->renderButtonHeaderCell($button);
+
+            $this->cloneButton && $cells[] = $this->renderButtonHeaderCell();
         }
 
         return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
@@ -128,6 +128,18 @@ class TableRenderer extends BaseRenderer
     }
 
     /**
+     * Renders the button header cell.
+     * @param string
+     * @return string
+     */
+    private function renderButtonHeaderCell($button = '')
+    {
+        return Html::tag('th', $button, [
+            'class' => 'list-cell__button'
+        ]);
+    }
+
+    /**
      * Renders the body.
      *
      * @return string
@@ -186,9 +198,9 @@ class TableRenderer extends BaseRenderer
                 $cells[] = $this->renderCellContent($column, $index);
             }
         }
-
+        $this->cloneButton && $cells[] = $this->renderCloneColumn();
         if (!$isLastRow) {
-            $cells[] = $this->renderActionColumn($index, false);
+            $cells[] = $this->renderActionColumn($index);
         }
 
         if ($hiddenInputs) {
@@ -286,6 +298,18 @@ class TableRenderer extends BaseRenderer
         ]);
     }
 
+    /**
+     * Renders the clone column.
+     *
+     * @return string
+     */
+    private function renderCloneColumn()
+    {
+        return Html::tag('td', $this->renderCloneButton(), [
+            'class' => 'list-cell__button',
+        ]);
+    }
+
     private function getActionButton($index, $isFirstColumn)
     {
         if ($index === null || $this->min === 0) {
@@ -340,6 +364,22 @@ class TableRenderer extends BaseRenderer
         Html::addCssClass($options, $this->removeButtonOptions['class']);
         
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
+    }
+
+    /**
+     * Renders clone button.
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function renderCloneButton()
+    {
+        $options = [
+            'class' => 'btn multiple-input-list__btn js-input-clone',
+        ];
+        Html::addCssClass($options, $this->cloneButtonOptions['class']);
+
+        return Html::tag('div', $this->cloneButtonOptions['label'], $options);
     }
 
     /**

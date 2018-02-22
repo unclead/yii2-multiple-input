@@ -65,6 +65,11 @@ class MultipleInput extends InputWidget
     public $addButtonOptions;
 
     /**
+     * @var array the HTML options for the `clone` button
+     */
+    public $cloneButtonOptions;
+
+    /**
      * @var bool whether to allow the empty list
      */
     public $allowEmptyList = false;
@@ -135,6 +140,11 @@ class MultipleInput extends InputWidget
      * @since 2.10
      */
     public $enableError = false;
+
+    /**
+     * @var bool whether to render clone button. Default to `false`.
+     */
+    public $cloneButton = false;
 
     /**
      * Initialization.
@@ -247,6 +257,7 @@ class MultipleInput extends InputWidget
             'form'              => $this->form,
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
+            'cloneButton'       => $this->cloneButton,
         ];
 
         if ($this->removeButtonOptions !== null) {
@@ -255,6 +266,10 @@ class MultipleInput extends InputWidget
 
         if ($this->addButtonOptions !== null) {
             $config['addButtonOptions'] = $this->addButtonOptions;
+        }
+
+        if ($this->cloneButtonOptions !== null) {
+            $config['cloneButtonOptions'] = $this->cloneButtonOptions;
         }
 
         $config['class'] = $this->rendererClass ?: TableRenderer::className();

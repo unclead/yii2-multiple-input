@@ -140,6 +140,7 @@ class ListRenderer extends BaseRenderer
             $content[] = $this->renderActionColumn($index);
         }
 
+        $this->cloneButton && $content[] = $this->renderCloneColumn();
         $content = Html::tag('tr', implode("\n", $content), $this->prepareRowOptions($index, $item));
 
         if ($index !== null) {
@@ -234,6 +235,19 @@ class ListRenderer extends BaseRenderer
         ]);
     }
 
+    /**
+     * Renders the clone column.
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function renderCloneColumn()
+    {
+        return Html::tag('td', $this->renderCloneButton(), [
+            'class' => 'list-cell__button',
+        ]);
+    }
+
     private function getActionButton($index)
     {
         if ($index === null || $this->min === 0) {
@@ -274,6 +288,22 @@ class ListRenderer extends BaseRenderer
         Html::addCssClass($options, $this->removeButtonOptions['class']);
 
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
+    }
+
+    /**
+     * Renders clone button.
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function renderCloneButton()
+    {
+        $options = [
+            'class' => 'btn multiple-input-list__btn js-input-clone',
+        ];
+        Html::addCssClass($options, $this->cloneButtonOptions['class']);
+
+        return Html::tag('div', $this->cloneButtonOptions['label'], $options);
     }
 
     /**
