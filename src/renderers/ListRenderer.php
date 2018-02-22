@@ -140,7 +140,10 @@ class ListRenderer extends BaseRenderer
             $content[] = $this->renderActionColumn($index);
         }
 
-        $this->cloneButton && $content[] = $this->renderCloneColumn();
+        if ($this->cloneButton) {
+            $content[] = $this->renderCloneColumn();
+        }
+
         $content = Html::tag('tr', implode("\n", $content), $this->prepareRowOptions($index, $item));
 
         if ($index !== null) {

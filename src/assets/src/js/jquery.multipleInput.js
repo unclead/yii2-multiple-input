@@ -131,7 +131,7 @@
 
             $wrapper.on('click.multipleInput', '.js-input-clone', function (e) {
                 e.stopPropagation();
-                addInput($(this), getRowValues(e));
+                addInput($(this), getRowValues($(this)));
             });
 
             var i = 0,
@@ -435,10 +435,9 @@
             }).length;
     };
 
-    var getRowValues = function (event) {
-        var tr = $(event.currentTarget).closest('tr');
+    var getRowValues = function (element) {
         var values = {};
-        tr.find('td').each(function (index, value) {
+        element.closest('tr').find('td').each(function (index, value) {
             $(value).find('input, select, textarea').each(function (k, v) {
                 var ele = $(v),
                     id = getInputId(ele),

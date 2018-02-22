@@ -63,7 +63,9 @@ class TableRenderer extends BaseRenderer
 
             $cells[] = $this->renderButtonHeaderCell($button);
 
-            $this->cloneButton && $cells[] = $this->renderButtonHeaderCell();
+            if ($this->cloneButton) {
+                $cells[] = $this->renderButtonHeaderCell();
+            }
         }
 
         return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
@@ -198,7 +200,10 @@ class TableRenderer extends BaseRenderer
                 $cells[] = $this->renderCellContent($column, $index);
             }
         }
-        $this->cloneButton && $cells[] = $this->renderCloneColumn();
+        if ($this->cloneButton) {
+            $cells[] = $this->renderCloneColumn();
+        }
+        
         if (!$isLastRow) {
             $cells[] = $this->renderActionColumn($index);
         }
