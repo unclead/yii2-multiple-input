@@ -75,6 +75,11 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     public $addButtonOptions = [];
 
     /**
+     * @var array the HTML options for the `clone` button
+     */
+    public $cloneButtonOptions = [];
+
+    /**
      * @var bool whether to allow the empty list
      */
     public $allowEmptyList = false;
@@ -131,6 +136,11 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      * @since 2.10
      */
     public $enableError = false;
+
+    /**
+     * @var bool whether to render clone button. Default to `false`.
+     */
+    public $cloneButton = false;
 
     /**
      * @inheritdoc
@@ -223,6 +233,14 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
         if (!array_key_exists('label', $this->addButtonOptions)) {
             $this->addButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-plus']);
+        }
+
+        if (!array_key_exists('class', $this->cloneButtonOptions)) {
+            $this->cloneButtonOptions['class'] = 'btn btn-info';
+        }
+
+        if (!array_key_exists('label', $this->cloneButtonOptions)) {
+            $this->cloneButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-duplicate']);
         }
     }
 

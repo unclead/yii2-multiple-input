@@ -45,7 +45,8 @@ use unclead\multipleinput\MultipleInput;
         'min'               => 2, // should be at least 2 rows
         'allowEmptyList'    => false,
         'enableGuessTitle'  => true,
-        'addButtonPosition' => MultipleInput::POS_HEADER // show add button in the header
+        'addButtonPosition' => MultipleInput::POS_HEADER, // show add button in the header
+        'cloneButton'       => true, // show clone button
     ])
     ->label(false);
 ?>

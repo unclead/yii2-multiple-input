@@ -129,6 +129,11 @@
                 addInput($(this));
             });
 
+            $wrapper.on('click.multipleInput', '.js-input-clone', function (e) {
+                e.stopPropagation();
+                addInput($(this), getRowValues($(this)));
+            });
+
             var i = 0,
                 event = $.Event(events.afterInit);
 
@@ -428,6 +433,19 @@
             .filter(function(){
                 return $(this).parents('.multiple-input').first().attr('id') === $wrapper.attr('id');
             }).length;
+    };
+
+    var getRowValues = function (element) {
+        var values = {};
+        element.closest('tr').find('td').each(function (index, value) {
+            $(value).find('input, select, textarea').each(function (k, v) {
+                var ele = $(v),
+                    id = getInputId(ele),
+                    obj = $('#' + id);
+                values[id] = obj.val();
+            });
+        });
+        return values;
     };
 
     String.prototype.replaceAll = function (search, replace) {
