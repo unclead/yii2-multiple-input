@@ -228,12 +228,15 @@ class ListRenderer extends BaseRenderer
      * Renders the action column.
      *
      * @param null|int $index
+     * @param null|ActiveRecordInterface|array $item
      * @return string
      * @throws \Exception
      */
-    private function renderActionColumn($index = null)
+    private function renderActionColumn($index = null, $item = null)
     {
-        return Html::tag('td', $this->getActionButton($index), [
+        $content = $this->getActionButton($index) . $this->getExtraButtons($index, $item);
+
+        return Html::tag('td', $content, [
             'class' => 'list-cell__button',
         ]);
     }

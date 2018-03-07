@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\InvalidConfigException;
+use yii\base\InvalidParamException;
 use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\base\BaseObject;
@@ -141,6 +142,20 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      * @var bool whether to render clone button. Default to `false`.
      */
     public $cloneButton = false;
+
+    /**
+     * @var string|\Closure the HTML content that will be rendered after the buttons.
+     *
+     * ```php
+     * function ($model, $index, $context)
+     * ```
+     *
+     * - `$model`: the current data model being rendered
+     * - `$index`: the zero-based index of the data model in the model array
+     * - `$context`: the MultipleInput widget object
+     *
+     */
+    public $extraButtons;
 
     /**
      * @inheritdoc
@@ -273,6 +288,33 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
             $this->columns[$i] = Yii::createObject($definition);
         }
+    }
+
+    /**
+     * Render extra content in action column.
+     *
+     * @param $index
+     * @param $item
+     *
+     * @return string
+     */
+    protected function getExtraButtons($index, $item)
+    {
+        if (!$this->extraButtons) {
+            return '';
+        }
+
+        if (is_callable($this->extraButtons)) {
+            $content = call_user_func($this->extraButtons, $item, $index, $this->context);
+        } else {
+            $content = $this->extraButtons;
+        }
+
+        if (!is_string($content)) {
+            throw new InvalidParamException('Property "extraButtons" must return string.');
+        }
+
+        return $content;
     }
 
     public function render()
