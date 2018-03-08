@@ -147,6 +147,20 @@ class MultipleInput extends InputWidget
     public $cloneButton = false;
 
     /**
+     * @var string|\Closure the HTML content that will be rendered after the buttons.
+     *
+     * ```php
+     * function ($model, $index, $context)
+     * ```
+     *
+     * - `$model`: the current data model being rendered
+     * - `$index`: the zero-based index of the data model in the model array
+     * - `$context`: the MultipleInput widget object
+     *
+     */
+    public $extraButtons;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -258,6 +272,7 @@ class MultipleInput extends InputWidget
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
             'cloneButton'       => $this->cloneButton,
+            'extraButtons'      => $this->extraButtons,
         ];
 
         if ($this->removeButtonOptions !== null) {

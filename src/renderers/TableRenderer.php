@@ -188,7 +188,7 @@ class TableRenderer extends BaseRenderer
         $hiddenInputs = [];
         $isLastRow = $this->max === $this->min;
         if (!$isLastRow && $this->isAddButtonPositionRowBegin()) {
-            $cells[] = $this->renderActionColumn($index, true);
+            $cells[] = $this->renderActionColumn($index, $item, true);
         }
 
         foreach ($this->columns as $column) {
@@ -205,7 +205,7 @@ class TableRenderer extends BaseRenderer
         }
         
         if (!$isLastRow) {
-            $cells[] = $this->renderActionColumn($index);
+            $cells[] = $this->renderActionColumn($index, $item);
         }
 
         if ($hiddenInputs) {
@@ -293,12 +293,15 @@ class TableRenderer extends BaseRenderer
      * Renders the action column.
      *
      * @param null|int $index
+     * @param null|ActiveRecordInterface|array $item
      * @param bool $isFirstColumn
      * @return string
      */
-    private function renderActionColumn($index = null, $isFirstColumn = false)
+    private function renderActionColumn($index = null, $item = null, $isFirstColumn = false)
     {
-        return Html::tag('td', $this->getActionButton($index, $isFirstColumn), [
+        $content = $this->getActionButton($index, $isFirstColumn) . $this->getExtraButtons($index, $item);
+
+        return Html::tag('td', $content, [
             'class' => 'list-cell__button',
         ]);
     }
