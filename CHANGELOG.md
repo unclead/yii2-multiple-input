@@ -1,7 +1,9 @@
 Yii2 multiple input change log
 ==============================
+
 2.14.0
 ======
+- #202 added extra buttons (dimmitri)
 
 2.13.0
 ======
