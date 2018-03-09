@@ -46,7 +46,6 @@ use unclead\multipleinput\MultipleInput;
         'allowEmptyList'    => false,
         'enableGuessTitle'  => true,
         'addButtonPosition' => MultipleInput::POS_HEADER, // show add button in the header
-        'cloneButton'       => true, // show clone button
     ])
     ->label(false);
 ?>
