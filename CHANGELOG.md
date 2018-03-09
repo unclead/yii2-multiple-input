@@ -1,9 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
+2.15.0 (in development)
+=======================
+
 2.14.0
 ======
 - #202 added extra buttons (dimmitri)
+- PR#201 added optional clone button (alex-nesterov)
 
 2.13.0
 ======
