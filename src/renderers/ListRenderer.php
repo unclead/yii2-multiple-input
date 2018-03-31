@@ -212,7 +212,13 @@ class ListRenderer extends BaseRenderer
             Html::addCssClass($wrapperOptions, 'has-error');
         }
 
-        $input = Html::tag('div', $input, $wrapperOptions);
+        $helpBlockOptions = [
+            'class' => 'help-block'
+        ];
+
+        $helpBlock = Html::tag('div', null, $helpBlockOptions);
+
+        $input = Html::tag('div', $input.$helpBlock, $wrapperOptions);
 
         $content = Html::beginTag('div', ['class' => 'form-group list-cell__' . $column->name]);
         $content .= Html::label($column->title, $id, [

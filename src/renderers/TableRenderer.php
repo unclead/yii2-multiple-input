@@ -280,8 +280,14 @@ class TableRenderer extends BaseRenderer
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
         }
-        
-        $input = Html::tag('div', $input, $wrapperOptions);
+
+        $helpBlockOptions = [
+            'class' => 'help-block'
+        ];
+
+        $helpBlock = Html::tag('div', null, $helpBlockOptions);
+
+        $input = Html::tag('div', $input.$helpBlock, $wrapperOptions);
 
         return Html::tag('td', $input, [
             'class' => 'list-cell__' . $column->name,
