@@ -1,5 +1,6 @@
 <?php
 
+use unclead\multipleinput\renderers\ListRenderer;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\TabularInput;
 use yii\helpers\Html;
@@ -21,7 +22,14 @@ use unclead\multipleinput\TabularColumn;
 <?= TabularInput::widget([
     'models' => $models,
     'modelClass' => Item::class,
+    'rendererClass' => ListRenderer::class,
     'min' => 0,
+    'layoutConfig' => [
+        'offsetClass' => 'col-sm-offset-4',
+        'labelClass' => 'col-sm-4',
+        'wrapperClass' => 'col-sm-4',
+        'errorClass' => 'col-sm-4'
+    ],
     'attributeOptions' => [
         'enableAjaxValidation' => true,
         'enableClientValidation' => false,

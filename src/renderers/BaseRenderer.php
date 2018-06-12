@@ -158,6 +158,15 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     public $extraButtons;
 
     /**
+     * @var array CSS grid classes for horizontal layout. This must be an array with these keys:
+     *  - 'offsetClass' the offset grid class to append to the wrapper if no label is rendered
+     *  - 'labelClass' the label grid class
+     *  - 'wrapperClass' the wrapper grid class
+     *  - 'errorClass' the error grid class
+     */
+    public $layoutConfig = [];
+
+    /**
      * @inheritdoc
      */
     public function setContext($context)

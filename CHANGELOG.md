@@ -3,6 +3,7 @@ Yii2 multiple input change log
 
 2.15.0 (in development)
 =======================
+- #217 added `layoutConfig` property for the ListRenderer
 
 2.14.0
 ======

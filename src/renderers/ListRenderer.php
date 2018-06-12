@@ -194,14 +194,18 @@ class ListRenderer extends BaseRenderer
 
         $hasError = false;
         $error = '';
+        $layoutConfig = array_merge([
+            'offsetClass' => 'col-sm-offset-3',
+            'labelClass' => 'col-sm-3',
+            'wrapperClass' => 'col-sm-6',
+            'errorClass' => 'col-sm-offset-3 col-sm-6',
+        ], $this->layoutConfig);
+
+        Html::addCssClass($column->errorOptions, $layoutConfig['errorClass']);
 
         if ($index !== null) {
             $error = $column->getFirstError($index);
             $hasError = !empty($error);
-        }
-
-        if ($column->enableError) {
-            $input .= "\n" . $column->renderError($error);
         }
 
         $wrapperOptions = [
@@ -212,13 +216,26 @@ class ListRenderer extends BaseRenderer
             Html::addCssClass($wrapperOptions, 'has-error');
         }
 
-        $input = Html::tag('div', $input, $wrapperOptions);
+        Html::addCssClass($wrapperOptions, $layoutConfig['wrapperClass']);
 
-        $content = Html::beginTag('div', ['class' => 'form-group list-cell__' . $column->name]);
-        $content .= Html::label($column->title, $id, [
-            'class' => 'col-sm-2 control-label' . (empty($column->title) ? ' sr-only' : '')
+        $content = Html::beginTag('div', [
+            'class' => 'form-group list-cell__' . $column->name . ($hasError ? ' has-error' : '')
         ]);
-        $content .= Html::tag('div', $input, ['class' => 'col-sm-10']);
+
+        if (empty($column->title)) {
+            Html::addCssClass($wrapperOptions, $layoutConfig['offsetClass']);
+        } else {
+            $content .= Html::label($column->title, $id, [
+                'class' => $layoutConfig['labelClass'] . ' control-label'
+            ]);
+        }
+
+        $content .= Html::tag('div', $input, $wrapperOptions);
+
+        if ($column->enableError) {
+            $content .= "\n" . $column->renderError($error);
+        }
+
         $content .= Html::endTag('div');
 
         return $content;

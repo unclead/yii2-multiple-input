@@ -23,7 +23,7 @@ class TabularInputAction extends Action
 {
     public function run()
     {
-        Yii::setAlias('@unclead-examples', realpath(__DIR__ . '/../'));
+        Yii::setAlias('@unclead-examples', dirname(__DIR__) . '/');
 
         $models = $this->getItems();
 

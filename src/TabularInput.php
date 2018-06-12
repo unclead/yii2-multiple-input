@@ -140,6 +140,15 @@ class TabularInput extends Widget
     public $modelClass;
 
     /**
+     * @var array CSS grid classes for horizontal layout. This must be an array with these keys:
+     *  - 'offsetClass' the offset grid class to append to the wrapper if no label is rendered
+     *  - 'labelClass' the label grid class
+     *  - 'wrapperClass' the wrapper grid class
+     *  - 'errorClass' the error grid class
+     */
+    public $layoutConfig = [];
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -206,6 +215,7 @@ class TabularInput extends Widget
             'form'              => $this->form,
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
+            'layoutConfig'      => $this->layoutConfig,
         ];
 
         if ($this->removeButtonOptions !== null) {
