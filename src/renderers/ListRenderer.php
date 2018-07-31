@@ -194,6 +194,7 @@ class ListRenderer extends BaseRenderer
 
         $hasError = false;
         $error = '';
+        $wrapperOptions = [];
         $layoutConfig = array_merge([
             'offsetClass' => 'col-sm-offset-3',
             'labelClass' => 'col-sm-3',
@@ -208,10 +209,6 @@ class ListRenderer extends BaseRenderer
             $hasError = !empty($error);
         }
 
-        $wrapperOptions = [
-            'class' => 'field-' . $id
-        ];
-
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
         }
@@ -219,7 +216,7 @@ class ListRenderer extends BaseRenderer
         Html::addCssClass($wrapperOptions, $layoutConfig['wrapperClass']);
 
         $content = Html::beginTag('div', [
-            'class' => 'form-group list-cell__' . $column->name . ($hasError ? ' has-error' : '')
+            'class' => "form-group field-$id list-cell__$column->name" . ($hasError ? ' has-error' : '')
         ]);
 
         if (empty($column->title)) {

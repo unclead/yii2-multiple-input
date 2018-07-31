@@ -1,12 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-2.16.0 (in development)
+2.15.1 (in development)
 =======================
+- #220 fixed error message for clientValidation and ajaxValidation (antkaz)
 
 2.15.0
 =======================
-- #217 added `layoutConfig` property for the ListRenderer
+- #217 added `layoutConfig` property for the ListRenderer (antkaz)
 
 2.14.0
 ======
