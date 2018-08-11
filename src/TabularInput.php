@@ -149,6 +149,30 @@ class TabularInput extends Widget
     public $layoutConfig = [];
 
     /**
+     * @var array
+     * --icon library classes mapped for various controls
+     */
+    public $fontMap = [
+        'glyphicons' => [
+            'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
+            'remove' => 'glyphicon glyphicon-remove',
+            'add' => 'glyphicon glyphicon-plus',
+            'clone' => 'glyphicon glyphicon-duplicate',
+        ],
+        'fa' => [
+            'drag-handle' => 'fa fa-bars',
+            'remove' => 'fa fa-times',
+            'add' => 'fa fa-plus',
+            'clone' => 'fa fa-files-o',
+        ],
+    ];
+    /**
+     * @var string
+     * --name of default icon library
+     */
+    public $fontSource = 'glyphicons';
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -200,6 +224,10 @@ class TabularInput extends Widget
      */
     private function createRenderer()
     {
+        /**
+         * set default font map
+         */
+        $fontmap = array_key_exists($this->fontSource, $this->fontMap)?$this->fontMap[$this->fontSource]:$this->fontMap['glyphicons'];
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -216,6 +244,7 @@ class TabularInput extends Widget
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
             'layoutConfig'      => $this->layoutConfig,
+            'fontMap'           => $fontmap,
         ];
 
         if ($this->removeButtonOptions !== null) {
