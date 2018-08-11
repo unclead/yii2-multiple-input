@@ -166,6 +166,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      */
     public $layoutConfig = [];
 
+    public $fontMap;
+    
     /**
      * @inheritdoc
      */
