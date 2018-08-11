@@ -469,7 +469,7 @@ abstract class BaseColumn extends BaseObject
     {
         // return Html::tag('span', null, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
         /**
-         * Class was passed into options by TableRendered->renderCellContent(),
+         * Class was passed into options by TableRenderer->renderCellContent(),
          * we can extract it here
          */
         $class = '';
