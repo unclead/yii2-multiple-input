@@ -255,13 +255,13 @@ class TableRenderer extends BaseRenderer
         $name  = $column->getElementName($index);
 
         /**
-         * This class inherits fontMap from BaseRenderer
+         * This class inherits iconMap from BaseRenderer
          * If the input to be rendered is a drag column, we give it the appropriate icon class
          * via the $options array
          */
         $options = ['id' => $id];
-        if (substr($id, -4)=='drag') {
-            $options = ArrayHelper::merge($options, ['class'=>$this->fontMap['drag-handle']]);
+        if (substr($id, -4) === 'drag') {
+            $options = ArrayHelper::merge($options, ['class' => $this->iconMap['drag-handle']]);
         }
         $input = $column->renderInput($name, $options);
 

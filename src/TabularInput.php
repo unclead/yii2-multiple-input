@@ -152,7 +152,7 @@ class TabularInput extends Widget
      * @var array
      * --icon library classes mapped for various controls
      */
-    public $fontMap = [
+    public $iconMap = [
         'glyphicons' => [
             'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
             'remove' => 'glyphicon glyphicon-remove',
@@ -170,7 +170,7 @@ class TabularInput extends Widget
      * @var string
      * --name of default icon library
      */
-    public $fontSource = 'glyphicons';
+    public $iconSource = 'glyphicons';
 
     /**
      * Initialization.
@@ -225,9 +225,9 @@ class TabularInput extends Widget
     private function createRenderer()
     {
         /**
-         * set default font map
+         * set default icon map
          */
-        $fontmap = array_key_exists($this->fontSource, $this->fontMap)?$this->fontMap[$this->fontSource]:$this->fontMap['glyphicons'];
+        $iconmap = array_key_exists($this->iconSource, $this->iconMap) ? $this->iconMap[$this->iconSource] : $this->iconMap['glyphicons'];
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -244,7 +244,7 @@ class TabularInput extends Widget
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
             'layoutConfig'      => $this->layoutConfig,
-            'fontMap'           => $fontmap,
+            'iconMap'           => $iconmap,
         ];
 
         if ($this->removeButtonOptions !== null) {

@@ -164,7 +164,7 @@ class MultipleInput extends InputWidget
      * @var array
      * --icon library classes mapped for various controls
      */
-    public $fontMap = [
+    public $iconMap = [
         'glyphicons' => [
             'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
             'remove' => 'glyphicon glyphicon-remove',
@@ -182,7 +182,7 @@ class MultipleInput extends InputWidget
      * @var string
      * --name of default icon library
      */
-    public $fontSource = 'glyphicons';
+    public $iconSource = 'glyphicons';
 
     /**
      * Initialization.
@@ -281,9 +281,9 @@ class MultipleInput extends InputWidget
         }
 
         /**
-         * set default font map
+         * set default icon map
          */
-        $fontmap = array_key_exists($this->fontSource, $this->fontMap)?$this->fontMap[$this->fontSource]:$this->fontMap['glyphicons'];
+        $iconmap = array_key_exists($this->iconSource, $this->iconMap) ? $this->iconMap[$this->iconSource] : $this->iconMap['glyphicons'];
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -301,7 +301,7 @@ class MultipleInput extends InputWidget
             'enableError'       => $this->enableError,
             'cloneButton'       => $this->cloneButton,
             'extraButtons'      => $this->extraButtons,
-            'fontMap'           => $fontmap,
+            'iconMap'           => $iconmap,
         ];
 
         if ($this->removeButtonOptions !== null) {
