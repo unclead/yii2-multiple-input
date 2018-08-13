@@ -166,6 +166,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      */
     public $layoutConfig = [];
 
+    public $iconMap;
+
     /**
      * @inheritdoc
      */
@@ -248,7 +250,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         if (!array_key_exists('label', $this->removeButtonOptions)) {
-            $this->removeButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-remove']);
+            $this->removeButtonOptions['label'] = Html::tag('i', null, ['class' => $this->getIconClass('remove')]);
         }
 
         if (!array_key_exists('class', $this->addButtonOptions)) {
@@ -256,7 +258,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         if (!array_key_exists('label', $this->addButtonOptions)) {
-            $this->addButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-plus']);
+            $this->addButtonOptions['label'] = Html::tag('i', null, ['class' => $this->getIconClass('add')]);
         }
 
         if (!array_key_exists('class', $this->cloneButtonOptions)) {
@@ -264,7 +266,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         if (!array_key_exists('label', $this->cloneButtonOptions)) {
-            $this->cloneButtonOptions['label'] = Html::tag('i', null, ['class' => 'glyphicon glyphicon-duplicate']);
+            $this->cloneButtonOptions['label'] = Html::tag('i', null, ['class' => $this->getIconClass('clone')]);
         }
     }
 
@@ -488,5 +490,20 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         return $attributes;
+    }
+
+    /**
+     * @param $action - the control parameter, used as key into allowed types
+     * @return string - the relevant icon class
+     */
+    protected function getIconClass($action) {
+        if (in_array($action, ['add', 'remove', 'clone', 'drag-handle'])) {
+            return $this->iconMap[$action];
+        }
+
+        if (YII_DEBUG) {
+            throw new InvalidConfigException('Out of bounds, "' . $action . '" not found in your iconMap');
+        }
+        return '';
     }
 }

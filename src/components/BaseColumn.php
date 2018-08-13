@@ -467,7 +467,17 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderDragColumn($name, $value, $options)
     {
-        return Html::tag('span', null, ['class' => 'glyphicon glyphicon-menu-hamburger drag-handle']);
+        /**
+         * Class was passed into options by TableRenderer->renderCellContent(),
+         * we can extract it here
+         */
+        $class = '';
+        if (array_key_exists('class', $options)) {
+            $class = ArrayHelper::remove($options, 'class');
+        }
+        $dragClass = implode(" ", [$class, 'drag-handle']);
+
+        return Html::tag('span', null, ['class' => $dragClass]);
     }
 
     /**

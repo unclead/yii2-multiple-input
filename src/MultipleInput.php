@@ -161,6 +161,30 @@ class MultipleInput extends InputWidget
     public $extraButtons;
 
     /**
+     * @var array
+     * --icon library classes mapped for various controls
+     */
+    public $iconMap = [
+        'glyphicons' => [
+            'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
+            'remove' => 'glyphicon glyphicon-remove',
+            'add' => 'glyphicon glyphicon-plus',
+            'clone' => 'glyphicon glyphicon-duplicate',
+        ],
+        'fa' => [
+            'drag-handle' => 'fa fa-bars',
+            'remove' => 'fa fa-times',
+            'add' => 'fa fa-plus',
+            'clone' => 'fa fa-files-o',
+        ],
+    ];
+    /**
+     * @var string
+     * --name of default icon library
+     */
+    public $iconSource = 'glyphicons';
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -255,7 +279,11 @@ class MultipleInput extends InputWidget
 
             array_unshift($this->columns, $drag);
         }
-        
+
+        /**
+         * set default icon map
+         */
+        $iconmap = array_key_exists($this->iconSource, $this->iconMap) ? $this->iconMap[$this->iconSource] : $this->iconMap['glyphicons'];
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -273,6 +301,7 @@ class MultipleInput extends InputWidget
             'enableError'       => $this->enableError,
             'cloneButton'       => $this->cloneButton,
             'extraButtons'      => $this->extraButtons,
+            'iconMap'           => $iconmap,
         ];
 
         if ($this->removeButtonOptions !== null) {

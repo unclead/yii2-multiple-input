@@ -5,6 +5,12 @@ Yii2 multiple input change log
 =======================
 - #220 fixed error message for clientValidation and ajaxValidation (antkaz)
 
+2.15.1 (for review)
+=======================
+- #228 added `iconMap` and `iconSource`property for MultipleInput and TabularInput
+- #228 changed the following methods to support icon class:
+    BaseColumn->renderDragColumn(), TableRenderer->renderCellContent(), BaseRenderer->prepareButtons()
+
 2.15.0
 =======================
 - #217 added `layoutConfig` property for the ListRenderer (antkaz)

@@ -153,6 +153,41 @@ use unclead\multipleinput\MultipleInput;
 ])->label(false);
 ```
 
+## Using other icon libraries
+Multiple input and Tabular input widgets now support FontAwesome and indeed any other icon library you chose to integrate to your project.
+
+To take advantage of this, please proceed as follows:
+1. Include the preferred icon library into your project. If you wish to use fontAwesome, you can use the included FontAwesomeAsset which will integrate the free fa from their CDN;
+2. Add a mapping for your preferred icon library if its not in the iconMap array of the widget, like the following;
+```
+public $iconMap = [
+    'glyphicons' => [
+        'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
+        'remove' => 'glyphicon glyphicon-remove',
+        'add' => 'glyphicon glyphicon-plus',
+        'clone' => 'glyphicon glyphicon-duplicate',
+    ],
+    'fa' => [
+        'drag-handle' => 'fa fa-bars',
+        'remove' => 'fa fa-times',
+        'add' => 'fa fa-plus',
+        'clone' => 'fa fa-files-o',
+    ],
+    'my-amazing-icons' => [
+        'drag-handle' => 'my my-bars',
+        'remove' => 'my my-times',
+        'add' => 'my my-plus',
+        'clone' => 'my my-files',
+    ]
+];
+```
+3. Set the preffered icon source
+```
+    public $iconSource = 'my-amazing-icons';
+```
+If you do none of the above, the default behavior which assumes you are using glyphicons is retained.
+
+
 ## Documentation
 
 You can find a full version of documentation in [wiki](https://github.com/unclead/yii2-multiple-input/wiki/)
