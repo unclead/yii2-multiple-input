@@ -393,10 +393,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
 
-        if($this->sortable) {
-            MultipleInputSortableAsset::register($view);
-            $js .= "$('#{$this->id} table').sorting({containerSelector: 'table', itemPath: '> tbody', itemSelector: 'tr', placeholder: '<tr class=\"placeholder\"/>', handle:'.drag-handle'});";
-        }
+        $js .= $this->configureSorting();
 
         $view->registerJs($js);
 
@@ -505,5 +502,39 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
             throw new InvalidConfigException('Out of bounds, "' . $action . '" not found in your iconMap');
         }
         return '';
+    }
+    
+    /**
+     * Configure js sorting plugin.
+     *
+     * @return string
+     */
+    protected function configureSorting() 
+    {
+        $view = $this->context->getView();
+        
+        if ($this->sortable) {
+            MultipleInputSortableAsset::register($view);
+            $options = $this->createSortingOptions();
+            return "$('#{$this->id} table').sorting({$options});";
+        }
+        
+        return '';
+    }
+    
+    /**
+     * Build options of sorting.
+     *
+     * @return string
+     */
+    protected function createSortingOptions() 
+    {
+        return \yii\helpers\Json::encode([
+            'containerSelector' => 'table', 
+            'itemPath' => '> tbody', 
+            'itemSelector' => 'tr',
+            'placeholder' => '<tr class=\"placeholder\"/>', 
+            'handle' => '.drag-handle',
+        ]);   
     }
 }
