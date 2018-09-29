@@ -58,8 +58,6 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
 
-
-
         if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
             $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
 

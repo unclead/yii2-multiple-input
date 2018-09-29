@@ -151,7 +151,7 @@
                     // fetch default attribute options from active from attribute
                     if (typeof attribute === 'object') {
                         $.each(attribute, function (key, value) {
-                            if (['id', 'input', 'container'].indexOf(key) == -1) {
+                            if (['id', 'input', 'container'].indexOf(key) === -1) {
                                 defaultAttributeOptions[key] = value;
                             }
                         });
@@ -199,7 +199,7 @@
 
         remove: function (index) {
             var row = null;
-            if (index != undefined) {
+            if (index !== undefined) {
                 row = $(this).find('.js-input-remove:eq(' + index + ')');
             } else {
                 row = $(this).find('.js-input-remove').last();
@@ -239,7 +239,7 @@
             template  = settings.template,
             inputList = $wrapper.children('.multiple-input-list').first();
 
-        if (settings.max != null && getCurrentIndex($wrapper) >= settings.max) {
+        if (settings.max !== null && getCurrentIndex($wrapper) >= settings.max) {
             return;
         }
 
@@ -287,10 +287,10 @@
             if (values) {
                 var val = values[index];
 
-                if (tag == 'INPUT' || tag == 'TEXTAREA') {
+                if (tag === 'INPUT' || tag === 'TEXTAREA') {
                     obj.val(val);
-                } else if (tag == 'SELECT') {
-                    if (val && val.indexOf('option') != -1) {
+                } else if (tag === 'SELECT') {
+                    if (val && val.indexOf('option') !== -1) {
                         obj.append(val);
                     } else {
                         var option = obj.find('option[value="' + val + '"]');
@@ -362,7 +362,7 @@
 
 
         // do not add attribute which are not the part of widget
-        if (wrapper.length == 0) {
+        if (wrapper.length === 0) {
             return;
         }
 

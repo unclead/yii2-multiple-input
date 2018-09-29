@@ -46,7 +46,7 @@ use kartik\date\DatePicker;
 
 <h3>Multiple columns</h3>
 <?php
-echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
+echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::className(), [
     'id' => 'examplemodel-schedule',
     'max' => 4,
     'allowEmptyList' => true,
@@ -58,6 +58,7 @@ echo $form->field($model, 'schedule')->widget(MultipleInput::className(), [
         }
         return $options;
     },
+    'cloneButton' => true,
     'columns' => [
         [
             'name'  => 'user_id',

@@ -57,6 +57,11 @@ class ListRenderer extends BaseRenderer
 
         $content = [];
         $content[] = Html::tag('td', '&nbsp;');
+
+        if ($this->cloneButton) {
+            $content[] = Html::tag('td', '&nbsp;');
+        }
+
         $content[] = Html::tag('td', $button, [
             'class' => 'list-cell__button',
         ]);

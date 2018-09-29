@@ -59,6 +59,10 @@ table.multiple-input-list tr > th {
     padding-left: 5px;
 }
 
+.multiple-input-list.list-renderer .list-cell__button:last-child {
+    padding-right: 15px;
+}
+
 .multiple-input-list.list-renderer tbody .list-cell__button .btn{
     margin-top: 25px;
 }
