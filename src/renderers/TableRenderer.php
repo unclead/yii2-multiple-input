@@ -58,14 +58,16 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderHeaderCell($column);
         }
 
+
+
         if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
             $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
-
-            $cells[] = $this->renderButtonHeaderCell($button);
 
             if ($this->cloneButton) {
                 $cells[] = $this->renderButtonHeaderCell();
             }
+
+            $cells[] = $this->renderButtonHeaderCell($button);
         }
 
         return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
@@ -82,8 +84,19 @@ class TableRenderer extends BaseRenderer
             return '';
         }
 
+        $columnsCount = 0;
+        foreach ($this->columns as $column) {
+            if (!$column->isHiddenInput()) {
+                $columnsCount++;
+            }
+        }
+
+        if ($this->cloneButton) {
+            $columnsCount++;
+        }
+
         $cells = [];
-        $cells[] = Html::tag('td', '&nbsp;', ['colspan' => count($this->columns)]);
+        $cells[] = Html::tag('td', '&nbsp;', ['colspan' => $columnsCount]);
         $cells[] = Html::tag('td', $this->renderAddButton(), [
             'class' => 'list-cell__button'
         ]);
@@ -203,7 +216,7 @@ class TableRenderer extends BaseRenderer
         if ($this->cloneButton) {
             $cells[] = $this->renderCloneColumn();
         }
-        
+
         if (!$isLastRow) {
             $cells[] = $this->renderActionColumn($index, $item);
         }

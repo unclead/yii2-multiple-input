@@ -23,19 +23,25 @@ use unclead\multipleinput\TabularColumn;
     'models' => $models,
     'modelClass' => Item::class,
     'rendererClass' => ListRenderer::class,
+    'cloneButton' => true,
     'min' => 0,
+    'addButtonPosition' => [
+        TabularInput::POS_HEADER,
+        TabularInput::POS_FOOTER,
+        TabularInput::POS_ROW
+    ],
     'layoutConfig' => [
-        'offsetClass' => 'col-sm-offset-4',
-        'labelClass' => 'col-sm-4',
-        'wrapperClass' => 'col-sm-4',
-        'errorClass' => 'col-sm-4'
+        'offsetClass'   => 'col-sm-offset-4',
+        'labelClass'    => 'col-sm-2',
+        'wrapperClass'  => 'col-sm-10',
+        'errorClass'    => 'col-sm-4'
     ],
     'attributeOptions' => [
-        'enableAjaxValidation' => true,
+        'enableAjaxValidation'   => true,
         'enableClientValidation' => false,
-        'validateOnChange' => false,
-        'validateOnSubmit' => true,
-        'validateOnBlur' => false,
+        'validateOnChange'       => false,
+        'validateOnSubmit'       => true,
+        'validateOnBlur'         => false,
     ],
     'form' => $form,
     'columns' => [

@@ -133,6 +133,20 @@ class TabularInput extends Widget
     public $cloneButton = false;
 
     /**
+     * @var string|\Closure the HTML content that will be rendered after the buttons.
+     *
+     * ```php
+     * function ($model, $index, $context)
+     * ```
+     *
+     * - `$model`: the current data model being rendered
+     * - `$index`: the zero-based index of the data model in the model array
+     * - `$context`: the MultipleInput widget object
+     *
+     */
+    public $extraButtons;
+
+    /**
      * @var string a class of model which is used to render the widget.
      * You have to specify this property in case you set `min` property to 0 (when you want to allow an empty list)
      * @since 2.13
@@ -227,7 +241,10 @@ class TabularInput extends Widget
         /**
          * set default icon map
          */
-        $iconmap = array_key_exists($this->iconSource, $this->iconMap) ? $this->iconMap[$this->iconSource] : $this->iconMap['glyphicons'];
+        $iconMap = array_key_exists($this->iconSource, $this->iconMap)
+            ? $this->iconMap[$this->iconSource]
+            : $this->iconMap['glyphicons'];
+
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -243,8 +260,10 @@ class TabularInput extends Widget
             'form'              => $this->form,
             'sortable'          => $this->sortable,
             'enableError'       => $this->enableError,
+            'cloneButton'       => $this->cloneButton,
+            'extraButtons'      => $this->extraButtons,
             'layoutConfig'      => $this->layoutConfig,
-            'iconMap'           => $iconmap,
+            'iconMap'           => $iconMap,
         ];
 
         if ($this->removeButtonOptions !== null) {

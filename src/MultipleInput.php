@@ -161,6 +161,15 @@ class MultipleInput extends InputWidget
     public $extraButtons;
 
     /**
+     * @var array CSS grid classes for horizontal layout. This must be an array with these keys:
+     *  - 'offsetClass' the offset grid class to append to the wrapper if no label is rendered
+     *  - 'labelClass' the label grid class
+     *  - 'wrapperClass' the wrapper grid class
+     *  - 'errorClass' the error grid class
+     */
+    public $layoutConfig = [];
+
+    /**
      * @var array
      * --icon library classes mapped for various controls
      */
@@ -283,7 +292,10 @@ class MultipleInput extends InputWidget
         /**
          * set default icon map
          */
-        $iconmap = array_key_exists($this->iconSource, $this->iconMap) ? $this->iconMap[$this->iconSource] : $this->iconMap['glyphicons'];
+        $iconMap = array_key_exists($this->iconSource, $this->iconMap)
+            ? $this->iconMap[$this->iconSource]
+            : $this->iconMap['glyphicons'];
+
         $config = [
             'id'                => $this->getId(),
             'columns'           => $this->columns,
@@ -301,7 +313,8 @@ class MultipleInput extends InputWidget
             'enableError'       => $this->enableError,
             'cloneButton'       => $this->cloneButton,
             'extraButtons'      => $this->extraButtons,
-            'iconMap'           => $iconmap,
+            'layoutConfig'      => $this->layoutConfig,
+            'iconMap'           => $iconMap,
         ];
 
         if ($this->removeButtonOptions !== null) {
