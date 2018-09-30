@@ -52,7 +52,15 @@
          * where event is an Event object.
          *
          */
-        afterDeleteRow: 'afterDeleteRow'
+        afterDeleteRow: 'afterDeleteRow',
+
+        /**
+         * afterDropRow event is triggered after drop the row in sortable mode.
+         * The signature of the event handler should be:
+         *     function (event, row)
+         * where event is an Event object and row is html container of dragged row
+         */
+        afterDropRow: 'afterDropRow'
     };
 
     var defaultOptions = {

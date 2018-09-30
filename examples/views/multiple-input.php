@@ -49,6 +49,7 @@ use kartik\date\DatePicker;
 echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::className(), [
     'id' => 'examplemodel-schedule',
     'max' => 4,
+    'sortable' => true,
     'allowEmptyList' => true,
     'rowOptions' => function($model) {
         $options = [];
@@ -170,6 +171,8 @@ $js = <<< JS
         }).on('afterDeleteRow', function(e, item){       
             console.log('calls on after remove row event');
             console.log('User_id:' + item.find('.list-cell__user_id').find('select').first().val());
+        }).on('afterDropRow', function(e, item){       
+            console.log('calls on after drop row', item);
         });
 JS;
 

@@ -7,6 +7,8 @@ Yii2 multiple input change log
 - #228 added `iconMap` and `iconSource`property for MultipleInput and TabularInput
 - #228 changed the following methods to support icon class:
     BaseColumn->renderDragColumn(), TableRenderer->renderCellContent(), BaseRenderer->prepareButtons()
+- #194 added support of yii\base\DynamicModel
+- #186 added event `afterDropRow`
 
 2.15.0
 =======================
