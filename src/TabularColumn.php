@@ -25,13 +25,13 @@ class TabularColumn extends BaseColumn
     /**
      * Returns element's name.
      *
-     * @param int|null $index current row index
+     * @param int|null|string $index current row index
      * @param bool $withPrefix whether to add prefix.
      * @return string
      */
     public function getElementName($index, $withPrefix = true)
     {
-        if (is_null($index)) {
+        if ($index === null) {
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
 

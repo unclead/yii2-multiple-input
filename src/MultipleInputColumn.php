@@ -10,6 +10,7 @@ namespace unclead\multipleinput;
 
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use yii\base\DynamicModel;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\Html;
 use unclead\multipleinput\components\BaseColumn;
@@ -40,13 +41,14 @@ class MultipleInputColumn extends BaseColumn
     /**
      * Returns element's name.
      *
-     * @param int|null $index current row index
+     * @param int|null|string $index current row index
      * @param bool $withPrefix whether to add prefix.
+     *
      * @return string
      */
     public function getElementName($index, $withPrefix = true)
     {
-        if (is_null($index)) {
+        if ($index === null) {
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
 
@@ -99,11 +101,17 @@ class MultipleInputColumn extends BaseColumn
 
         if ($model->hasProperty($name)) {
             return true;
-        } elseif ($model instanceof ActiveRecordInterface && $model->hasAttribute($name)) {
-            return true;
-        } else {
-            return false;
         }
+
+        if ($model instanceof ActiveRecordInterface && $model->hasAttribute($name)) {
+            return true;
+        }
+
+        if ($model instanceof DynamicModel && isset($model->{$name})) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
