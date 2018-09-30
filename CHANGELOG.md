@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-2.15.1 (in development)
+2.17.0 (in development)
 =======================
+
+
+2.16.0
+======
 - #220 fixed error message for clientValidation and ajaxValidation (antkaz)
 - #228 added `iconMap` and `iconSource`property for MultipleInput and TabularInput
 - #228 changed the following methods to support icon class:
