@@ -117,9 +117,7 @@
                 inputId = settings.inputId;
 
             for (i in settings.jsInit) {
-                var script = document.createElement("script");
-                script.innerHTML = settings.jsInit[i];
-                document.body.appendChild(script);
+                window.eval(settings.jsInit[i]);
             }
 
             $wrapper.data('multipleInput', {

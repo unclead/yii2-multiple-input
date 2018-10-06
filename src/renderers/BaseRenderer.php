@@ -339,7 +339,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         $jsBefore= [];
         if (is_array($view->js)) {
             foreach ($view->js as $position => $scripts) {
-                foreach ($scripts as $key => $js) {
+                foreach ((array)$scripts as $key => $js) {
                     if (!isset($jsBefore[$position])) {
                         $jsBefore[$position] = [];
                     }
@@ -354,7 +354,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         $jsInit = [];
         if (is_array($view->js)) {
             foreach ($view->js as $position => $scripts) {
-                foreach ($scripts as $key => $js) {
+                foreach ((array)$scripts as $key => $js) {
                     if (isset($jsBefore[$position][$key])) {
                         continue;
                     }
@@ -368,14 +368,15 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         $template = $this->prepareTemplate();
 
         $jsTemplates = [];
-        if (is_array($view->js) && isset($view->js[View::POS_READY])) {
-            foreach ($view->js[View::POS_READY] as $key => $js) {
-                if (isset($jsBefore[View::POS_READY][$key])) {
-                    continue;
+        if (is_array($view->js)) {
+            foreach ($view->js as $position => $scripts) {
+                foreach ((array)$scripts as $key => $js) {
+                    if (isset($jsBefore[$position][$key])) {
+                        continue;
+                    }
+                    $jsTemplates[$key] = $js;
+                    unset($view->js[$position][$key]);
                 }
-
-                $jsTemplates[$key] = $js;
-                unset($view->js[View::POS_READY][$key]);
             }
         }
 
@@ -392,30 +393,39 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
-
-        if($this->sortable) {
-            MultipleInputSortableAsset::register($view);
-            $js .= <<<JS
-                $('#{$this->id} table').sorting({
-                    containerSelector: 'table',
-                    itemPath: '> tbody', 
-                    itemSelector: 'tr', 
-                    placeholder: '<tr class="placeholder">',
-                    handle:'.drag-handle',
-                    onDrop: function(item, container, _super, event) {
-                        _super(item, container, _super, event);
-                        
-                        var wrapper = item.closest('.multiple-input').first();
-                        event = $.Event('afterDropRow');
-                        wrapper.trigger(event, [item]);
-                    }
-                });
-JS;
-        }
-
         $view->registerJs($js);
 
+        if ($this->sortable) {
+            $this->registerJsSortable();
+        }
+
         return $content;
+    }
+
+    private function registerJsSortable()
+    {
+        $view = $this->context->getView();
+        MultipleInputSortableAsset::register($view);
+
+        // todo override when ListRenderer will use div markup
+        $options = Json::encode([
+            'containerSelector' => 'table',
+            'itemPath'          => '> tbody',
+            'itemSelector'      => 'tr',
+            'placeholder'       => '<tr class="placeholder">',
+            'handle'            => '.drag-handle',
+            'onDrop'            => new \yii\web\JsExpression("
+                function(item, container, _super, event) {
+                    _super(item, container, _super, event);
+
+                    var wrapper = item.closest('.multiple-input').first();
+                    event = $.Event('afterDropRow');
+                    wrapper.trigger(event, [item]);
+                }
+            ")
+        ]);
+        $js = "$('#{$this->id} table').sorting($options);";
+        $view->registerJs($js);
     }
 
     /**

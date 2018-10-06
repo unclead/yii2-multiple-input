@@ -3,7 +3,7 @@ Yii2 multiple input change log
 
 2.17.0 (in development)
 =======================
-
+- #215 collect all js script that has to be evaluate when add new row (not only from " on ready" section)
 
 2.16.0
 ======
