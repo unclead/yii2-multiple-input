@@ -162,7 +162,9 @@
                             }
                         });
 
-                        form.yiiActiveForm('remove', inputId);
+                        if (!settings.enableMainFieldValidation) {
+                            form.yiiActiveForm('remove', inputId);
+                        }
                     }
 
                     // append default options to option from settings

@@ -85,6 +85,11 @@ class MultipleInput extends InputWidget
     public $min;
 
     /**
+     * @var bool whether to validate main field on client side
+     */
+    public $enableMainFieldValidation = false;
+
+    /**
      * @var string|array position of add button.
      */
     public $addButtonPosition;
@@ -104,6 +109,11 @@ class MultipleInput extends InputWidget
      *
      */
     public $rowOptions = [];
+
+    /**
+     * @var array the HTML attributes for the hidden input for main field
+     */
+    public $mainInputOptions = [];
 
     /**
      * @var string the name of column class. You can specify your own class to extend base functionality.
@@ -265,7 +275,13 @@ class MultipleInput extends InputWidget
     {
         $content = '';
         if ($this->hasModel() && $this->isEmbedded === false) {
-            $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null);
+            $content .= Html::hiddenInput(
+                Html::getInputName($this->model, $this->attribute),
+                null,
+                ArrayHelper::merge([
+                    'id' => Html::getInputId($this->model, $this->attribute),
+                ], $this->mainInputOptions)
+            );
         }
         $content .= $this->createRenderer()->render();
 

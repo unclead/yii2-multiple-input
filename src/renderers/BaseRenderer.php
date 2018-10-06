@@ -389,7 +389,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
             'max'               => $this->max,
             'min'               => $this->min,
             'attributes'        => $this->prepareJsAttributes(),
-            'indexPlaceholder'  => $this->getIndexPlaceholder()
+            'indexPlaceholder'  => $this->getIndexPlaceholder(),
+            'enableMainFieldValidation' => $this->context->enableMainFieldValidation,
         ]);
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
