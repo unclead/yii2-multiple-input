@@ -37,9 +37,6 @@ class MultipleInput extends InputWidget
 
     const ICONS_SOURCE_GLYPHICONS  = 'glyphicons';
     const ICONS_SOURCE_FONTAWESOME = 'fa';
-    
-    const GENERAL_ERROR_POS_TOP     = 'top';
-    const GENERAL_ERROR_POS_BOTTOM  = 'bottom';
 
     /**
      * @var ActiveRecordInterface[]|array[] input data
@@ -209,15 +206,9 @@ class MultipleInput extends InputWidget
     public $theme = self::THEME_BS;
 
     /**
-     * @var string|null set a position of generic error message (when you set an error for generic field instead of particular input)
-     * If set to null no generic error message will be shown. 
-     */
-    public $generalErrorPosition;
-
-    /**
      * @var bool
      */
-    private $showGeneralError = false;
+    public $showGeneralError = false;
 
     /**
      * Initialization.
@@ -230,14 +221,8 @@ class MultipleInput extends InputWidget
             throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
         }
 
-        $this->showGeneralError = $this->generalErrorPosition !== null && !$this->isEmbedded && $this->field;
-
-        if ($this->showGeneralError) {
-            if ($this->generalErrorPosition === self::GENERAL_ERROR_POS_BOTTOM) {
-                $this->field->template = "{input}\n{error}";
-            } else {
-                $this->field->template = "{error}\n{input}";
-            }
+        if ($this->showGeneralError && $this->field === null) {
+            $this->showGeneralError = false;
         }
 
         $this->guessColumns();

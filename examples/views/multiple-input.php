@@ -53,7 +53,7 @@ echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::class
     'max' => 4,
     'sortable' => true,
     'allowEmptyList' => true,
-    'generalErrorPosition' => 'top',
+    'showGeneralError' => true,
     'rowOptions' => function($model) {
         $options = [];
 

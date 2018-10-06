@@ -6,7 +6,7 @@ Yii2 multiple input change log
 - #215 collect all js script that has to be evaluate when add new row (not only from " on ready" section)
 - #198 introduce the option `theme` to disable all bootstrap css classes
 - #197 explicitly set tabindex for all inputs
-- #175 option `generalErrorPosition` to enable displaying of general error message 
+- #175 option `showGeneralError` to enable displaying of general error message 
 
 2.16.0
 ======
