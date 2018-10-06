@@ -21,6 +21,7 @@ use kartik\date\DatePicker;
     'validateOnBlur'            => false,
 ]);?>
 
+
 <h3>Single column</h3>
 <?php
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
@@ -52,6 +53,7 @@ echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::class
     'max' => 4,
     'sortable' => true,
     'allowEmptyList' => true,
+    'generalErrorPosition' => 'top',
     'rowOptions' => function($model) {
         $options = [];
 

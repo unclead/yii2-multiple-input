@@ -99,7 +99,9 @@
         /**
          * default prefix of a widget's placeholder
          */
-        indexPlaceholder: 'multiple_index'
+        indexPlaceholder: 'multiple_index',
+
+        showGeneralError: false
     };
 
     var isActiveFormEnabled = false;
@@ -162,7 +164,9 @@
                             }
                         });
 
-                        form.yiiActiveForm('remove', inputId);
+                        if (!settings.showGeneralError) {
+                            form.yiiActiveForm('remove', inputId);
+                        }
                     }
 
                     // append default options to option from settings

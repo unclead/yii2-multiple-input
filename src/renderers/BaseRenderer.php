@@ -107,7 +107,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     public $columnClass;
 
     /**
-     * @var string position of add button. By default button is rendered in the row.
+     * @var array|string position of add button. By default button is rendered in the row.
      */
     public $addButtonPosition = self::POS_ROW;
 
@@ -177,6 +177,11 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      * @todo Use bootstrap theme for BC. We can switch to default theme in major release
      */
     public $theme = self::THEME_BS;
+
+    /**
+     * @var array
+     */
+    public $jsExtraSettings = [];
 
     /**
      * @inheritdoc
@@ -392,7 +397,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
             }
         }
 
-        $options = Json::encode([
+        $options = Json::encode(array_merge([
             'id'                => $this->id,
             'inputId'           => $this->context->options['id'],
             'template'          => $template,
@@ -402,7 +407,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
             'min'               => $this->min,
             'attributes'        => $this->prepareJsAttributes(),
             'indexPlaceholder'  => $this->getIndexPlaceholder()
-        ]);
+        ], $this->jsExtraSettings));
 
         $js = "jQuery('#{$this->id}').multipleInput($options);";
         $view->registerJs($js);
@@ -519,7 +524,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
                 if (isset($attributeOptions['name']) && $attributeOptions['name'] === $column->name) {
                     $attributes[$inputID] = ArrayHelper::merge($attributeOptions, $column->attributeOptions);
                 } else {
-                    array_push($this->form->attributes, $attributeOptions);
+                    $this->form->attributes[] = $attributeOptions;
                 }
             } else {
                 $attributes[$inputID] = $column->attributeOptions;

@@ -37,11 +37,14 @@ class MultipleInput extends InputWidget
 
     const ICONS_SOURCE_GLYPHICONS  = 'glyphicons';
     const ICONS_SOURCE_FONTAWESOME = 'fa';
+    
+    const GENERAL_ERROR_POS_TOP     = 'top';
+    const GENERAL_ERROR_POS_BOTTOM  = 'bottom';
 
     /**
      * @var ActiveRecordInterface[]|array[] input data
      */
-    public $data = null;
+    public $data;
 
     /**
      * @var array columns configuration
@@ -206,6 +209,17 @@ class MultipleInput extends InputWidget
     public $theme = self::THEME_BS;
 
     /**
+     * @var string|null set a position of generic error message (when you set an error for generic field instead of particular input)
+     * If set to null no generic error message will be shown. 
+     */
+    public $generalErrorPosition;
+
+    /**
+     * @var bool
+     */
+    private $showGeneralError = false;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -214,6 +228,16 @@ class MultipleInput extends InputWidget
     {
         if ($this->form !== null && !$this->form instanceof ActiveForm) {
             throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
+        }
+
+        $this->showGeneralError = $this->generalErrorPosition !== null && !$this->isEmbedded && $this->field;
+
+        if ($this->showGeneralError) {
+            if ($this->generalErrorPosition === self::GENERAL_ERROR_POS_BOTTOM) {
+                $this->field->template = "{input}\n{error}";
+            } else {
+                $this->field->template = "{error}\n{input}";
+            }
         }
 
         $this->guessColumns();
@@ -276,9 +300,10 @@ class MultipleInput extends InputWidget
     public function run()
     {
         $content = '';
-        if ($this->hasModel() && $this->isEmbedded === false) {
+        if ($this->isEmbedded === false && $this->hasModel()) {
             $content .= Html::hiddenInput(Html::getInputName($this->model, $this->attribute), null);
         }
+
         $content .= $this->createRenderer()->render();
 
         return $content;
@@ -339,6 +364,12 @@ class MultipleInput extends InputWidget
             'theme'             => $this->theme
         ];
 
+        if ($this->showGeneralError) {
+            $config['jsExtraSettings'] = [
+                'showGeneralError' => true
+            ];
+        }
+        
         if ($this->removeButtonOptions !== null) {
             $config['removeButtonOptions'] = $this->removeButtonOptions;
         }

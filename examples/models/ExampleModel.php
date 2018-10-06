@@ -96,7 +96,7 @@ class ExampleModel extends Model
             ['title', 'string', 'min' => 5],
             ['emails', 'validateEmails'],
             ['phones', 'validatePhones'],
-            ['schedule', 'validateSchedule'],
+            ['schedule', 'validateSchedule', 'skipOnEmpty' => false],
             ['questions', 'validateQuestions']
         ];
     }
