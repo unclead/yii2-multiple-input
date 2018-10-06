@@ -198,7 +198,12 @@ abstract class BaseColumn extends BaseObject
         } else {
             $value = null;
             if ($data instanceof ActiveRecordInterface ) {
-                $value = $data->getAttribute($this->name);
+                $relation = $data->getRelation($this->name, false);
+                if ($relation !== null) {
+                    $value = $relation;
+                } else {
+                    $value = $data->getAttribute($this->name);
+                }
             } elseif ($data instanceof Model) {
                 $value = $data->{$this->name};
             } elseif (is_array($data)) {
@@ -207,7 +212,7 @@ abstract class BaseColumn extends BaseObject
                 $value = $data;
             }
 
-            if ($this->isEmpty($value) && $this->defaultValue !== null) {
+            if ($this->defaultValue !== null && $this->isEmpty($value)) {
                 $value = $this->defaultValue;
             }
         }
