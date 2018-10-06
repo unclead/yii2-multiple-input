@@ -68,14 +68,10 @@ use unclead\multipleinput\TabularColumn;
             'type'  => \kartik\date\DatePicker::class,
             'title' => 'Day',
             'options' => [
-                'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                 'pluginOptions' => [
                     'autoclose' => true,
                     'format' => 'dd/mm/yyyy',
                     'todayHighlight' => true,
-                ],
-                'widgetOptions' => [
-                    'type' => \kartik\date\DatePicker::TYPE_INPUT,
                 ],
 
             ],
