@@ -1,6 +1,5 @@
 <?php
 
-use unclead\multipleinput\renderers\ListRenderer;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\TabularInput;
 use yii\helpers\Html;
@@ -22,8 +21,8 @@ use unclead\multipleinput\TabularColumn;
 <?= TabularInput::widget([
     'models' => $models,
     'modelClass' => Item::class,
-    'rendererClass' => ListRenderer::class,
     'cloneButton' => true,
+    'sortable' => true,
     'min' => 0,
     'addButtonPosition' => [
         TabularInput::POS_HEADER,
@@ -64,25 +63,21 @@ use unclead\multipleinput\TabularColumn;
             'name' => 'description',
             'title' => 'Description',
         ],
-//        [
-//            'name'  => 'file',
-//            'title' => 'File',
-//            'type'  => \vova07\fileapi\Widget::className(),
-//            'options' => [
-//                'settings' => [
-//                    'url' => ['site/fileapi-upload']
-//                ]
-//            ]
-//        ],
         [
             'name' => 'date',
-            'type'  => \kartik\date\DatePicker::className(),
+            'type'  => \kartik\date\DatePicker::class,
             'title' => 'Day',
             'options' => [
+                'type' => \kartik\datecontrol\DateControl::FORMAT_DATE,
                 'pluginOptions' => [
-                    'format' => 'dd.mm.yyyy',
-                    'todayHighlight' => true
-                ]
+                    'autoclose' => true,
+                    'format' => 'dd/mm/yyyy',
+                    'todayHighlight' => true,
+                ],
+                'widgetOptions' => [
+                    'type' => \kartik\date\DatePicker::TYPE_INPUT,
+                ],
+
             ],
             'headerOptions' => [
                 'style' => 'width: 250px;',

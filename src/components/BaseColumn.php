@@ -36,6 +36,8 @@ abstract class BaseColumn extends BaseObject
     const TYPE_RADIO            = 'radio';
     const TYPE_DRAGCOLUMN       = 'dragColumn';
 
+    const TABINDEX = 1;
+
     /**
      * @var string input name
      */
@@ -167,7 +169,7 @@ abstract class BaseColumn extends BaseObject
             throw new InvalidConfigException("The 'name' option is required.");
         }
 
-        if (is_null($this->type)) {
+        if ($this->type === null) {
             $this->type = self::TYPE_TEXT_INPUT;
         }
 
@@ -268,17 +270,21 @@ abstract class BaseColumn extends BaseObject
         } else {
             $optionsExt = $this->options;
         }
-        
+
         $options = ArrayHelper::merge($options, $optionsExt);
         $method = 'render' . Inflector::camelize($this->type);
-        $value = $this->prepareValue();
+
+        $value = null;
+        if ($this->type !== self::TYPE_DRAGCOLUMN) {
+            $value = $this->prepareValue();
+        }
 
         if (isset($options['items'])) {
             $options['items'] = $this->prepareItems($options['items']);
         }
 
         if (method_exists($this, $method)) {
-            $input = call_user_func_array([$this, $method], [$name, $value, $options]);
+            $input = $this->$method($name, $value, $options);
         } else {
             $input = $this->renderDefault($name, $value, $options);
         }
@@ -297,7 +303,11 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderDropDownList($name, $value, $options)
     {
-        Html::addCssClass($options, 'form-control');
+        if ($this->renderer->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-control');
+        }
+
+        $options['tabindex'] = self::TABINDEX;
 
         return Html::dropDownList($name, $value, $this->prepareItems($this->items), $options);
     }
@@ -311,10 +321,10 @@ abstract class BaseColumn extends BaseObject
     private function prepareItems($items)
     {
         if ($items instanceof \Closure) {
-            return call_user_func($items, $this->getModel());
-        } else {
-            return $items;
+            return $items($this->getModel());
         }
+
+        return $items;
     }
 
     /**
@@ -327,7 +337,11 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderListBox($name, $value, $options)
     {
-        Html::addCssClass($options, 'form-control');
+        if ($this->renderer->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-control');
+        }
+
+        $options['tabindex'] = self::TABINDEX;
 
         return Html::listBox($name, $value, $this->prepareItems($this->items), $options);
     }
@@ -355,6 +369,8 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderRadio($name, $value, $options)
     {
+        $options['tabindex'] = self::TABINDEX;
+
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
@@ -378,15 +394,18 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderRadioList($name, $value, $options)
     {
+        $options['tabindex'] = self::TABINDEX;
+
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
 
         $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
             $content = Html::radio($name, $checked, [
-                'label'   => $label,
-                'value'   => $value,
-                'data-id' => ArrayHelper::getValue($options, 'id')
+                'label'     => $label,
+                'value'     => $value,
+                'data-id'   => ArrayHelper::getValue($options, 'id'),
+                'tabindex'  => self::TABINDEX
             ]);
 
             return Html::tag('div', $content, ['class' => 'radio']);
@@ -407,6 +426,8 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderCheckbox($name, $value, $options)
     {
+        $options['tabindex'] = self::TABINDEX;
+
         if (!isset($options['label'])) {
             $options['label'] = '';
         }
@@ -430,15 +451,18 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderCheckboxList($name, $value, $options)
     {
+        $options['tabindex'] = self::TABINDEX;
+
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
         }
 
         $options['item'] = function ($index, $label, $name, $checked, $value) use ($options) {
             $content = Html::checkbox($name, $checked, [
-                'label'   => $label,
-                'value'   => $value,
-                'data-id' => ArrayHelper::getValue($options, 'id')
+                'label'     => $label,
+                'value'     => $value,
+                'data-id'   => ArrayHelper::getValue($options, 'id'),
+                'tabindex'  => self::TABINDEX
             ]);
 
             return Html::tag('div', $content, ['class' => 'checkbox']);
@@ -459,7 +483,13 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderStatic($name, $value, $options)
     {
-        return Html::tag('p', $value, ['class' => 'form-control-static']);
+        $options['tabindex'] = self::TABINDEX;
+
+        if ($this->renderer->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-control-static');
+        }
+
+        return Html::tag('p', $value, $options);
     }
 
     /**
@@ -480,7 +510,8 @@ abstract class BaseColumn extends BaseObject
         if (array_key_exists('class', $options)) {
             $class = ArrayHelper::remove($options, 'class');
         }
-        $dragClass = implode(" ", [$class, 'drag-handle']);
+
+        $dragClass = implode(' ', [$class, 'drag-handle']);
 
         return Html::tag('span', null, ['class' => $dragClass]);
     }
@@ -498,8 +529,13 @@ abstract class BaseColumn extends BaseObject
     {
         $type = $this->type;
 
-        if (method_exists('yii\helpers\Html', $type)) {
-            Html::addCssClass($options, 'form-control');
+        if (method_exists(Html::class, $type)) {
+            $options['tabindex'] = self::TABINDEX;
+
+            if ($this->renderer->isBootstrapTheme()) {
+                Html::addCssClass($options, 'form-control');
+            }
+
             $input = Html::$type($name, $value, $options);
         } elseif (class_exists($type) && method_exists($type, 'widget')) {
             $input = $this->renderWidget($type, $name, $value, $options);
@@ -521,6 +557,8 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderWidget($type, $name, $value, $options)
     {
+        unset($options['tabindex']);
+
         $model = $this->getModel();
         if ($model instanceof Model) {
             $model->{$this->name} = $value;
@@ -529,14 +567,18 @@ abstract class BaseColumn extends BaseObject
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
-                    'id' => $this->normalize($name),
-                    'name' => $name
+                    'id'        => $this->normalize($name),
+                    'name'      => $name,
+                    'tabindex'  => self::TABINDEX
                 ]
             ];
         } else {
             $widgetOptions = [
-                'name'  => $name,
-                'value' => $value
+                'name'      => $name,
+                'value'     => $value,
+                'options'   => [
+                    'tabindex'  => self::TABINDEX
+                ]
             ];
         }
 

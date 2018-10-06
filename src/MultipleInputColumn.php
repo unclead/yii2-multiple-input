@@ -18,14 +18,11 @@ use unclead\multipleinput\components\BaseColumn;
 /**
  * Class MultipleInputColumn
  * @package unclead\multipleinput
+ *
+ * @property MultipleInput $context
  */
 class MultipleInputColumn extends BaseColumn
 {
-    /**
-     * @var MultipleInput
-     */
-    public $context;
-
     /**
      * @throws InvalidConfigException
      */

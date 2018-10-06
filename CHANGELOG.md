@@ -4,6 +4,8 @@ Yii2 multiple input change log
 2.17.0 (in development)
 =======================
 - #215 collect all js script that has to be evaluate when add new row (not only from " on ready" section)
+- #198 introduce the option `theme` to disable all bootstrap css classes
+- #197 explicitly set tabindex for all inputs
 
 2.16.0
 ======

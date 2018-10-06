@@ -35,7 +35,11 @@ class TableRenderer extends BaseRenderer
         $content[] = $this->renderFooter();
 
         $options = [];
-        Html::addCssClass($options, 'multiple-input-list table table-condensed table-renderer');
+        Html::addCssClass($options, 'multiple-input-list');
+
+        if ($this->isBootstrapTheme()) {
+            Html::addCssClass($options, 'table table-condensed table-renderer');
+        }
 
         $content = Html::tag('table', implode("\n", $content), $options);
 
@@ -134,6 +138,7 @@ class TableRenderer extends BaseRenderer
         if ($column->isHiddenInput()) {
             return null;
         }
+
         $options = $column->headerOptions;
         Html::addCssClass($options, 'list-cell__' . $column->name);
         
@@ -156,6 +161,7 @@ class TableRenderer extends BaseRenderer
      * Renders the body.
      *
      * @return string
+     *
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\InvalidParamException
      */
@@ -292,9 +298,10 @@ class TableRenderer extends BaseRenderer
             $input .= "\n" . $column->renderError($error);
         }
 
-        $wrapperOptions = [
-            'class' => 'form-group field-' . $id
-        ];
+        $wrapperOptions = ['class' => 'field-' . $id];
+        if ($this->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-group');
+        }
 
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
@@ -370,8 +377,9 @@ class TableRenderer extends BaseRenderer
     private function renderAddButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-plus',
+            'class' => 'multiple-input-list__btn js-input-plus',
         ];
+
         Html::addCssClass($options, $this->addButtonOptions['class']);
         
         return Html::tag('div', $this->addButtonOptions['label'], $options);
@@ -381,13 +389,13 @@ class TableRenderer extends BaseRenderer
      * Renders remove button.
      *
      * @return string
-     * @throws \Exception
      */
     private function renderRemoveButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-remove',
+            'class' => 'multiple-input-list__btn js-input-remove',
         ];
+
         Html::addCssClass($options, $this->removeButtonOptions['class']);
         
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
@@ -397,13 +405,13 @@ class TableRenderer extends BaseRenderer
      * Renders clone button.
      *
      * @return string
-     * @throws \Exception
      */
     private function renderCloneButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-clone',
+            'class' => 'multiple-input-list__btn js-input-clone',
         ];
+
         Html::addCssClass($options, $this->cloneButtonOptions['class']);
 
         return Html::tag('div', $this->cloneButtonOptions['label'], $options);
@@ -413,6 +421,8 @@ class TableRenderer extends BaseRenderer
      * Returns template for using in js.
      *
      * @return string
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     protected function prepareTemplate()
     {

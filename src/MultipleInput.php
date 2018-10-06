@@ -32,6 +32,12 @@ class MultipleInput extends InputWidget
     const POS_ROW_BEGIN = RendererInterface::POS_ROW_BEGIN;
     const POS_FOOTER    = RendererInterface::POS_FOOTER;
 
+    const THEME_DEFAULT = 'default';
+    const THEME_BS      = 'bootstrap';
+
+    const ICONS_SOURCE_GLYPHICONS  = 'glyphicons';
+    const ICONS_SOURCE_FONTAWESOME = 'fa';
+
     /**
      * @var ActiveRecordInterface[]|array[] input data
      */
@@ -174,24 +180,30 @@ class MultipleInput extends InputWidget
      * --icon library classes mapped for various controls
      */
     public $iconMap = [
-        'glyphicons' => [
-            'drag-handle' => 'glyphicon glyphicon-menu-hamburger',
-            'remove' => 'glyphicon glyphicon-remove',
-            'add' => 'glyphicon glyphicon-plus',
-            'clone' => 'glyphicon glyphicon-duplicate',
+        self::ICONS_SOURCE_GLYPHICONS => [
+            'drag-handle'   => 'glyphicon glyphicon-menu-hamburger',
+            'remove'        => 'glyphicon glyphicon-remove',
+            'add'           => 'glyphicon glyphicon-plus',
+            'clone'         => 'glyphicon glyphicon-duplicate',
         ],
-        'fa' => [
-            'drag-handle' => 'fa fa-bars',
-            'remove' => 'fa fa-times',
-            'add' => 'fa fa-plus',
-            'clone' => 'fa fa-files-o',
+        self::ICONS_SOURCE_FONTAWESOME => [
+            'drag-handle'   => 'fa fa-bars',
+            'remove'        => 'fa fa-times',
+            'add'           => 'fa fa-plus',
+            'clone'         => 'fa fa-files-o',
         ],
     ];
     /**
-     * @var string
-     * --name of default icon library
+     * @var string the name of default icon library
      */
-    public $iconSource = 'glyphicons';
+    public $iconSource = self::ICONS_SOURCE_GLYPHICONS;
+
+    /**
+     * @var string the CSS theme of the widget
+     *
+     * @todo Use bootstrap theme for BC. We can switch to default theme in major release
+     */
+    public $theme = self::THEME_BS;
 
     /**
      * Initialization.
@@ -289,12 +301,21 @@ class MultipleInput extends InputWidget
             array_unshift($this->columns, $drag);
         }
 
+        $available_themes = [
+            self::THEME_BS,
+            self::THEME_DEFAULT
+        ];
+
+        if (!in_array($this->theme, $available_themes, true)) {
+            $this->theme = self::THEME_BS;
+        }
+
         /**
          * set default icon map
          */
         $iconMap = array_key_exists($this->iconSource, $this->iconMap)
             ? $this->iconMap[$this->iconSource]
-            : $this->iconMap['glyphicons'];
+            : $this->iconMap[self::ICONS_SOURCE_GLYPHICONS];
 
         $config = [
             'id'                => $this->getId(),
@@ -315,6 +336,7 @@ class MultipleInput extends InputWidget
             'extraButtons'      => $this->extraButtons,
             'layoutConfig'      => $this->layoutConfig,
             'iconMap'           => $iconMap,
+            'theme'             => $this->theme
         ];
 
         if ($this->removeButtonOptions !== null) {

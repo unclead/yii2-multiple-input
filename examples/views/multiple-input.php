@@ -26,6 +26,7 @@ use kartik\date\DatePicker;
     echo $form->field($model, 'emails')->widget(MultipleInput::className(), [
         'max'  => 6,
         'allowEmptyList' => false,
+        'sortable' => true,
         'columns' => [
             [
                 'name' => 'emails',
@@ -60,6 +61,7 @@ echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::class
         return $options;
     },
     'cloneButton' => true,
+
     'columns' => [
         [
             'name'  => 'user_id',
@@ -108,7 +110,7 @@ echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::class
             'headerOptions' => [
                 'style' => 'width: 250px;',
                 'class' => 'day-css-class'
-            ]
+            ],
         ],
         [
             'name'  => 'priority',

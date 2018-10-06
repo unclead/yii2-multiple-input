@@ -32,7 +32,11 @@ class ListRenderer extends BaseRenderer
         $content[] = $this->renderFooter();
 
         $options = [];
-        Html::addCssClass($options, 'multiple-input-list list-renderer table form-horizontal');
+        Html::addCssClass($options, 'multiple-input-list list-renderer');
+
+        if ($this->isBootstrapTheme()) {
+            Html::addCssClass($options, 'table form-horizontal');
+        }
 
         $content = Html::tag('table', implode("\n", $content), $options);
 
@@ -197,22 +201,24 @@ class ListRenderer extends BaseRenderer
             return $input;
         }
 
-        $hasError = false;
-        $error = '';
-        $wrapperOptions = [];
         $layoutConfig = array_merge([
-            'offsetClass' => 'col-sm-offset-3',
-            'labelClass' => 'col-sm-3',
-            'wrapperClass' => 'col-sm-6',
-            'errorClass' => 'col-sm-offset-3 col-sm-6',
+            'offsetClass'   => $this->isBootstrapTheme() ? 'col-sm-offset-3' : '',
+            'labelClass'    => $this->isBootstrapTheme() ? 'col-sm-3' : '',
+            'wrapperClass'  => $this->isBootstrapTheme() ? 'col-sm-6' : '',
+            'errorClass'    => $this->isBootstrapTheme() ? 'col-sm-offset-3 col-sm-6' : '',
         ], $this->layoutConfig);
 
         Html::addCssClass($column->errorOptions, $layoutConfig['errorClass']);
+
+        $hasError = false;
+        $error = '';
 
         if ($index !== null) {
             $error = $column->getFirstError($index);
             $hasError = !empty($error);
         }
+
+        $wrapperOptions = [];
 
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
@@ -220,16 +226,25 @@ class ListRenderer extends BaseRenderer
 
         Html::addCssClass($wrapperOptions, $layoutConfig['wrapperClass']);
 
-        $content = Html::beginTag('div', [
-            'class' => "form-group field-$id list-cell__$column->name" . ($hasError ? ' has-error' : '')
-        ]);
+        $options = [
+            'class' => "field-$id list-cell__$column->name" . ($hasError ? ' has-error' : '')
+        ];
+
+        if ($this->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-group');
+        }
+
+        $content = Html::beginTag('div', $options);
 
         if (empty($column->title)) {
             Html::addCssClass($wrapperOptions, $layoutConfig['offsetClass']);
         } else {
-            $content .= Html::label($column->title, $id, [
-                'class' => $layoutConfig['labelClass'] . ' control-label'
-            ]);
+            $labelOptions = ['class' => $layoutConfig['labelClass']];
+            if ($this->isBootstrapTheme()) {
+                Html::addCssClass($labelOptions, 'control-label');
+            }
+
+            $content .= Html::label($column->title, $id, $labelOptions);
         }
 
         $content .= Html::tag('div', $input, $wrapperOptions);
@@ -282,17 +297,19 @@ class ListRenderer extends BaseRenderer
         $index++;
         if ($index < $this->min) {
             return '';
-        } elseif ($index === $this->min) {
-            return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
-        } else {
-            return $this->renderRemoveButton();
         }
+
+        if ($index === $this->min) {
+            return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
+        }
+
+        return $this->renderRemoveButton();
     }
 
     private function renderAddButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-plus',
+            'class' => 'multiple-input-list__btn js-input-plus',
         ];
         Html::addCssClass($options, $this->addButtonOptions['class']);
 
@@ -303,12 +320,11 @@ class ListRenderer extends BaseRenderer
      * Renders remove button.
      *
      * @return string
-     * @throws \Exception
      */
     private function renderRemoveButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-remove',
+            'class' => 'multiple-input-list__btn js-input-remove',
         ];
         Html::addCssClass($options, $this->removeButtonOptions['class']);
 
@@ -319,12 +335,11 @@ class ListRenderer extends BaseRenderer
      * Renders clone button.
      *
      * @return string
-     * @throws \Exception
      */
     private function renderCloneButton()
     {
         $options = [
-            'class' => 'btn multiple-input-list__btn js-input-clone',
+            'class' => 'multiple-input-list__btn js-input-clone',
         ];
         Html::addCssClass($options, $this->cloneButtonOptions['class']);
 
@@ -335,6 +350,8 @@ class ListRenderer extends BaseRenderer
      * Returns template for using in js.
      *
      * @return string
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     protected function prepareTemplate()
     {

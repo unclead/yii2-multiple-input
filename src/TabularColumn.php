@@ -14,14 +14,11 @@ use yii\base\Model;
 /**
  * Class TabularColumn
  * @package unclead\multipleinput
+ *
+ * @property TabularInput $context
  */
 class TabularColumn extends BaseColumn
 {
-    /**
-     * @var TabularInput
-     */
-    public $context;
-
     /**
      * Returns element's name.
      *

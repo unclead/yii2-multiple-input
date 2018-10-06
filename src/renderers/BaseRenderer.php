@@ -166,7 +166,17 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
      */
     public $layoutConfig = [];
 
-    public $iconMap;
+    /**
+     * @var array
+     */
+    public $iconMap = [];
+
+    /**
+     * @var string
+     *
+     * @todo Use bootstrap theme for BC. We can switch to default theme in major release
+     */
+    public $theme = self::THEME_BS;
 
     /**
      * @inheritdoc
@@ -236,17 +246,21 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
     }
 
+    /**
+     * @throws InvalidConfigException
+     */
     private function prepareButtons()
     {
         if ($this->addButtonPosition === null || $this->addButtonPosition === []) {
             $this->addButtonPosition = $this->min === 0 ? self::POS_HEADER : self::POS_ROW;
         }
+
         if (!is_array($this->addButtonPosition)) {
             $this->addButtonPosition = (array) $this->addButtonPosition;
         }
 
         if (!array_key_exists('class', $this->removeButtonOptions)) {
-            $this->removeButtonOptions['class'] = 'btn btn-danger';
+            $this->removeButtonOptions['class'] = $this->isBootstrapTheme() ? 'btn btn-danger' : '';
         }
 
         if (!array_key_exists('label', $this->removeButtonOptions)) {
@@ -254,7 +268,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         if (!array_key_exists('class', $this->addButtonOptions)) {
-            $this->addButtonOptions['class'] = 'btn btn-default';
+            $this->addButtonOptions['class'] = $this->isBootstrapTheme() ? 'btn btn-default' : '';
         }
 
         if (!array_key_exists('label', $this->addButtonOptions)) {
@@ -262,7 +276,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
 
         if (!array_key_exists('class', $this->cloneButtonOptions)) {
-            $this->cloneButtonOptions['class'] = 'btn btn-info';
+            $this->cloneButtonOptions['class'] = $this->isBootstrapTheme() ? 'btn btn-info' : '';
         }
 
         if (!array_key_exists('label', $this->cloneButtonOptions)) {
@@ -280,20 +294,18 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     {
         foreach ($this->columns as $i => $column) {
             $definition = array_merge([
-                'class'     => $this->columnClass,
-                'renderer'  => $this,
-                'context'   => $this->context
+                'class'         => $this->columnClass,
+                'renderer'      => $this,
+                'context'       => $this->context,
             ], $column);
 
-            if (!is_array($this->addButtonOptions)) {
-                $this->addButtonOptions = [$this->addButtonOptions];
-            }
+            $this->addButtonOptions = (array)$this->addButtonOptions;
 
-            if (!array_key_exists('attributeOptions', $definition)) {
+            if (!isset($definition['attributeOptions'])) {
                 $definition['attributeOptions'] = $this->attributeOptions;
             }
 
-            if (!array_key_exists('enableError', $definition)) {
+            if (!isset($definition['enableError'])) {
                 $definition['enableError'] = $this->enableError;
             }
 
@@ -520,6 +532,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     /**
      * @param $action - the control parameter, used as key into allowed types
      * @return string - the relevant icon class
+     *
+     * @throws InvalidConfigException
      */
     protected function getIconClass($action) {
         if (in_array($action, ['add', 'remove', 'clone', 'drag-handle'])) {
@@ -531,4 +545,15 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         }
         return '';
     }
+
+    public function isDefaultTheme()
+    {
+        return $this->theme === self::THEME_DEFAULT;
+    }
+
+    public function isBootstrapTheme()
+    {
+        return $this->theme === self::THEME_BS;
+    }
+
 }
