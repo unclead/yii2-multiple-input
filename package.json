@@ -1,6 +1,6 @@
 {
   "name": "jquery.multipleInput",
-  "version": "2.17.0",
+  "version": "2.17.1",
   "description": "jQuery multipleInput",
   "scripts": {
     "build": "npm install && (gulp || node node_modules/gulp/bin/gulp.js)"

@@ -65,7 +65,7 @@ use unclead\multipleinput\TabularColumn;
         ],
         [
             'name' => 'date',
-            'type'  => \kartik\date\DatePicker::class,
+            'type'  => '\kartik\date\DatePicker',
             'title' => 'Day',
             'options' => [
                 'pluginOptions' => [

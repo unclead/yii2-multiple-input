@@ -529,7 +529,7 @@ abstract class BaseColumn extends BaseObject
     {
         $type = $this->type;
 
-        if (method_exists(Html::class, $type)) {
+        if (method_exists('yii\helpers\Html', $type)) {
             $options['tabindex'] = self::TABINDEX;
 
             if ($this->renderer->isBootstrapTheme()) {
