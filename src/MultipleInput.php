@@ -254,7 +254,11 @@ class MultipleInput extends InputWidget
                 return;
             }
 
-            foreach ((array) $data as $index => $value) {
+            if (!($data instanceof \Traversable)) {
+                $data = (array) $data;
+            }
+
+            foreach ($data as $index => $value) {
                 $this->data[$index] = $value;
             }
         }
