@@ -4,6 +4,7 @@ Yii2 multiple input change log
 2.18.0 (in development)
 =======================
 - #246 accept `\Traversable` in model attribute for `yield` compatibility (bscheshirwork) 
+- #251 add `attributeWillRewrite` options to `BaseColumn` for avoid use setters reason (bscheshirwork) 
 
 2.17.0
 ======

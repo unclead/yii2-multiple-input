@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use unclead\multipleinput\renderers\BaseRenderer;
+use unclead\multipleinput\MultipleInput;
 
 /**
  * Class BaseColumn.
@@ -128,7 +129,16 @@ abstract class BaseColumn extends BaseObject
      * @since 2.8
      */
     public $nameSuffix;
-    
+
+    /**
+     * @var bool rewrite the model attribute in nested widgets, e.g. use setter of attribute for set value of attribute.
+     * You can use this property for custom widgets, who use only attribute value and not use `value` from config options.
+     * Nested `MultipleInput` widget always use `value` from config options and don't use setter.
+     *
+     * @since 2.18
+     */
+    public $attributeWillRewrite = true;
+
     /**
      * @var Model|ActiveRecordInterface|array
      */
@@ -561,7 +571,9 @@ abstract class BaseColumn extends BaseObject
 
         $model = $this->getModel();
         if ($model instanceof Model) {
-            $model->{$this->name} = $value;
+            if (!($type === MultipleInput::className() || $this->attributeWillRewrite)) {
+                $model->{$this->name} = $value;
+            }
             $widgetOptions = [
                 'model'     => $model,
                 'attribute' => $this->name,
