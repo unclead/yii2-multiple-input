@@ -170,17 +170,16 @@ class TableRenderer extends BaseRenderer
         $rows = [];
 
         if ($this->data) {
-            $cnt = count($this->data);
-            if ($this->min === $this->max && $cnt < $this->max) {
-                $cnt = $this->max;
+            $j = 0;
+            foreach ($this->data as $index => $item) {
+                if ($j++ <= $this->max) {
+                    $rows[] = $this->renderRowContent($index, $item);
+                } else {
+                    break;
+                }
             }
-            
-            $indices = array_keys($this->data);
-
-            for ($i = 0; $i < $cnt; $i++) {
-                $index = ArrayHelper::getValue($indices, $i, $i);
-                $item = ArrayHelper::getValue($this->data, $index, null);
-                $rows[] = $this->renderRowContent($index, $item);
+            for ($i = $j; $i < $this->min; $i++) {
+                $rows[] = $this->renderRowContent($i);
             }
         } elseif ($this->min > 0) {
             for ($i = 0; $i < $this->min; $i++) {
