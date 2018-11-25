@@ -38,6 +38,8 @@ abstract class BaseColumn extends BaseObject
 
     const TABINDEX = 1;
 
+    const DEFAULT_STATIC_COLUMN_NAME = 'static-column';
+
     /**
      * @var string input name
      */
@@ -128,7 +130,7 @@ abstract class BaseColumn extends BaseObject
      * @since 2.8
      */
     public $nameSuffix;
-    
+
     /**
      * @var Model|ActiveRecordInterface|array
      */
@@ -165,12 +167,16 @@ abstract class BaseColumn extends BaseObject
     {
         parent::init();
 
-        if (empty($this->name)) {
-            throw new InvalidConfigException("The 'name' option is required.");
-        }
-
         if ($this->type === null) {
             $this->type = self::TYPE_TEXT_INPUT;
+        }
+
+        if ($this->type === self::TYPE_STATIC && empty($this->name)) {
+            $this->name = self::DEFAULT_STATIC_COLUMN_NAME;
+        }
+
+        if (empty($this->name)) {
+            throw new InvalidConfigException("The 'name' option is required.");
         }
 
         if (empty($this->options)) {

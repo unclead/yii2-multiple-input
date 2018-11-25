@@ -124,7 +124,7 @@ echo $form->field($model, 'schedule')->label(false)->widget(MultipleInput::class
             ]
         ],
         [
-            'name'  => 'comment',
+            'name'  => 'comment', // can be ommited in case of static column
             'type'  => MultipleInputColumn::TYPE_STATIC,
             'value' => function($data) {
                 return Html::tag('span', 'static content', ['class' => 'label label-info']);
