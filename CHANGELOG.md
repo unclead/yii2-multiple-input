@@ -6,6 +6,7 @@ Yii2 multiple input change log
 - #246 accept `\Traversable` in model attribute for `yield` compatibility (bscheshirwork) 
 - #250 accept `\Traversable` in TableRenderer and ListRenderer for `yield` compatibility (bscheshirwork)
 - #253 allow to omit a name for static column 
+- #257 added `jsPositions` property for the `BaseRenderer` to set right order js-code in `jsInit` and `jsTemplates` (Spell6inder)
 
 2.17.0
 ======
