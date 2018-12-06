@@ -184,6 +184,11 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     public $jsExtraSettings = [];
 
     /**
+     * @var array List of the locations of registered JavaScript code block or files in right order.
+     */
+    public $jsPositions = [View::POS_HEAD, View::POS_BEGIN, View::POS_END, View::POS_READY, View::POS_LOAD];
+
+    /**
      * @inheritdoc
      */
     public function setContext($context)
@@ -370,8 +375,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         // Collect all js scripts which has to be appended to page before initialization widget
         $jsInit = [];
         if (is_array($view->js)) {
-            foreach ($view->js as $position => $scripts) {
-                foreach ((array)$scripts as $key => $js) {
+            foreach ($this->jsPositions as $position) {
+                foreach (ArrayHelper::getValue($view->js, $position, []) as $key => $js) {
                     if (isset($jsBefore[$position][$key])) {
                         continue;
                     }
@@ -386,8 +391,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
         $jsTemplates = [];
         if (is_array($view->js)) {
-            foreach ($view->js as $position => $scripts) {
-                foreach ((array)$scripts as $key => $js) {
+            foreach ($this->jsPositions as $position) {
+                foreach (ArrayHelper::getValue($view->js, $position, []) as $key => $js) {
                     if (isset($jsBefore[$position][$key])) {
                         continue;
                     }
