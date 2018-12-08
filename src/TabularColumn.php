@@ -20,6 +20,11 @@ use yii\base\Model;
 class TabularColumn extends BaseColumn
 {
     /**
+     * @var array the HTML attributes for the body cell tag.
+     */
+    public $columnOptions = [];
+    
+    /**
      * Returns element's name.
      *
      * @param int|null|string $index current row index
