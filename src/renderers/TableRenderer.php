@@ -308,9 +308,9 @@ class TableRenderer extends BaseRenderer
         
         $input = Html::tag('div', $input, $wrapperOptions);
 
-        return Html::tag('td', $input, [
-            'class' => 'list-cell__' . $column->name,
-        ]);
+        Html::addCssClass($column->columnOptions, 'list-cell__' . $column->name);
+
+        return Html::tag('td', $input, $column->columnOptions);
     }
 
 
