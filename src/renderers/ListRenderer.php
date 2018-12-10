@@ -233,6 +233,14 @@ class ListRenderer extends BaseRenderer
             Html::addCssClass($options, 'form-group');
         }
 
+        if (is_callable($column->columnOptions)) {
+            $columnOptions = call_user_func($column->columnOptions, $column->getModel(), $index, $this->context);
+        } else {
+            $columnOptions = $column->columnOptions;
+        }
+
+        $options = array_merge_recursive($options, $columnOptions);
+        
         $content = Html::beginTag('div', $options);
 
         if (empty($column->title)) {

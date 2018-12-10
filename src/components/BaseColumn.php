@@ -132,6 +132,23 @@ abstract class BaseColumn extends BaseObject
     public $nameSuffix;
 
     /**
+     * @var array|\Closure the HTML attributes for the indivdual table body column. This can be either an array
+     * specifying the common HTML attributes for indivdual body column, or an anonymous function that
+     * returns an array of the HTML attributes. It should have the following signature:
+     *
+     * ```php
+     * function ($model, $index, $context)
+     * ```
+     *
+     * - `$model`: the current data model being rendered
+     * - `$index`: the zero-based index of the data model in the model array
+     * - `$context`: the widget object
+     *
+     * @since 2.18.0
+     */
+    public $columnOptions = [];
+    
+    /**
      * @var Model|ActiveRecordInterface|array
      */
     private $_model;

@@ -306,11 +306,17 @@ class TableRenderer extends BaseRenderer
             Html::addCssClass($wrapperOptions, 'has-error');
         }
         
+        if (is_callable($column->columnOptions)) {
+            $columnOptions = call_user_func($column->columnOptions, $column->getModel(), $index, $this->context);
+        } else {
+            $columnOptions = $column->columnOptions;
+        }
+
+        Html::addCssClass($columnOptions, 'list-cell__' . $column->name);
+        
         $input = Html::tag('div', $input, $wrapperOptions);
 
-        return Html::tag('td', $input, [
-            'class' => 'list-cell__' . $column->name,
-        ]);
+        return Html::tag('td', $input, $columnOptions);
     }
 
 

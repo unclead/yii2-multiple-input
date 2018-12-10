@@ -18,7 +18,7 @@ use yii\base\Model;
  * @property TabularInput $context
  */
 class TabularColumn extends BaseColumn
-{
+{   
     /**
      * Returns element's name.
      *
