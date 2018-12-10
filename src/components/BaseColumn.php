@@ -144,7 +144,7 @@ abstract class BaseColumn extends BaseObject
      * - `$index`: the zero-based index of the data model in the model array
      * - `$context`: the widget object
      *
-     * @since 2.17.2
+     * @since 2.18.0
      */
     public $columnOptions = [];
     
