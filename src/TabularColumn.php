@@ -20,8 +20,8 @@ use yii\base\Model;
 class TabularColumn extends BaseColumn
 {
     /**
-     * @var array|\Closure the HTML attributes for the table body columns. This can be either an array
-     * specifying the common HTML attributes for all body column, or an anonymous function that
+     * @var array|\Closure the HTML attributes for the indivdual table body column. This can be either an array
+     * specifying the common HTML attributes for indivdual body column, or an anonymous function that
      * returns an array of the HTML attributes. It should have the following signature:
      *
      * ```php
