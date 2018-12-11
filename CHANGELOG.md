@@ -1,8 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
-2.18.0 (in development)
+2.19.0 (in development)
 =======================
+
+2.18.0
+======
 - #246 accept `\Traversable` in model attribute for `yield` compatibility (bscheshirwork) 
 - #250 accept `\Traversable` in TableRenderer and ListRenderer for `yield` compatibility (bscheshirwork)
 - #253 allow to omit a name for static column 
