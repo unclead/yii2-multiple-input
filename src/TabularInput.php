@@ -249,7 +249,7 @@ class TabularInput extends Widget
     /**
      * @return TableRenderer
      */
-    private function createRenderer()
+    protected function createRenderer()
     {
         if($this->sortable) {
             $drag = [
