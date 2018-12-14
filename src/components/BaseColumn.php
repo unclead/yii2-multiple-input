@@ -147,7 +147,7 @@ abstract class BaseColumn extends BaseObject
      * @since 2.18.0
      */
     public $columnOptions = [];
-    
+
     /**
      * @var Model|ActiveRecordInterface|array
      */
@@ -584,9 +584,13 @@ abstract class BaseColumn extends BaseObject
 
         $model = $this->getModel();
         if ($model instanceof Model) {
-            $model->{$this->name} = $value;
+            // @see https://github.com/unclead/yii2-multiple-input/issues/249
+            // don't modify original model
+            $cloneModel = clone $model;
+            $cloneModel->{$this->name} = $value;
+
             $widgetOptions = [
-                'model'     => $model,
+                'model'     => $cloneModel,
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
