@@ -9,6 +9,8 @@
 namespace unclead\multipleinput\components;
 
 use Closure;
+use Yii;
+use yii\base\DynamicModel;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\BaseObject;
@@ -586,11 +588,10 @@ abstract class BaseColumn extends BaseObject
         if ($model instanceof Model) {
             // @see https://github.com/unclead/yii2-multiple-input/issues/249
             // don't modify original model
-            $cloneModel = clone $model;
-            $cloneModel->{$this->name} = $value;
+            $dynamicModel = Yii::createObject(DynamicModel::className(), [[$this->name => $value]]);
 
             $widgetOptions = [
-                'model'     => $cloneModel,
+                'model'     => $dynamicModel,
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
