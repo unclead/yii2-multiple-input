@@ -9,8 +9,6 @@
 namespace unclead\multipleinput\components;
 
 use Closure;
-use Yii;
-use yii\base\DynamicModel;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\BaseObject;
@@ -19,6 +17,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use unclead\multipleinput\renderers\BaseRenderer;
+use unclead\multipleinput\MultipleInput;
 
 /**
  * Class BaseColumn.
@@ -39,8 +38,6 @@ abstract class BaseColumn extends BaseObject
     const TYPE_DRAGCOLUMN       = 'dragColumn';
 
     const TABINDEX = 1;
-
-    const DEFAULT_STATIC_COLUMN_NAME = 'static-column';
 
     /**
      * @var string input name
@@ -134,21 +131,14 @@ abstract class BaseColumn extends BaseObject
     public $nameSuffix;
 
     /**
-     * @var array|\Closure the HTML attributes for the indivdual table body column. This can be either an array
-     * specifying the common HTML attributes for indivdual body column, or an anonymous function that
-     * returns an array of the HTML attributes. It should have the following signature:
+     * @var bool rewrite the model attribute in nested widgets, e.g. use setter of attribute for set value of attribute.
+     * You can use this property for custom widgets, who use only attribute value and not use `value` from config options.
+     * Example: Nested `MultipleInput` widget use `value` from config options and don't use setter; also we need pass
+     * original modal to nested `MultipleInput` for draw errors reason
      *
-     * ```php
-     * function ($model, $index, $context)
-     * ```
-     *
-     * - `$model`: the current data model being rendered
-     * - `$index`: the zero-based index of the data model in the model array
-     * - `$context`: the widget object
-     *
-     * @since 2.18.0
+     * @since 2.18
      */
-    public $columnOptions = [];
+    public $rewriteModelAttribute = true;
 
     /**
      * @var Model|ActiveRecordInterface|array
@@ -186,16 +176,12 @@ abstract class BaseColumn extends BaseObject
     {
         parent::init();
 
-        if ($this->type === null) {
-            $this->type = self::TYPE_TEXT_INPUT;
-        }
-
-        if ($this->type === self::TYPE_STATIC && empty($this->name)) {
-            $this->name = self::DEFAULT_STATIC_COLUMN_NAME;
-        }
-
         if (empty($this->name)) {
             throw new InvalidConfigException("The 'name' option is required.");
+        }
+
+        if ($this->type === null) {
+            $this->type = self::TYPE_TEXT_INPUT;
         }
 
         if (empty($this->options)) {
@@ -587,11 +573,11 @@ abstract class BaseColumn extends BaseObject
         $model = $this->getModel();
         if ($model instanceof Model) {
             // @see https://github.com/unclead/yii2-multiple-input/issues/249
-            // don't modify original model
-            $dynamicModel = Yii::createObject(DynamicModel::className(), [[$this->name => $value]]);
-
+            if ($this->rewriteModelAttribute) {
+                $model->{$this->name} = $value;
+            }
             $widgetOptions = [
-                'model'     => $dynamicModel,
+                'model'     => $model,
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
