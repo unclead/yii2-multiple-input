@@ -430,7 +430,20 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         MultipleInputSortableAsset::register($view);
 
         // todo override when ListRenderer will use div markup
-        $options = Json::encode([
+        $options = Json::encode($this->getJsSortableOptions());
+        $js = "$('#{$this->id} table').sorting($options);";
+        $view->registerJs($js);
+    }
+
+    /**
+     * Returns an array of JQuery sortable plugin options.
+     * You can override this method extend plugin behaviour.
+     * 
+     * @return array
+     */
+    protected function getJsSortableOptions()
+    {
+        return [
             'containerSelector' => 'table',
             'itemPath'          => '> tbody',
             'itemSelector'      => 'tr',
@@ -445,9 +458,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
                     wrapper.trigger(event, [item]);
                 }
             ")
-        ]);
-        $js = "$('#{$this->id} table').sorting($options);";
-        $view->registerJs($js);
+        ];
     }
 
     /**
