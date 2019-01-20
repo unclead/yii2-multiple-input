@@ -67,6 +67,7 @@ use unclead\multipleinput\TabularColumn;
             'name' => 'date',
             'type'  => '\kartik\date\DatePicker',
             'title' => 'Day',
+            'defaultValue' => '1970/01/01',
             'options' => [
                 'pluginOptions' => [
                     'autoclose' => true,

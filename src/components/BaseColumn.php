@@ -586,18 +586,15 @@ abstract class BaseColumn extends BaseObject
 
         $model = $this->getModel();
         if ($model instanceof Model) {
-            // @see https://github.com/unclead/yii2-multiple-input/issues/249
-            // don't modify original model
-            $dynamicModel = Yii::createObject(DynamicModel::className(), [[$this->name => $value]]);
-
             $widgetOptions = [
-                'model'     => $dynamicModel,
+                'model'     => $model,
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
                     'id'        => $this->normalize($name),
                     'name'      => $name,
-                    'tabindex'  => self::TABINDEX
+                    'tabindex'  => self::TABINDEX,
+                    'value'     => $value
                 ]
             ];
         } else {
@@ -605,7 +602,10 @@ abstract class BaseColumn extends BaseObject
                 'name'      => $name,
                 'value'     => $value,
                 'options'   => [
-                    'tabindex'  => self::TABINDEX
+                    'id'        => $this->normalize($name),
+                    'name'      => $name,
+                    'tabindex'  => self::TABINDEX,
+                    'value'     => $value
                 ]
             ];
         }
