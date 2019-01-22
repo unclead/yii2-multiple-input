@@ -255,9 +255,10 @@
 
         template = template.replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex);
         var $addedInput = $(template);
+        var currentIndex = data.currentIndex;
 
         var beforeAddEvent = $.Event(events.beforeAddRow);
-        $wrapper.trigger(beforeAddEvent, [$addedInput]);
+        $wrapper.trigger(beforeAddEvent, [$addedInput, currentIndex]);
 
         if (beforeAddEvent.result === false) {
             return;
@@ -274,7 +275,7 @@
             }
 
             values = tmp;
-        }       
+        }
 
         var jsTemplate;
 
@@ -282,12 +283,12 @@
             jsTemplate = settings.jsTemplates[i]
                 .replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex)
                 .replaceAll('%7B' + settings.indexPlaceholder + '%7D', data.currentIndex);
-            
+
             window.eval(jsTemplate);
         }
 
         var index = 0;
-        
+
         $(template).find('input, select, textarea').each(function (k, v) {
             var ele = $(v),
                 tag = v.tagName,
@@ -321,7 +322,7 @@
         $wrapper.data('multipleInput').currentIndex++;
 
         var afterAddEvent = $.Event(events.afterAddRow);
-        $wrapper.trigger(afterAddEvent, [$addedInput]);
+        $wrapper.trigger(afterAddEvent, [$addedInput, currentIndex]);
     };
 
     var removeInput = function ($btn) {
@@ -330,9 +331,10 @@
             data      = $wrapper.data('multipleInput'),
             settings  = data.settings;
 
-        if (getCurrentIndex($wrapper) > settings.min) {
+        var currentIndex = getCurrentIndex($wrapper);
+        if (currentIndex > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
-            $wrapper.trigger(event, [$toDelete]);
+            $wrapper.trigger(event, [$toDelete, currentIndex]);
 
             if (event.result === false) {
                 return;
@@ -348,7 +350,7 @@
                 $(this).remove();
 
                 event = $.Event(events.afterDeleteRow);
-                $wrapper.trigger(event, [$toDelete]);
+                $wrapper.trigger(event, [$toDelete, currentIndex]);
             });
         }
     };
