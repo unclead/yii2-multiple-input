@@ -117,14 +117,14 @@ class TableRenderer extends BaseRenderer
         if ($this->min === 0 || $this->isAddButtonPositionHeader()) {
             return true;
         }
-        
+
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             if ($column->title) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -141,7 +141,7 @@ class TableRenderer extends BaseRenderer
 
         $options = $column->headerOptions;
         Html::addCssClass($options, 'list-cell__' . $column->name);
-        
+
         return Html::tag('th', $column->title, $options);
     }
 
@@ -186,7 +186,7 @@ class TableRenderer extends BaseRenderer
                 $rows[] = $this->renderRowContent($i);
             }
         }
-        
+
         return Html::tag('tbody', implode("\n", $rows));
     }
 
@@ -207,13 +207,14 @@ class TableRenderer extends BaseRenderer
             $cells[] = $this->renderActionColumn($index, $item, true);
         }
 
+        $columnIndex = 0;
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
             if ($column->isHiddenInput()) {
-                $hiddenInputs[] = $this->renderCellContent($column, $index);
+                $hiddenInputs[] = $this->renderCellContent($column, $index, $columnIndex++);
             } else {
-                $cells[] = $this->renderCellContent($column, $index);
+                $cells[] = $this->renderCellContent($column, $index, $columnIndex++);
             }
         }
         if ($this->cloneButton) {
@@ -228,7 +229,7 @@ class TableRenderer extends BaseRenderer
             $hiddenInputs = implode("\n", $hiddenInputs);
             $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
         }
-        
+
         $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
 
         if ($index !== null) {
@@ -263,9 +264,10 @@ class TableRenderer extends BaseRenderer
      *
      * @param BaseColumn $column
      * @param int|null $index
+     * @param int|null $columnIndex
      * @return string
      */
-    public function renderCellContent($column, $index)
+    public function renderCellContent($column, $index, $columnIndex = null)
     {
         $id    = $column->getElementId($index);
         $name  = $column->getElementName($index);
@@ -279,7 +281,14 @@ class TableRenderer extends BaseRenderer
         if (substr($id, -4) === 'drag') {
             $options = ArrayHelper::merge($options, ['class' => $this->iconMap['drag-handle']]);
         }
-        $input = $column->renderInput($name, $options);
+        $input = $column->renderInput($name, $options, [
+            'id' => $id,
+            'name' => $name,
+            'indexPlaceholder' => $this->getIndexPlaceholder(),
+            'index' => $index,
+            'columnIndex' => $columnIndex,
+            'context' => $this->context,
+        ]);
 
         if ($column->isHiddenInput()) {
             return $input;
@@ -305,7 +314,7 @@ class TableRenderer extends BaseRenderer
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
         }
-        
+
         if (is_callable($column->columnOptions)) {
             $columnOptions = call_user_func($column->columnOptions, $column->getModel(), $index, $this->context);
         } else {
@@ -313,7 +322,7 @@ class TableRenderer extends BaseRenderer
         }
 
         Html::addCssClass($columnOptions, 'list-cell__' . $column->name);
-        
+
         $input = Html::tag('div', $input, $wrapperOptions);
 
         return Html::tag('td', $input, $columnOptions);
@@ -386,7 +395,7 @@ class TableRenderer extends BaseRenderer
         ];
 
         Html::addCssClass($options, $this->addButtonOptions['class']);
-        
+
         return Html::tag('div', $this->addButtonOptions['label'], $options);
     }
 
@@ -402,7 +411,7 @@ class TableRenderer extends BaseRenderer
         ];
 
         Html::addCssClass($options, $this->removeButtonOptions['class']);
-        
+
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
     }
 

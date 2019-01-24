@@ -214,14 +214,19 @@ abstract class BaseColumn extends BaseObject
 
     /**
      * Prepares the value of column.
-     *
+     * @param array $contextParams the params who passed to closure:
+     * string $id the id of input element
+     * string $name the name of input element
+     * string $indexPlaceholder The index placeholder of multiple input. The {$indexPlaceholder} template will be replace by $index
+     * int $index The index of multiple input
+     * int $columnIndex The index of current model attributes
      * @return mixed
      */
-    protected function prepareValue()
+    protected function prepareValue($contextParams = [])
     {
         $data = $this->getModel();
         if ($this->value instanceof \Closure) {
-            $value = call_user_func($this->value, $data);
+            $value = call_user_func($this->value, $data, $contextParams);
         } else {
             $value = null;
             if ($data instanceof ActiveRecordInterface ) {
@@ -284,11 +289,18 @@ abstract class BaseColumn extends BaseObject
     /**
      * Renders the input.
      *
-     * @param string    $name the name of the input
-     * @param array     $options the HTML options of input
+     * @param string $name the name of the input
+     * @param array $options the HTML options of input
+     * @param array $contextParams the params who passed to closure:
+     * string $id the id of input element
+     * string $name the name of input element
+     * string $indexPlaceholder The index placeholder of multiple input. The {$indexPlaceholder} template will be replace by $index
+     * int $index The index of multiple input
+     * int $columnIndex The index of current model attributes
      * @return string
+     * @throws InvalidConfigException
      */
-    public function renderInput($name, $options)
+    public function renderInput($name, $options, $contextParams = [])
     {
         if ($this->options instanceof \Closure) {
             $optionsExt = call_user_func($this->options, $this->getModel());
@@ -301,7 +313,7 @@ abstract class BaseColumn extends BaseObject
 
         $value = null;
         if ($this->type !== self::TYPE_DRAGCOLUMN) {
-            $value = $this->prepareValue();
+            $value = $this->prepareValue($contextParams);
         }
 
         if (isset($options['items'])) {
