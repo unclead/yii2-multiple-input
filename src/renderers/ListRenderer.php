@@ -8,14 +8,12 @@
 
 namespace unclead\multipleinput\renderers;
 
-use unclead\multipleinput\assets\MultipleInputAsset;
-use unclead\multipleinput\assets\MultipleInputSortableAsset;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use unclead\multipleinput\components\BaseColumn;
-use yii\helpers\Json;
+use yii\helpers\UnsetArrayValue;
 
 /**
  * Class ListRenderer
@@ -391,20 +389,11 @@ class ListRenderer extends BaseRenderer
      */
     protected function getJsSortableOptions()
     {
-        return [
-            'containerSelector' => '.list-renderer',
-            'itemSelector' => '.multiple-input-list__item',
-            'placeholder' => '<div class="placeholder"></div>',
-            'handle' => '.drag-handle',
-            'onDrop' => new \yii\web\JsExpression("
-                function(item, container, _super, event) {
-                    _super(item, container, _super, event);
-
-                    var wrapper = item.closest('.multiple-input').first();
-                    event = $.Event('afterDropRow');
-                    wrapper.trigger(event, [item]);
-                }
-            ")
-        ];
+        return ArrayHelper::merge(parent::getJsSortableOptions(),
+            [
+                'containerSelector' => '.list-renderer',
+                'itemPath' => new UnsetArrayValue,
+                'itemSelector' => '.multiple-input-list__item',
+            ]);
     }
 }
