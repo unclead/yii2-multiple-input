@@ -431,7 +431,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
         // todo override when ListRenderer will use div markup
         $options = Json::encode($this->getJsSortableOptions());
-        $js = "$('#{$this->id} table').sorting($options);";
+        $js = "$('#{$this->id}').sorting($options);";
         $view->registerJs($js);
     }
 
