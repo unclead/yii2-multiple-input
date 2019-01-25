@@ -151,6 +151,12 @@ abstract class BaseColumn extends BaseObject
     public $columnOptions = [];
 
     /**
+     * @var string the template of input for customize view.
+     * For example: '<div class="input-group"><span class="input-group-addon"><i class="fas fa-mobile-alt"></i></span>{input}</div>'
+     */
+    public $inputTemplate = '{input}';
+
+    /**
      * @var Model|ActiveRecordInterface|array
      */
     private $_model;
@@ -326,7 +332,7 @@ abstract class BaseColumn extends BaseObject
             $input = $this->renderDefault($name, $value, $options);
         }
 
-        return $input;
+        return strtr($this->inputTemplate, ['{input}' => $input]);
     }
 
 
