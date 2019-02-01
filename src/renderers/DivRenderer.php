@@ -13,35 +13,34 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use unclead\multipleinput\components\BaseColumn;
+use yii\helpers\UnsetArrayValue;
 
 /**
- * Class TableRenderer
+ * Class DivRenderer is a list renderer who use divs
  * @package unclead\multipleinput\renderers
  */
-class TableRenderer extends BaseRenderer
+class DivRenderer extends BaseRenderer
 {
     /**
      * @return mixed
+     * @throws InvalidConfigException
      */
     protected function internalRender()
     {
         $content = [];
 
-        if ($this->hasHeader()) {
-            $content[] = $this->renderHeader();
-        }
-
+        $content[] = $this->renderHeader();
         $content[] = $this->renderBody();
         $content[] = $this->renderFooter();
 
         $options = [];
-        Html::addCssClass($options, 'multiple-input-list');
+        Html::addCssClass($options, 'multiple-input-list list-renderer');
 
         if ($this->isBootstrapTheme()) {
-            Html::addCssClass($options, 'table table-condensed table-renderer');
+            Html::addCssClass($options, 'form-horizontal');
         }
 
-        $content = Html::tag('table', implode("\n", $content), $options);
+        $content = Html::tag('div', implode("\n", $content), $options);
 
         return Html::tag('div', $content, [
             'id' => $this->id,
@@ -56,23 +55,17 @@ class TableRenderer extends BaseRenderer
      */
     public function renderHeader()
     {
-        $cells = [];
-        foreach ($this->columns as $column) {
-            /* @var $column BaseColumn */
-            $cells[] = $this->renderHeaderCell($column);
+        if (!$this->isAddButtonPositionHeader()) {
+            return '';
         }
 
-        if ($this->max === null || ($this->max >= 1 && $this->max !== $this->min)) {
-            $button = $this->isAddButtonPositionHeader() ? $this->renderAddButton() : '';
+        $options = ['class' => 'list-cell__button'];
+        $layoutConfig = array_merge([
+            'buttonAddClass' => $this->isBootstrapTheme() ? 'col-sm-offset-9 col-sm-3' : '',
+        ], $this->layoutConfig);
+        Html::addCssClass($options, $layoutConfig['buttonAddClass']);
 
-            if ($this->cloneButton) {
-                $cells[] = $this->renderButtonHeaderCell();
-            }
-
-            $cells[] = $this->renderButtonHeaderCell($button);
-        }
-
-        return Html::tag('thead', Html::tag('tr', implode("\n", $cells)));
+        return Html::tag('div', $this->renderAddButton(), $options);
     }
 
     /**
@@ -86,82 +79,19 @@ class TableRenderer extends BaseRenderer
             return '';
         }
 
-        $columnsCount = 0;
-        foreach ($this->columns as $column) {
-            if (!$column->isHiddenInput()) {
-                $columnsCount++;
-            }
-        }
+        $options = ['class' => 'list-cell__button'];
+        $layoutConfig = array_merge([
+            'buttonAddClass' => $this->isBootstrapTheme() ? 'col-sm-offset-9 col-sm-3' : '',
+        ], $this->layoutConfig);
+        Html::addCssClass($options, $layoutConfig['buttonAddClass']);
 
-        if ($this->cloneButton) {
-            $columnsCount++;
-        }
-
-        $cells = [];
-        $cells[] = Html::tag('td', '&nbsp;', ['colspan' => $columnsCount]);
-        $cells[] = Html::tag('td', $this->renderAddButton(), [
-            'class' => 'list-cell__button'
-        ]);
-
-        return Html::tag('tfoot', Html::tag('tr', implode("\n", $cells)));
-    }
-
-
-    /**
-     * Check that at least one column has a header.
-     *
-     * @return bool
-     */
-    private function hasHeader()
-    {
-        if ($this->min === 0 || $this->isAddButtonPositionHeader()) {
-            return true;
-        }
-
-        foreach ($this->columns as $column) {
-            /* @var $column BaseColumn */
-            if ($column->title) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Renders the header cell.
-     * @param BaseColumn $column
-     * @return null|string
-     */
-    private function renderHeaderCell($column)
-    {
-        if ($column->isHiddenInput()) {
-            return null;
-        }
-
-        $options = $column->headerOptions;
-        Html::addCssClass($options, 'list-cell__' . $column->name);
-
-        return Html::tag('th', $column->title, $options);
-    }
-
-    /**
-     * Renders the button header cell.
-     * @param string
-     * @return string
-     */
-    private function renderButtonHeaderCell($button = '')
-    {
-        return Html::tag('th', $button, [
-            'class' => 'list-cell__button'
-        ]);
+        return Html::tag('div', $this->renderAddButton(), $options);
     }
 
     /**
      * Renders the body.
      *
      * @return string
-     *
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\base\InvalidParamException
      */
@@ -187,7 +117,7 @@ class TableRenderer extends BaseRenderer
             }
         }
 
-        return Html::tag('tbody', implode("\n", $rows));
+        return implode("\n", $rows);
     }
 
     /**
@@ -196,42 +126,18 @@ class TableRenderer extends BaseRenderer
      * @param int $index
      * @param ActiveRecordInterface|array $item
      * @return mixed
-     * @throws InvalidConfigException
      */
     private function renderRowContent($index = null, $item = null)
     {
-        $cells = [];
-        $hiddenInputs = [];
-        $isLastRow = $this->max === $this->min;
-        if (!$isLastRow && $this->isAddButtonPositionRowBegin()) {
-            $cells[] = $this->renderActionColumn($index, $item, true);
-        }
-
+        $elements = [];
         $columnIndex = 0;
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
-            if ($column->isHiddenInput()) {
-                $hiddenInputs[] = $this->renderCellContent($column, $index, $columnIndex++);
-            } else {
-                $cells[] = $this->renderCellContent($column, $index, $columnIndex++);
-            }
-        }
-        if ($this->cloneButton) {
-            $cells[] = $this->renderCloneColumn();
+            $elements[] = $this->renderCellContent($column, $index, $columnIndex++);
         }
 
-        if (!$isLastRow) {
-            $cells[] = $this->renderActionColumn($index, $item);
-        }
-
-        if ($hiddenInputs) {
-            $hiddenInputs = implode("\n", $hiddenInputs);
-            $cells[0] = preg_replace('/^(<td[^>]+>)(.*)(<\/td>)$/s', '${1}' . $hiddenInputs . '$2$3', $cells[0]);
-        }
-
-        $content = Html::tag('tr', implode("\n", $cells), $this->prepareRowOptions($index, $item));
-
+        $content = Html::tag('div', implode("\n", $elements), $this->prepareRowOptions($index, $item));
         if ($index !== null) {
             $content = str_replace('{' . $this->getIndexPlaceholder() . '}', $index, $content);
         }
@@ -266,11 +172,12 @@ class TableRenderer extends BaseRenderer
      * @param int|null $index
      * @param int|null $columnIndex
      * @return string
+     * @throws \Exception
      */
     public function renderCellContent($column, $index, $columnIndex = null)
     {
-        $id    = $column->getElementId($index);
-        $name  = $column->getElementName($index);
+        $id = $column->getElementId($index);
+        $name = $column->getElementName($index);
 
         /**
          * This class inherits iconMap from BaseRenderer
@@ -294,6 +201,15 @@ class TableRenderer extends BaseRenderer
             return $input;
         }
 
+        $layoutConfig = array_merge([
+            'offsetClass' => $this->isBootstrapTheme() ? 'col-sm-offset-3' : '',
+            'labelClass' => $this->isBootstrapTheme() ? 'col-sm-3' : '',
+            'wrapperClass' => $this->isBootstrapTheme() ? 'col-sm-6' : '',
+            'errorClass' => $this->isBootstrapTheme() ? 'col-sm-offset-3 col-sm-6' : '',
+        ], $this->layoutConfig);
+
+        Html::addCssClass($column->errorOptions, $layoutConfig['errorClass']);
+
         $hasError = false;
         $error = '';
 
@@ -302,17 +218,20 @@ class TableRenderer extends BaseRenderer
             $hasError = !empty($error);
         }
 
-        if ($column->enableError) {
-            $input .= "\n" . $column->renderError($error);
-        }
-
-        $wrapperOptions = ['class' => 'field-' . $id];
-        if ($this->isBootstrapTheme()) {
-            Html::addCssClass($options, 'form-group');
-        }
+        $wrapperOptions = [];
 
         if ($hasError) {
             Html::addCssClass($wrapperOptions, 'has-error');
+        }
+
+        Html::addCssClass($wrapperOptions, $layoutConfig['wrapperClass']);
+
+        $options = [
+            'class' => "field-$id list-cell__$column->name" . ($hasError ? ' has-error' : '')
+        ];
+
+        if ($this->isBootstrapTheme()) {
+            Html::addCssClass($options, 'form-group');
         }
 
         if (is_callable($column->columnOptions)) {
@@ -321,29 +240,60 @@ class TableRenderer extends BaseRenderer
             $columnOptions = $column->columnOptions;
         }
 
-        Html::addCssClass($columnOptions, 'list-cell__' . $column->name);
+        $options = array_merge_recursive($options, $columnOptions);
 
-        $input = Html::tag('div', $input, $wrapperOptions);
+        $content = Html::beginTag('div', $options);
 
-        return Html::tag('td', $input, $columnOptions);
+        if (empty($column->title)) {
+            Html::addCssClass($wrapperOptions, $layoutConfig['offsetClass']);
+        } else {
+            $labelOptions = ['class' => $layoutConfig['labelClass']];
+            if ($this->isBootstrapTheme()) {
+                Html::addCssClass($labelOptions, 'control-label');
+            }
+
+            $content .= Html::label($column->title, $id, $labelOptions);
+        }
+
+        $content .= Html::tag('div', $input, $wrapperOptions);
+
+        // first line
+        if ($columnIndex == 0) {
+            if ($this->max !== $this->min) {
+                $content .= $this->renderActionColumn($index);
+            }
+            if ($this->cloneButton) {
+                $content .= $this->renderCloneColumn();
+            }
+        }
+
+        if ($column->enableError) {
+            $content .= "\n" . $column->renderError($error);
+        }
+
+        $content .= Html::endTag('div');
+
+        return $content;
     }
-
 
     /**
      * Renders the action column.
      *
      * @param null|int $index
      * @param null|ActiveRecordInterface|array $item
-     * @param bool $isFirstColumn
      * @return string
      */
-    private function renderActionColumn($index = null, $item = null, $isFirstColumn = false)
+    private function renderActionColumn($index = null, $item = null)
     {
-        $content = $this->getActionButton($index, $isFirstColumn) . $this->getExtraButtons($index, $item);
+        $content = $this->getActionButton($index) . $this->getExtraButtons($index, $item);
 
-        return Html::tag('td', $content, [
-            'class' => 'list-cell__button',
-        ]);
+        $options = ['class' => 'list-cell__button'];
+        $layoutConfig = array_merge([
+            'buttonActionClass' => $this->isBootstrapTheme() ? 'col-sm-offset-0 col-sm-2' : '',
+        ], $this->layoutConfig);
+        Html::addCssClass($options, $layoutConfig['buttonActionClass']);
+
+        return Html::tag('div', $content, $options);
     }
 
     /**
@@ -353,19 +303,20 @@ class TableRenderer extends BaseRenderer
      */
     private function renderCloneColumn()
     {
-        return Html::tag('td', $this->renderCloneButton(), [
-            'class' => 'list-cell__button',
-        ]);
+
+        $options = ['class' => 'list-cell__button'];
+        $layoutConfig = array_merge([
+            'buttonCloneClass' => $this->isBootstrapTheme() ? 'col-sm-offset-0 col-sm-1' : '',
+        ], $this->layoutConfig);
+        Html::addCssClass($options, $layoutConfig['buttonCloneClass']);
+
+        return Html::tag('div', $this->renderCloneButton(), $options);
     }
 
-    private function getActionButton($index, $isFirstColumn)
+    private function getActionButton($index)
     {
         if ($index === null || $this->min === 0) {
-            if ($isFirstColumn) {
-                return $this->isAddButtonPositionRowBegin() ? $this->renderRemoveButton() : '';
-            }
-
-            return $this->isAddButtonPositionRowBegin() ? '' : $this->renderRemoveButton();
+            return $this->renderRemoveButton();
         }
 
         $index++;
@@ -374,18 +325,10 @@ class TableRenderer extends BaseRenderer
         }
 
         if ($index === $this->min) {
-            if ($isFirstColumn) {
-                return $this->isAddButtonPositionRowBegin() ? $this->renderAddButton() : '';
-            }
-
             return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
         }
 
-        if ($isFirstColumn) {
-            return $this->isAddButtonPositionRowBegin() ? $this->renderRemoveButton() : '';
-        }
-
-        return $this->isAddButtonPositionRowBegin() ? '' : $this->renderRemoveButton();
+        return $this->renderRemoveButton();
     }
 
     private function renderAddButton()
@@ -393,7 +336,6 @@ class TableRenderer extends BaseRenderer
         $options = [
             'class' => 'multiple-input-list__btn js-input-plus',
         ];
-
         Html::addCssClass($options, $this->addButtonOptions['class']);
 
         return Html::tag('div', $this->addButtonOptions['label'], $options);
@@ -409,7 +351,6 @@ class TableRenderer extends BaseRenderer
         $options = [
             'class' => 'multiple-input-list__btn js-input-remove',
         ];
-
         Html::addCssClass($options, $this->removeButtonOptions['class']);
 
         return Html::tag('div', $this->removeButtonOptions['label'], $options);
@@ -425,7 +366,6 @@ class TableRenderer extends BaseRenderer
         $options = [
             'class' => 'multiple-input-list__btn js-input-clone',
         ];
-
         Html::addCssClass($options, $this->cloneButtonOptions['class']);
 
         return Html::tag('div', $this->cloneButtonOptions['label'], $options);
@@ -441,5 +381,19 @@ class TableRenderer extends BaseRenderer
     protected function prepareTemplate()
     {
         return $this->renderRowContent();
+    }
+
+    /**
+     * Returns an array of JQuery sortable plugin options for DivRenderer
+     * @return array
+     */
+    protected function getJsSortableOptions()
+    {
+        return ArrayHelper::merge(parent::getJsSortableOptions(),
+            [
+                'containerSelector' => '.list-renderer',
+                'itemPath' => new UnsetArrayValue,
+                'itemSelector' => '.multiple-input-list__item',
+            ]);
     }
 }
