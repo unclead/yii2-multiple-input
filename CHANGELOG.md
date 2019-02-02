@@ -1,8 +1,14 @@
 Yii2 multiple input change log
 ==============================
 
-2.19.0 (in development)
+2.20.0 (in development)
 =======================
+
+2.19.0
+======
+- add template for input (bscheshirwork)
+- pass more params to a prepareValue closure (bscheshirwork)
+- add DivRenderer (bscheshirwork)
 
 2.18.0
 ======
