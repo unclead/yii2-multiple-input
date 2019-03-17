@@ -201,13 +201,26 @@ abstract class BaseColumn extends BaseObject
             $this->name = self::DEFAULT_STATIC_COLUMN_NAME;
         }
 
-        if (empty($this->name)) {
+        if ($this->isNameEmpty()) {
             throw new InvalidConfigException("The 'name' option is required.");
         }
 
         if (empty($this->options)) {
             $this->options = [];
         }
+    }
+
+    private function isNameEmpty()
+    {
+        if (empty($this->name)) {
+            if ($this->name === 0 || $this->name === '0') {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
