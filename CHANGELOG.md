@@ -1,8 +1,14 @@
 Yii2 multiple input change log
 ==============================
 
-2.20.0 (in development)
+2.21.0 (in development)
 =======================
+
+2.20.0
+======
+
+- #278 allow zero name
+- #261 replace the widget placeholder in all nested options
 
 2.19.0
 ======
