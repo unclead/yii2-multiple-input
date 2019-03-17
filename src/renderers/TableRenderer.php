@@ -281,6 +281,7 @@ class TableRenderer extends BaseRenderer
         if (substr($id, -4) === 'drag') {
             $options = ArrayHelper::merge($options, ['class' => $this->iconMap['drag-handle']]);
         }
+
         $input = $column->renderInput($name, $options, [
             'id' => $id,
             'name' => $name,

@@ -18,6 +18,7 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use unclead\multipleinput\renderers\BaseRenderer;
 
 /**
@@ -316,6 +317,18 @@ abstract class BaseColumn extends BaseObject
 
         $options = ArrayHelper::merge($options, $optionsExt);
         $method = 'render' . Inflector::camelize($this->type);
+
+        // @see https://github.com/unclead/yii2-multiple-input/issues/261
+        // we have to replace placeholder in all nested options and the best way to do it is:
+        // 1) encode the options to a json string
+        // 2) replace the placeholder
+        // 3) decode the json string back to array
+        // But we have to leave the placeholder in case of processing a row template
+        if ($contextParams['index'] !== null) {
+            $options_string = Json::encode($options);
+            $options_string = str_replace('{' . $contextParams['indexPlaceholder'] . '}', $contextParams['index'], $options_string);
+            $options = Json::decode($options_string);
+        }
 
         $value = null;
         if ($this->type !== self::TYPE_DRAGCOLUMN) {
