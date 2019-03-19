@@ -18,7 +18,6 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\helpers\Json;
 use unclead\multipleinput\renderers\BaseRenderer;
 
 /**
@@ -332,15 +331,8 @@ abstract class BaseColumn extends BaseObject
         $method = 'render' . Inflector::camelize($this->type);
 
         // @see https://github.com/unclead/yii2-multiple-input/issues/261
-        // we have to replace placeholder in all nested options and the best way to do it is:
-        // 1) encode the options to a json string
-        // 2) replace the placeholder
-        // 3) decode the json string back to array
-        // But we have to leave the placeholder in case of processing a row template
         if ($contextParams['index'] !== null) {
-            $options_string = Json::encode($options);
-            $options_string = str_replace('{' . $contextParams['indexPlaceholder'] . '}', $contextParams['index'], $options_string);
-            $options = Json::decode($options_string);
+            $options = $this->replaceIndexPlaceholderInOptions($options, $contextParams['indexPlaceholder'], $contextParams['index']);
         }
 
         $value = null;
@@ -361,6 +353,19 @@ abstract class BaseColumn extends BaseObject
         return strtr($this->inputTemplate, ['{input}' => $input]);
     }
 
+    private function replaceIndexPlaceholderInOptions($options, $indexPlaceholder, $index)
+    {
+        $result = [];
+        foreach ($options as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = $this->replaceIndexPlaceholderInOptions($value, $indexPlaceholder, $index);
+            } elseif (is_string($value)) {
+                $result[$key] = str_replace('{' . $indexPlaceholder . '}', $index, $value);
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Renders drop down list.
