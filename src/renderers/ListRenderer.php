@@ -192,8 +192,24 @@ class ListRenderer extends BaseRenderer
     {
         $id    = $column->getElementId($index);
         $name  = $column->getElementName($index);
-        $input = $column->renderInput($name, [
-            'id' => $id
+
+        /**
+         * This class inherits iconMap from BaseRenderer
+         * If the input to be rendered is a drag column, we give it the appropriate icon class
+         * via the $options array
+         */
+        $options = ['id' => $id];
+        if (substr($id, -4) === 'drag') {
+            $options = ArrayHelper::merge($options, ['class' => $this->iconMap['drag-handle']]);
+        }
+
+        $input = $column->renderInput($name, $options, [
+            'id' => $id,
+            'name' => $name,
+            'indexPlaceholder' => $this->getIndexPlaceholder(),
+            'index' => $index,
+            'columnIndex' => $columnIndex,
+            'context' => $this->context,
         ]);
 
         if ($column->isHiddenInput()) {
@@ -240,7 +256,7 @@ class ListRenderer extends BaseRenderer
         }
 
         $options = array_merge_recursive($options, $columnOptions);
-        
+
         $content = Html::beginTag('div', $options);
 
         if (empty($column->title)) {
