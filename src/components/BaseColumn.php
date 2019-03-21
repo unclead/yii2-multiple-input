@@ -359,7 +359,7 @@ abstract class BaseColumn extends BaseObject
         foreach ($options as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = $this->replaceIndexPlaceholderInOptions($value, $indexPlaceholder, $index);
-            } elseif (is_string($value)) {
+            } else {
                 $result[$key] = str_replace('{' . $indexPlaceholder . '}', $index, $value);
             }
         }
