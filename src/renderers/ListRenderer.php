@@ -190,7 +190,7 @@ class ListRenderer extends BaseRenderer
      * @param int|null $index
      * @return string
      */
-    public function renderCellContent($column, $index)
+    public function renderCellContent($column, $index, $columnIndex = null)
     {
         $id    = $column->getElementId($index);
         $name  = $column->getElementName($index);
