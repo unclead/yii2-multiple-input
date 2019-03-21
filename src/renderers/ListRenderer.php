@@ -136,10 +136,12 @@ class ListRenderer extends BaseRenderer
     private function renderRowContent($index = null, $item = null)
     {
         $elements = [];
+
+        $columnIndex = 0;
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
-            $elements[] = $this->renderCellContent($column, $index);
+            $elements[] = $this->renderCellContent($column, $index, $columnIndex++);
         }
 
         $content = [];
