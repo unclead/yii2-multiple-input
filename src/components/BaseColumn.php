@@ -361,6 +361,8 @@ abstract class BaseColumn extends BaseObject
                 $result[$key] = $this->replaceIndexPlaceholderInOptions($value, $indexPlaceholder, $index);
             } elseif (is_string($value)) {
                 $result[$key] = str_replace('{' . $indexPlaceholder . '}', $index, $value);
+            } else {
+                $result[$key] = $value;
             }
         }
 
