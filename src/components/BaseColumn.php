@@ -363,7 +363,7 @@ abstract class BaseColumn extends BaseObject
                 $result[$key] = str_replace('{' . $indexPlaceholder . '}', $index, $value);
             } else {
                 if (is_a($value, \yii\web\JsExpression::class)) {
-                    $value->expression = str_replace('return', "//test\nreturn", $value->expression);
+                    $value->expression = str_replace('{' . $indexPlaceholder . '}', $index, $value->expression);
                 }
                 $result[$key] = $value;
             }
