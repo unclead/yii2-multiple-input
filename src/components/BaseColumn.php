@@ -331,7 +331,7 @@ abstract class BaseColumn extends BaseObject
         $method = 'render' . Inflector::camelize($this->type);
 
         // @see https://github.com/unclead/yii2-multiple-input/issues/261
-        if ($contextParams['index'] !== null) {
+        if (!empty($contextParams['index']) && $contextParams['index'] !== null) {
             $options = $this->replaceIndexPlaceholderInOptions($options, $contextParams['indexPlaceholder'], $contextParams['index']);
         }
 
