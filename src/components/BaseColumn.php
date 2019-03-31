@@ -18,6 +18,7 @@ use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\web\JsExpression;
 use unclead\multipleinput\renderers\BaseRenderer;
 
 /**
@@ -362,6 +363,10 @@ abstract class BaseColumn extends BaseObject
             } elseif (is_string($value)) {
                 $result[$key] = str_replace('{' . $indexPlaceholder . '}', $index, $value);
             } else {
+                if ($value instanceof JsExpression) {
+                    $value->expression = str_replace('{' . $indexPlaceholder . '}', $index, $value->expression);
+                }
+
                 $result[$key] = $value;
             }
         }
