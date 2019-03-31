@@ -4,6 +4,11 @@ Yii2 multiple input change log
 2.21.0 (in development)
 =======================
 
+2.20.6
+======
+
+- don't cast JsExpression to string after replace widget placeholder
+
 2.20.0
 ======
 
