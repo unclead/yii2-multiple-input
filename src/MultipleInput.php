@@ -211,6 +211,11 @@ class MultipleInput extends InputWidget
     public $showGeneralError = false;
 
     /**
+     * @var bool add a new line to the beginning of the list, not to the end
+     */
+    public $prepend = false;
+
+    /**
      * Initialization.
      *
      * @throws \yii\base\InvalidConfigException
@@ -350,7 +355,8 @@ class MultipleInput extends InputWidget
             'extraButtons'      => $this->extraButtons,
             'layoutConfig'      => $this->layoutConfig,
             'iconMap'           => $iconMap,
-            'theme'             => $this->theme
+            'theme'             => $this->theme,
+            'prepend'           => $this->prepend
         ];
 
         if ($this->showGeneralError) {
@@ -358,7 +364,7 @@ class MultipleInput extends InputWidget
                 'showGeneralError' => true
             ];
         }
-        
+
         if ($this->removeButtonOptions !== null) {
             $config['removeButtonOptions'] = $this->removeButtonOptions;
         }

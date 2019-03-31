@@ -101,7 +101,9 @@
          */
         indexPlaceholder: 'multiple_index',
 
-        showGeneralError: false
+        showGeneralError: false,
+
+        prepend: false
     };
 
     var isActiveFormEnabled = false;
@@ -264,7 +266,12 @@
             return;
         }
 
-        $addedInput.hide().appendTo(inputList).fadeIn(300);
+
+        if (settings.prepend) {
+            $addedInput.hide().prependTo(inputList).fadeIn(300);
+        } else {
+            $addedInput.hide().appendTo(inputList).fadeIn(300);
+        }
 
         if (values instanceof Object) {
             var tmp = [];

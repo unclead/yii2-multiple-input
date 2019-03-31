@@ -4,6 +4,8 @@ Yii2 multiple input change log
 2.21.0 (in development)
 =======================
 
+- #279 ability to prepend new row instead of append
+
 2.20.6
 ======
 
