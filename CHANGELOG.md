@@ -4,9 +4,12 @@ Yii2 multiple input change log
 2.22.0 (in development)
 =======================
 
-2.21.0
-=======================
+2.21.1
+======
+- #286 avoid removal of all rows on the page when there are several widgets on the page and method `clear` was called
 
+2.21.0
+======
 - #279 ability to prepend new row instead of append
 
 2.20.6
