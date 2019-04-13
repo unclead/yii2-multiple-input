@@ -1,4 +1,10 @@
 (function ($) {
+    'use strict';
+
+    String.prototype.replaceAll = function (search, replace) {
+        return this.split(search).join(replace);
+    };
+
     $.fn.multipleInput = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -68,41 +74,55 @@
          * the ID of widget
          */
         id: null,
+
         /**
          * the ID of related input in case of using widget for an active field
          */
         inputId: null,
+
         /**
          * the template of row
          */
         template: null,
+
         /**
          * array that collect js templates of widgets which uses in the columns
          */
         jsTemplates: [],
+
         /**
          * array of scripts which need to execute before initialization
          */
         jsInit: [],
+
         /**
          * how many row are allowed to render
          */
         max: 1,
+
         /**
          * a minimum number of rows
          */
         min: 1,
+
         /**
          * active form options of attributes
          */
         attributes: {},
+
         /**
          * default prefix of a widget's placeholder
          */
         indexPlaceholder: 'multiple_index',
 
+        /**
+         * whether need to show general error message or no
+         */
         showGeneralError: false,
 
+        /**
+         * if need to prepend new row, not append
+         */
         prepend: false
     };
 
@@ -221,7 +241,7 @@
         },
 
         clear: function () {
-            $('.js-input-remove').each(function () {
+            $(this).find('.js-input-remove').each(function () {
                 removeInput($(this));
             });
         },
@@ -465,9 +485,5 @@
             });
         });
         return values;
-    };
-
-    String.prototype.replaceAll = function (search, replace) {
-        return this.split(search).join(replace);
     };
 })(window.jQuery);
