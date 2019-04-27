@@ -309,7 +309,7 @@ class TableRenderer extends BaseRenderer
 
         $wrapperOptions = ['class' => 'field-' . $id];
         if ($this->isBootstrapTheme()) {
-            Html::addCssClass($options, 'form-group');
+            Html::addCssClass($wrapperOptions, 'form-group');
         }
 
         if ($hasError) {
