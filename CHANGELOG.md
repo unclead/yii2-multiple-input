@@ -4,6 +4,10 @@ Yii2 multiple input change log
 2.22.0 (in development)
 =======================
 
+2.21.2
+======
+- FIX wrapper options for bootstrap theme
+
 2.21.1
 ======
 - #286 avoid removal of all rows on the page when there are several widgets on the page and method `clear` was called
