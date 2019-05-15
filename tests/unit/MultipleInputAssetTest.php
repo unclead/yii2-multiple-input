@@ -9,7 +9,7 @@ use unclead\multipleinput\assets\MultipleInputAsset;
  */
 class MultipleInputAssetTest extends TestCase
 {
-    public function testInit() {
+    public function testConstuctor() {
         $asset = new MultipleInputAsset();
         $this->assertIsString($asset->sourcePath);
         $this->assertCount(1, $asset->js);
