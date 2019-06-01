@@ -1,10 +1,6 @@
 (function ($) {
     'use strict';
 
-    String.prototype.replaceAll = function (search, replace) {
-        return this.split(search).join(replace);
-    };
-
     $.fn.multipleInput = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -275,7 +271,7 @@
             return;
         }
 
-        template = template.replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex);
+        template = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, template);
         var $addedInput = $(template);
         var currentIndex = data.currentIndex;
 
@@ -307,9 +303,9 @@
         var jsTemplate;
 
         for (var i in settings.jsTemplates) {
-            jsTemplate = settings.jsTemplates[i]
-                .replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex)
-                .replaceAll('%7B' + settings.indexPlaceholder + '%7D', data.currentIndex);
+            jsTemplate = settings.jsTemplates[i];
+            jsTemplate = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, jsTemplate);
+            jsTemplate = replaceAll('%7B' + settings.indexPlaceholder + '%7D', data.currentIndex, jsTemplate);
 
             window.eval(jsTemplate);
         }
@@ -420,9 +416,9 @@
         if (data.settings.attributes.hasOwnProperty(bareId)) {
             attributeOptions = data.settings.attributes[bareId];
         } else {
-            // fallback in case of using flatten widget - just remove all digital indexes and check whether attribute
-            // exists or not.
-            bareId = bareId.replaceAll(/-\d-/, '-').replaceAll(/-\d/, '');
+            // fallback in case of using flatten widget - just remove all digital indexes
+            // and check whether attribute exists or not.
+            bareId = replaceAll(/-\d-/, '-').replaceAll(/-\d/, '', bareId);
             if (data.settings.attributes.hasOwnProperty(bareId)) {
                 attributeOptions = data.settings.attributes[bareId];
             }
@@ -485,5 +481,14 @@
             });
         });
         return values;
+    };
+
+    var replaceAll = function (search, replace, subject) {
+        if (!subject instanceof String) {
+            console.warn('Call replaceAll for non-string value: ' + subject);
+            return subject;
+        }
+
+        return subject.split(search).join(replace);
     };
 })(window.jQuery);
