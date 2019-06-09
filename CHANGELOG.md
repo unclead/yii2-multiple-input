@@ -4,6 +4,10 @@ Yii2 multiple input change log
 2.22.0 (in development)
 =======================
 
+2.21.3
+======
+- fix retrieving AR relation data
+
 2.21.2
 ======
 - FIX wrapper options for bootstrap theme
