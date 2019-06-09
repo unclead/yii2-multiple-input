@@ -252,7 +252,7 @@ abstract class BaseColumn extends BaseObject
             if ($data instanceof ActiveRecordInterface ) {
                 $relation = $data->getRelation($this->name, false);
                 if ($relation !== null) {
-                    $value = $relation;
+                    $value = $relation->findFor($this->name, $data);
                 } else {
                     $value = $data->getAttribute($this->name);
                 }
@@ -268,6 +268,7 @@ abstract class BaseColumn extends BaseObject
                 $value = $this->defaultValue;
             }
         }
+
         return $value;
     }
 
