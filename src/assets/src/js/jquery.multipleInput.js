@@ -418,7 +418,8 @@
         } else {
             // fallback in case of using flatten widget - just remove all digital indexes
             // and check whether attribute exists or not.
-            bareId = replaceAll(/-\d-/, '-').replaceAll(/-\d/, '', bareId);
+            bareId = replaceAll(/-\d-/, '-', bareId);
+            bareId = replaceAll(/-\d/, '', bareId);
             if (data.settings.attributes.hasOwnProperty(bareId)) {
                 attributeOptions = data.settings.attributes[bareId];
             }
@@ -484,7 +485,7 @@
     };
 
     var replaceAll = function (search, replace, subject) {
-        if (!subject instanceof String) {
+        if (!(subject instanceof String) && typeof subject !== 'string')) {
             console.warn('Call replaceAll for non-string value: ' + subject);
             return subject;
         }
