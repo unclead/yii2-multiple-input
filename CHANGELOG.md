@@ -4,6 +4,11 @@ Yii2 multiple input change log
 2.22.0 (in development)
 =======================
 
+2.21.4
+======
+- Fix replaceAll unfinished modify
+- More completely type detect to replaceAll
+
 2.21.3
 ======
 - fix retrieving AR relation data
