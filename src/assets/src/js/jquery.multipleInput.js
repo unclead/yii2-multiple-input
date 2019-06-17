@@ -485,7 +485,7 @@
     };
 
     var replaceAll = function (search, replace, subject) {
-        if (!(subject instanceof String) && typeof subject !== 'string')) {
+        if (!(subject instanceof String) && typeof subject !== 'string') {
             console.warn('Call replaceAll for non-string value: ' + subject);
             return subject;
         }
