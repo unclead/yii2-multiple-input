@@ -253,8 +253,10 @@ abstract class BaseColumn extends BaseObject
                 $relation = $data->getRelation($this->name, false);
                 if ($relation !== null) {
                     $value = $relation->findFor($this->name, $data);
-                } else {
+                } elseif ($data->hasAttribute($this->name)) {
                     $value = $data->getAttribute($this->name);
+                } else {
+                    $value = $data->{$this->name};
                 }
             } elseif ($data instanceof Model) {
                 $value = $data->{$this->name};
