@@ -1,0 +1,9 @@
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/composer.lock export-ignore
+/examples export-ignore
+/gulpfile.js export-ignore
+/package.json export-ignore
+/phpunit.xml.dist export-ignore
+/resources export-ignore
+/tests export-ignore
