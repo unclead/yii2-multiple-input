@@ -3,6 +3,7 @@ Yii2 multiple input change log
 
 2.22.0 (in development)
 =======================
+- Ignore dev files in zip distribution (sup-ham)
 
 2.21.4
 ======
