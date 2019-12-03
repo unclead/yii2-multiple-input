@@ -255,11 +255,6 @@ abstract class BaseColumn extends BaseObject
         return $value;
     }
 
-    protected function isEmpty($value)
-    {
-        return $value === null || $value === [] || $value === '';
-    }
-
     /**
      * Returns element id.
      *

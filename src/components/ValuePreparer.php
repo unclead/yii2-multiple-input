@@ -1,9 +1,9 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: execut
- * Date: 12/3/19
- * Time: 11:37 AM
+ * @link https://github.com/unclead/yii2-multiple-input
+ * @copyright Copyright (c) 2014 unclead
+ * @license https://github.com/unclead/yii2-multiple-input/blob/master/LICENSE.md
  */
 
 namespace unclead\multipleinput\components;
@@ -13,28 +13,52 @@ use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class ValuePreparer.
+ *
+ * @package unclead\multipleinput\components
+ */
 class ValuePreparer
 {
-    protected $model = null;
+    /**
+     * @var string Key of prepared attribute
+     */
     protected $name = null;
+
+    /**
+     * @var mixed default value
+     */
     protected $defaultValue = null;
+
+    /**
+     * ValuePreparer constructor.
+     * @param string|null $name
+     * @param mixed|null $defaultValue
+     */
     public function __construct($name = null, $defaultValue = null)
     {
         $this->name = $name;
         $this->defaultValue = $defaultValue;
     }
 
-    public function prepare($data, $contextParams = [])
+    /**
+     * @param $data Prepared data
+     *
+     * @return int|mixed|null|string
+     */
+    public function prepare($data)
     {
         $value = null;
         if ($data instanceof ActiveRecordInterface) {
-            $relation = $data->getRelation($this->name, false);
-            if ($relation !== null) {
-                $value = $relation->findFor($this->name, $data);
-            } else if ($data->hasAttribute($this->name)) {
-                $value = $data->getAttribute($this->name);
-            } else {
+            if ($data->canGetProperty($this->name)) {
                 $value = $data->{$this->name};
+            } else {
+                $relation = $data->getRelation($this->name, false);
+                if ($relation !== null) {
+                    $value = $relation->findFor($this->name, $data);
+                } else {
+                    $value = $data->{$this->name};
+                }
             }
         } else if ($data instanceof Model) {
             $value = $data->{$this->name};

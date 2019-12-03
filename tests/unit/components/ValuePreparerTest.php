@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: execut
- * Date: 12/3/19
- * Time: 11:25 AM
- */
-
 namespace unclead\multipleinput\tests\unit\components;
+
 use unclead\multipleinput\components\ValuePreparer;
 use unclead\multipleinput\tests\unit\data\TestActiveRecord;
 use unclead\multipleinput\tests\unit\data\TestActiveRecordRelated;
@@ -79,12 +73,12 @@ class ValuePreparerTest extends TestCase
         $this->assertEquals($relatedModel, $result);
     }
 
-    public function testPrepareActiveRecordDatabaseAttribute() {
+    public function testPrepareActiveRecordRelationWithSameAsAttributeName() {
         $model = new TestActiveRecord();
-        $exprectedValue = 'test';
-        $model->setDatabaseAttribute($exprectedValue);
+        $relatedModel = new TestActiveRecordRelated();
+        $model->testRelation = $relatedModel;
 
-        $preparer = new ValuePreparer('databaseAttribute');
-        $this->assertEquals($exprectedValue, $preparer->prepare($model));
+        $preparer = new ValuePreparer( 'testRelation');
+        $this->assertEquals($relatedModel, $preparer->prepare($model));
     }
 }
