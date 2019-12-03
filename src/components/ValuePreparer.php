@@ -44,7 +44,7 @@ class ValuePreparer
         } else if(is_string($data) || is_numeric($data)) {
             $value = $data;
         }
-//
+
         if ($this->defaultValue !== null && $this->isEmpty($value)) {
             $value = $this->defaultValue;
         }
