@@ -21,4 +21,11 @@ class TestModel extends Model
             ['email', 'safe']
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'email' => 'Email',
+        ];
+    }
 }
