@@ -248,27 +248,8 @@ abstract class BaseColumn extends BaseObject
         if ($this->value instanceof \Closure) {
             $value = call_user_func($this->value, $data, $contextParams);
         } else {
-            $value = null;
-            if ($data instanceof ActiveRecordInterface ) {
-                $relation = $data->getRelation($this->name, false);
-                if ($relation !== null) {
-                    $value = $relation->findFor($this->name, $data);
-                } elseif ($data->hasAttribute($this->name)) {
-                    $value = $data->getAttribute($this->name);
-                } else {
-                    $value = $data->{$this->name};
-                }
-            } elseif ($data instanceof Model) {
-                $value = $data->{$this->name};
-            } elseif (is_array($data)) {
-                $value = ArrayHelper::getValue($data, $this->name, null);
-            } elseif(is_string($data) || is_numeric($data)) {
-                $value = $data;
-            }
-
-            if ($this->defaultValue !== null && $this->isEmpty($value)) {
-                $value = $this->defaultValue;
-            }
+            $valuePreparer = new ValuePreparer($this->name, $this->defaultValue);
+            $value = $valuePreparer->prepare($data);
         }
 
         return $value;
