@@ -28,18 +28,22 @@ class MultipleInputTest extends TestCase
         $this->assertEquals($expected, $widget->columns);
     }
 
-    public function testGlobalErrorGuessColumn()
+    public function testEnableGuessTitleInsideGuessColumn()
     {
         $model = new TestModel();
 
         $widget = new MultipleInput([
             'model' => $model,
             'attribute' => 'email',
-            'enableError' => true,
+            'enableGuessTitle' => true,
         ]);
 
         $expected = [
-            ['name' => 'email', 'type' => MultipleInputColumn::TYPE_TEXT_INPUT, 'enableError' => true]
+            [
+                'name' => 'email',
+                'type' => MultipleInputColumn::TYPE_TEXT_INPUT,
+                'title' => 'Email',
+            ]
         ];
 
         $this->assertEquals($expected, $widget->columns);
