@@ -60,10 +60,9 @@ class ValuePreparer
                     $value = $data->{$this->name};
                 }
             }
-        } else if ($data instanceof Model) {
+        } elseif ($data instanceof Model) {
             $value = $data->{$this->name};
-        } else
-      if (is_array($data)) {
+        } elseif (is_array($data)) {
             $value = ArrayHelper::getValue($data, $this->name, null);
         } else if(is_string($data) || is_numeric($data)) {
             $value = $data;
