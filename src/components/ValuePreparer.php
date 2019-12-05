@@ -64,7 +64,7 @@ class ValuePreparer
             $value = $data->{$this->name};
         } elseif (is_array($data)) {
             $value = ArrayHelper::getValue($data, $this->name, null);
-        } else if(is_string($data) || is_numeric($data)) {
+        } elseif(is_string($data) || is_numeric($data)) {
             $value = $data;
         }
 
