@@ -1,7 +1,10 @@
 Yii2 multiple input change log
 ==============================
 
-2.22.0 (in development)
+2.23.0 (in development)
+=======================
+
+2.22.0
 =======================
 - Ignore dev files in zip distribution (sup-ham)
 - #292 Fixed tests for last PHPUnit

@@ -9,7 +9,7 @@
         "yii2 tabular input"
     ],
     "type": "yii2-extension",
-    "version": "2.21.5",
+    "version": "2.22.0",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/unclead/yii2-multiple-input/issues?state=open",
