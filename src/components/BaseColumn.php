@@ -473,7 +473,7 @@ abstract class BaseColumn extends BaseObject
                 'label'     => $label,
                 'value'     => $value,
                 'data-id'   => ArrayHelper::getValue($options, 'id'),
-                'tabindex'  => $options['tabindex']
+                'tabindex'  => self::TABINDEX
             ]);
 
             return Html::tag('div', $content, ['class' => 'radio']);
@@ -534,7 +534,7 @@ abstract class BaseColumn extends BaseObject
                 'label'     => $label,
                 'value'     => $value,
                 'data-id'   => ArrayHelper::getValue($options, 'id'),
-                'tabindex'  => $options['tabindex']
+                'tabindex'  => self::TABINDEX
             ]);
 
             return Html::tag('div', $content, ['class' => 'checkbox']);
@@ -633,9 +633,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderWidget($type, $name, $value, $options)
     {
-        if (!isset($options['tabindex'])) {
-            $options['tabindex'] = self::TABINDEX;
-        }
+
+        $tabindex = isset($options['options']['tabindex']) ? $options['options']['tabindex'] : self::TABINDEX;
+        unset($options['tabindex']);
 
         $model = $this->getModel();
         if ($model instanceof Model) {
@@ -646,7 +646,7 @@ abstract class BaseColumn extends BaseObject
                 'options'   => [
                     'id'        => $this->normalize($name),
                     'name'      => $name,
-                    'tabindex'  => $options['tabindex'],
+                    'tabindex'  => $tabindex,
                     'value'     => $value
                 ]
             ];
@@ -657,7 +657,7 @@ abstract class BaseColumn extends BaseObject
                 'options'   => [
                     'id'        => $this->normalize($name),
                     'name'      => $name,
-                    'tabindex'  => $options['tabindex'],
+                    'tabindex'  => $tabindex,
                     'value'     => $value
                 ]
             ];
