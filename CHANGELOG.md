@@ -3,6 +3,7 @@ Yii2 multiple input change log
 
 2.23.0 (in development)
 =======================
+- Ability to add custom tabindex via options array
 
 2.22.0
 =======================
