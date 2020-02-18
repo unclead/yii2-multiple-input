@@ -367,7 +367,9 @@ abstract class BaseColumn extends BaseObject
             Html::addCssClass($options, 'form-control');
         }
 
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         return Html::dropDownList($name, $value, $this->prepareItems($this->items), $options);
     }
@@ -401,7 +403,9 @@ abstract class BaseColumn extends BaseObject
             Html::addCssClass($options, 'form-control');
         }
 
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         return Html::listBox($name, $value, $this->prepareItems($this->items), $options);
     }
@@ -429,7 +433,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderRadio($name, $value, $options)
     {
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         if (!isset($options['label'])) {
             $options['label'] = '';
@@ -454,7 +460,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderRadioList($name, $value, $options)
     {
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
@@ -465,7 +473,7 @@ abstract class BaseColumn extends BaseObject
                 'label'     => $label,
                 'value'     => $value,
                 'data-id'   => ArrayHelper::getValue($options, 'id'),
-                'tabindex'  => self::TABINDEX
+                'tabindex'  => $options['tabindex']
             ]);
 
             return Html::tag('div', $content, ['class' => 'radio']);
@@ -486,7 +494,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderCheckbox($name, $value, $options)
     {
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         if (!isset($options['label'])) {
             $options['label'] = '';
@@ -511,7 +521,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderCheckboxList($name, $value, $options)
     {
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         if (!array_key_exists('unselect', $options)) {
             $options['unselect'] = '';
@@ -522,7 +534,7 @@ abstract class BaseColumn extends BaseObject
                 'label'     => $label,
                 'value'     => $value,
                 'data-id'   => ArrayHelper::getValue($options, 'id'),
-                'tabindex'  => self::TABINDEX
+                'tabindex'  => $options['tabindex']
             ]);
 
             return Html::tag('div', $content, ['class' => 'checkbox']);
@@ -543,7 +555,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderStatic($name, $value, $options)
     {
-        $options['tabindex'] = self::TABINDEX;
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         if ($this->renderer->isBootstrapTheme()) {
             Html::addCssClass($options, 'form-control-static');
@@ -590,7 +604,9 @@ abstract class BaseColumn extends BaseObject
         $type = $this->type;
 
         if (method_exists('yii\helpers\Html', $type)) {
-            $options['tabindex'] = self::TABINDEX;
+            if (!isset($options['tabindex'])) {
+                $options['tabindex'] = self::TABINDEX;
+            }
 
             if ($this->renderer->isBootstrapTheme()) {
                 Html::addCssClass($options, 'form-control');
@@ -617,7 +633,9 @@ abstract class BaseColumn extends BaseObject
      */
     protected function renderWidget($type, $name, $value, $options)
     {
-        unset($options['tabindex']);
+        if (!isset($options['tabindex'])) {
+            $options['tabindex'] = self::TABINDEX;
+        }
 
         $model = $this->getModel();
         if ($model instanceof Model) {
@@ -628,7 +646,7 @@ abstract class BaseColumn extends BaseObject
                 'options'   => [
                     'id'        => $this->normalize($name),
                     'name'      => $name,
-                    'tabindex'  => self::TABINDEX,
+                    'tabindex'  => $options['tabindex'],
                     'value'     => $value
                 ]
             ];
@@ -639,7 +657,7 @@ abstract class BaseColumn extends BaseObject
                 'options'   => [
                     'id'        => $this->normalize($name),
                     'name'      => $name,
-                    'tabindex'  => self::TABINDEX,
+                    'tabindex'  => $options['tabindex'],
                     'value'     => $value
                 ]
             ];
