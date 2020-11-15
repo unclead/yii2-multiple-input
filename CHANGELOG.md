@@ -4,6 +4,7 @@ Yii2 multiple input change log
 2.23.0 (in development)
 =======================
 - Ability to add custom tabindex via options array
+- #335 fix input name in case of one coumn and enabled sorting
 
 2.22.0
 =======================
