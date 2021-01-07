@@ -1,5 +1,5 @@
 {
-    "name": "programmis/yii2-multiple-input",
+    "name": "unclead/yii2-multiple-input",
     "description": "Widget for handle multiple inputs for an attribute of Yii2 framework model",
     "keywords": [
         "yii2",
