@@ -637,6 +637,7 @@ abstract class BaseColumn extends BaseObject
         $tabindex = isset($options['options']['tabindex']) ? $options['options']['tabindex'] : self::TABINDEX;
         unset($options['tabindex']);
 
+        $id = isset($options['id']) ? $options['id'] : $this->normalize($name);
         $model = $this->getModel();
         if ($model instanceof Model) {
             $widgetOptions = [
@@ -644,7 +645,7 @@ abstract class BaseColumn extends BaseObject
                 'attribute' => $this->name,
                 'value'     => $value,
                 'options'   => [
-                    'id'        => $this->normalize($name),
+                    'id'        => $id,
                     'name'      => $name,
                     'tabindex'  => $tabindex,
                     'value'     => $value
@@ -655,7 +656,7 @@ abstract class BaseColumn extends BaseObject
                 'name'      => $name,
                 'value'     => $value,
                 'options'   => [
-                    'id'        => $this->normalize($name),
+                    'id'        => $id,
                     'name'      => $name,
                     'tabindex'  => $tabindex,
                     'value'     => $value
