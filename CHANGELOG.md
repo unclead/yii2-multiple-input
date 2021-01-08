@@ -1,13 +1,17 @@
 Yii2 multiple input change log
 ==============================
 
-2.23.0 (in development)
+2.24.0 (in development)
 =======================
+
+2.23.0
+======
+- always use `id` from the settings if it is specified
 - Ability to add custom tabindex via options array
-- #335 fix input name in case of one coumn and enabled sorting
+- #335 fix input name in case of one column and enabled sorting
 
 2.22.0
-=======================
+======
 - Ignore dev files in zip distribution (sup-ham)
 - #292 Fixed tests for last PHPUnit
 - Added support prepare values of attributes with same name as the relation
