@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-2.24.0 (in development)
+2.25.0 (in development)
 =======================
+
+2.24.0
+======
+- #339 don't set tabindex explicitly
 
 2.23.0
 ======
