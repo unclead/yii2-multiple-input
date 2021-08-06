@@ -1,18 +1,18 @@
-var gulp = require('gulp'),
-	uglify = require('gulp-uglify'),
-	concat = require('gulp-concat'),
-	rename = require('gulp-rename');
+const {gulp, src, dest} = require('gulp');
+const uglify = require('gulp-uglify-es').default;
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
 
-gulp.task('js', function () {
+function build () {
     var path = './src/assets/src/js/';
-    
-	return gulp.src([
+
+	return src([
             path + 'jquery.multipleInput.js'
         ])
         .pipe(concat('jquery.multipleInput.js'))
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(path));
-});
-    
-gulp.task('default', ['js']);
+        .pipe(dest(path));
+};
+
+exports.default = build;

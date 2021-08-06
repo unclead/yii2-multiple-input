@@ -157,7 +157,7 @@
 
             $wrapper.on('click.multipleInput', '.js-input-clone', function (e) {
                 e.stopPropagation();
-                addInput($(this), getRowValues($(this)));
+                cloneInput($(this));
             });
 
             var i = 0,
@@ -196,10 +196,10 @@
                     $wrapper.data('multipleInput').settings = settings;
 
                     $wrapper.find('.multiple-input-list').find('input, select, textarea').each(function () {
-                        addAttribute($(this));
+                        addActiveFormAttribute($(this));
                     });
 
-                    $wrapper.data('multipleInput').currentIndex = getCurrentIndex($wrapper);
+                    $wrapper.data('multipleInput').currentIndex = getCurrentRowsCount($wrapper);
                     isActiveFormEnabled = true;
 
                     clearInterval(intervalID);
@@ -212,7 +212,7 @@
                 // If after a second system could not detect ActiveForm it means
                 // that widget is used without ActiveForm and we should just complete initialization of the widget
                 if (form.length === 0 || i > 10) {
-                    $wrapper.data('multipleInput').currentIndex = getCurrentIndex($wrapper);
+                    $wrapper.data('multipleInput').currentIndex = getCurrentRowsCount($wrapper);
                     isActiveFormEnabled = false;
 
                     clearInterval(intervalID);
@@ -260,92 +260,134 @@
         }
     };
 
-    var addInput = function (btn, values) {
-        var $wrapper  = $(btn).closest('.multiple-input').first(),
-            data      = $wrapper.data('multipleInput'),
-            settings  = data.settings,
-            template  = settings.template,
-            inputList = $wrapper.children('.multiple-input-list').first();
+    var cloneInput = function (btn) {
+        let $wrapper  = $(btn).closest('.multiple-input').first();
+        let data      = $wrapper.data('multipleInput');
+        let settings  = data.settings;
 
-        if (settings.max !== null && getCurrentIndex($wrapper) >= settings.max) {
+        let values = {};
+
+        btn.closest('.multiple-input-list__item').find('input, select, textarea').each(function (k, v) {
+            let $element = $(v);
+
+            let id = getInputId($element);
+            if (id) {
+                let columnName = id.replace(settings.inputId, '').replace(/-\d+-/, '');
+
+                if ($element.is(':checkbox')) {
+                    if (!values.hasOwnProperty(columnName)) {
+                        values[columnName] = [];
+                    }
+
+                    if ($element.is(':checked')) {
+                        values[columnName].push($element.val());
+                    }
+                } else {
+                    values[columnName] = $element.val();
+                }
+            }
+        });
+
+        addInput(btn, values);
+    }
+
+    var addInput = function (btn, rowValues) {
+        rowValues = rowValues || {};
+
+        let $wrapper  = $(btn).closest('.multiple-input').first();
+        let data      = $wrapper.data('multipleInput');
+        let settings  = data.settings;
+        let inputList = $wrapper.children('.multiple-input-list').first();
+
+        if (settings.max !== null && getCurrentRowsCount($wrapper) >= settings.max) {
             return;
         }
 
-        template = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, template);
-        var $addedInput = $(template);
-        var currentIndex = data.currentIndex;
+        let currentIndex = data.currentIndex;
+
+        let template = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, settings.template);
+        let $newRow = $(template);
 
         var beforeAddEvent = $.Event(events.beforeAddRow);
-        $wrapper.trigger(beforeAddEvent, [$addedInput, currentIndex]);
 
+        $wrapper.trigger(beforeAddEvent, [$newRow, currentIndex]);
         if (beforeAddEvent.result === false) {
             return;
         }
 
+        $newRow.find('input, select, textarea').each(function (index, element) {
+            let $element = $(element);
 
-        if (settings.prepend) {
-            $addedInput.hide().prependTo(inputList).fadeIn(300);
-        } else {
-            $addedInput.hide().appendTo(inputList).fadeIn(300);
-        }
+            let id = getInputId($element);
+            if (id) {
+                let columnName = id.replace(settings.inputId, '').replace(/-\d+-/, '');
 
-        if (values instanceof Object) {
-            var tmp = [];
-            for (var key in values) {
-                if (values.hasOwnProperty(key)) {
-                    tmp.push(values[key]);
-                }
-            }
+                if (rowValues.hasOwnProperty(columnName)) {
+                    let tag = $element.get(0).tagName;
 
-            values = tmp;
-        }
+                    let inputValue = rowValues[columnName];
 
-        var jsTemplate;
+                    switch (tag) {
+                        case 'INPUT':
+                            if ($element.is(':checkbox')) {
+                                if (inputValue.indexOf($element.val()) !== -1) {
+                                    $element.prop('checked', true);
+                                }
+                            } else {
+                                $element.val(inputValue);
+                            }
 
-        for (var i in settings.jsTemplates) {
-            jsTemplate = settings.jsTemplates[i];
-            jsTemplate = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, jsTemplate);
-            jsTemplate = replaceAll('%7B' + settings.indexPlaceholder + '%7D', data.currentIndex, jsTemplate);
+                            break;
 
-            window.eval(jsTemplate);
-        }
+                        case 'TEXTAREA':
+                            $element.val(inputValue);
+                            break;
 
-        var index = 0;
+                        case 'SELECT':
+                            if (inputValue && inputValue.indexOf('option') !== -1) {
+                                $element.append(inputValue);
+                            } else {
+                                var option = $element.find('option[value="' + inputValue + '"]');
+                                if (option.length) {
+                                    $element.val(inputValue);
+                                }
+                            }
 
-        $(template).find('input, select, textarea').each(function (k, v) {
-            var ele = $(v),
-                tag = v.tagName,
-                id  = getInputId(ele),
-                obj = $('#' + id);
+                            break;
 
-            if (values) {
-                var val = values[index];
-
-                if (tag === 'INPUT' || tag === 'TEXTAREA') {
-                    obj.val(val);
-                } else if (tag === 'SELECT') {
-                    if (val && val.indexOf('option') !== -1) {
-                        obj.append(val);
-                    } else {
-                        var option = obj.find('option[value="' + val + '"]');
-                        if (option.length) {
-                            obj.val(val);
-                        }
+                        default:
+                            break;
                     }
                 }
             }
 
-            if (isActiveFormEnabled) {
-                addAttribute(ele);
-            }
 
-            index++;
+            if (isActiveFormEnabled) {
+                addActiveFormAttribute($element);
+            }
         });
+
+        // display the new row
+        if (settings.prepend) {
+            $newRow.hide().prependTo(inputList).fadeIn(300);
+        } else {
+            $newRow.hide().appendTo(inputList).fadeIn(300);
+        }
+
+        // apply js templates
+        let jsTemplate = null;
+        for (var i in settings.jsTemplates) {
+            jsTemplate = settings.jsTemplates[i];
+            jsTemplate = replaceAll('{' + settings.indexPlaceholder + '}', currentIndex, jsTemplate);
+            jsTemplate = replaceAll('%7B' + settings.indexPlaceholder + '%7D', currentIndex, jsTemplate);
+
+            window.eval(jsTemplate);
+        }
 
         $wrapper.data('multipleInput').currentIndex++;
 
         var afterAddEvent = $.Event(events.afterAddRow);
-        $wrapper.trigger(afterAddEvent, [$addedInput, currentIndex]);
+        $wrapper.trigger(afterAddEvent, [$newRow, currentIndex]);
     };
 
     var removeInput = function ($btn) {
@@ -354,7 +396,7 @@
             data      = $wrapper.data('multipleInput'),
             settings  = data.settings;
 
-        var currentIndex = getCurrentIndex($wrapper);
+        var currentIndex = getCurrentRowsCount($wrapper);
         if (currentIndex > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
             $wrapper.trigger(event, [$toDelete, currentIndex]);
@@ -365,7 +407,7 @@
 
             if (isActiveFormEnabled) {
                 $toDelete.find('input, select, textarea').each(function (index, ele) {
-                    removeAttribute($(ele));
+                    removeActiveFormAttribute($(ele));
                 });
             }
 
@@ -383,7 +425,7 @@
      *
      * @param input
      */
-    var addAttribute = function (input) {
+    var addActiveFormAttribute = function (input) {
         var id = getInputId(input);
 
         // skip if we could not get an ID of input
@@ -435,7 +477,7 @@
     /**
      * Removes an attribute from ActiveForm.
      */
-    var removeAttribute = function (ele) {
+    var removeActiveFormAttribute = function (ele) {
         var id = getInputId(ele);
 
         if (id === null) {
@@ -463,25 +505,12 @@
         return id;
     };
 
-    var getCurrentIndex = function($wrapper) {
+    var getCurrentRowsCount = function($wrapper) {
         return $wrapper
             .find('.multiple-input-list .multiple-input-list__item')
             .filter(function(){
                 return $(this).parents('.multiple-input').first().attr('id') === $wrapper.attr('id');
             }).length;
-    };
-
-    var getRowValues = function (element) {
-        var values = {};
-        element.closest('tr').find('td').each(function (index, value) {
-            $(value).find('input, select, textarea').each(function (k, v) {
-                var ele = $(v),
-                    id = getInputId(ele),
-                    obj = $('#' + id);
-                values[id] = obj.val();
-            });
-        });
-        return values;
     };
 
     var replaceAll = function (search, replace, subject) {
