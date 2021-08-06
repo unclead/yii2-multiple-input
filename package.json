@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/unclead/yii2-multiple-input",
   "devDependencies": {
-    "gulp": "^3.8.8",
-    "gulp-uglify": "^1.0.1",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.4.1",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify-es": "3.0.0"
   }
 }
