@@ -4,8 +4,8 @@ Yii2 multiple input change log
 2.26.0 (in development)
 =======================
 
-2.25.0 (in development)
-=======================
+2.25.0
+======
 - rework cloning: fix #277, #351, #348 (unclead)
 
 2.24.0
