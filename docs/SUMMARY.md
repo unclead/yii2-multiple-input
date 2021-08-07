@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Installation](README.md)
+* [Installation](installation.md)
 * [Getting started](getting-started.md)
 * [Usage](usage.md)
 * [Configuration](configuration.md)
