@@ -30,7 +30,7 @@ public $iconMap = [
 ];
 ```
 
-1. Set the preferred icon source
+3. Set the preferred icon source
 
 ```text
     public $iconSource = 'my-amazing-icons';
