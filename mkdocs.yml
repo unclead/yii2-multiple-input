@@ -1,0 +1,10 @@
+site_name: yii2-multipke-input
+site_description: 'A docs test'
+site_author: 'Eugene Tupikov'
+docs_dir: docs/
+repo_name: 'unclead/yii2-multiple-input'
+repo_url: 'https://github.com/unclead/yii2-multiple-input'
+nav:
+  - About: index.md
+theme:
+  name: 'material'
