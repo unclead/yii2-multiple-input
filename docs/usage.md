@@ -1,8 +1,6 @@
 # Usage
 
-{% hint style="info" %}
 You can find the source code of examples [here](https://github.com/unclead/yii2-multiple-input/tree/master/examples)
-{% endhint %}
 
 ## One column
 
