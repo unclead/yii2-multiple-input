@@ -178,6 +178,8 @@ class ListRenderer extends BaseRenderer
             $options = $this->rowOptions;
         }
 
+        $options['data-index'] = '{' . $this->getIndexPlaceholder() . '}';
+
         Html::addCssClass($options, 'multiple-input-list__item');
 
         return $options;
