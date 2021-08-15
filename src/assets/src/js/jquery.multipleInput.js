@@ -394,10 +394,9 @@
             data      = $wrapper.data('multipleInput'),
             settings  = data.settings;
 
-        var rowsCount = getRowsCount($wrapper);
-        if (rowsCount > settings.min) {
+        if (getRowsCount($wrapper) > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
-            $wrapper.trigger(event, [$toDelete, rowsCount]);
+            $wrapper.trigger(event, [$toDelete, data.currentIndex]);
 
             if (event.result === false) {
                 return;
