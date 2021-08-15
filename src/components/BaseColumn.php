@@ -364,7 +364,7 @@ abstract class BaseColumn extends BaseObject
         if ($this->renderer->isBootstrapTheme()) {
             Html::addCssClass($options, 'form-control');
         }
-        
+
         return Html::dropDownList($name, $value, $this->prepareItems($this->items), $options);
     }
 
@@ -396,7 +396,7 @@ abstract class BaseColumn extends BaseObject
         if ($this->renderer->isBootstrapTheme()) {
             Html::addCssClass($options, 'form-control');
         }
-        
+
         return Html::listBox($name, $value, $this->prepareItems($this->items), $options);
     }
 
@@ -605,7 +605,7 @@ abstract class BaseColumn extends BaseObject
         } else {
             $tabindex = null;
         }
-        
+
         $id = isset($options['id']) ? $options['id'] : $this->normalize($name);
         $model = $this->getModel();
         if ($model instanceof Model) {

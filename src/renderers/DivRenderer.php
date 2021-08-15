@@ -17,7 +17,7 @@ use yii\helpers\UnsetArrayValue;
 
 /**
  * Class DivRenderer is a list renderer which uses divs
- * 
+ *
  * @package unclead\multipleinput\renderers
  */
 class DivRenderer extends BaseRenderer
@@ -160,6 +160,8 @@ class DivRenderer extends BaseRenderer
         } else {
             $options = $this->rowOptions;
         }
+
+        $options['data-index'] = '{' . $this->getIndexPlaceholder() . '}';
 
         Html::addCssClass($options, 'multiple-input-list__item');
 

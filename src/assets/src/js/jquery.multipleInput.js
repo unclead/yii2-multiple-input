@@ -199,7 +199,7 @@
                         addActiveFormAttribute($(this));
                     });
 
-                    $wrapper.data('multipleInput').currentIndex = getCurrentRowsCount($wrapper);
+                    $wrapper.data('multipleInput').currentIndex = findMaxRowIndex($wrapper);
                     isActiveFormEnabled = true;
 
                     clearInterval(intervalID);
@@ -212,7 +212,7 @@
                 // If after a second system could not detect ActiveForm it means
                 // that widget is used without ActiveForm and we should just complete initialization of the widget
                 if (form.length === 0 || i > 10) {
-                    $wrapper.data('multipleInput').currentIndex = getCurrentRowsCount($wrapper);
+                    $wrapper.data('multipleInput').currentIndex = findMaxRowIndex($wrapper);
                     isActiveFormEnabled = false;
 
                     clearInterval(intervalID);
@@ -272,8 +272,8 @@
 
             let id = getInputId($element);
             if (id) {
+                // todo still doesn't work for sinlge column
                 let columnName = id.replace(settings.inputId, '').replace(/-\d+-/, '');
-
                 if ($element.is(':checkbox')) {
                     if (!values.hasOwnProperty(columnName)) {
                         values[columnName] = [];
@@ -299,18 +299,18 @@
         let settings  = data.settings;
         let inputList = $wrapper.children('.multiple-input-list').first();
 
-        if (settings.max !== null && getCurrentRowsCount($wrapper) >= settings.max) {
+        if (settings.max !== null && getRowsCount($wrapper) >= settings.max) {
             return;
         }
 
-        let currentIndex = data.currentIndex;
+        let newRowIndex = data.currentIndex + 1;
 
-        let template = replaceAll('{' + settings.indexPlaceholder + '}', data.currentIndex, settings.template);
+        let template = replaceAll('{' + settings.indexPlaceholder + '}', newRowIndex, settings.template);
         let $newRow = $(template);
 
         var beforeAddEvent = $.Event(events.beforeAddRow);
 
-        $wrapper.trigger(beforeAddEvent, [$newRow, currentIndex]);
+        $wrapper.trigger(beforeAddEvent, [$newRow, newRowIndex]);
         if (beforeAddEvent.result === false) {
             return;
         }
@@ -320,7 +320,7 @@
 
             let id = getInputId($element);
             if (id) {
-                let columnName = id.replace(settings.inputId, '').replace(/-\d+-/, '');
+                let columnName = id.replace(settings.inputId, '').replace(/-\d+-?/, '');
 
                 if (rowValues.hasOwnProperty(columnName)) {
                     let tag = $element.get(0).tagName;
@@ -367,27 +367,25 @@
             }
         });
 
-        // display the new row
         if (settings.prepend) {
             $newRow.hide().prependTo(inputList).fadeIn(300);
         } else {
             $newRow.hide().appendTo(inputList).fadeIn(300);
         }
 
-        // apply js templates
         let jsTemplate = null;
         for (var i in settings.jsTemplates) {
             jsTemplate = settings.jsTemplates[i];
-            jsTemplate = replaceAll('{' + settings.indexPlaceholder + '}', currentIndex, jsTemplate);
-            jsTemplate = replaceAll('%7B' + settings.indexPlaceholder + '%7D', currentIndex, jsTemplate);
+            jsTemplate = replaceAll('{' + settings.indexPlaceholder + '}', newRowIndex, jsTemplate);
+            jsTemplate = replaceAll('%7B' + settings.indexPlaceholder + '%7D', newRowIndex, jsTemplate);
 
             window.eval(jsTemplate);
         }
 
-        $wrapper.data('multipleInput').currentIndex++;
+        $wrapper.data('multipleInput').currentIndex = newRowIndex;
 
         var afterAddEvent = $.Event(events.afterAddRow);
-        $wrapper.trigger(afterAddEvent, [$newRow, currentIndex]);
+        $wrapper.trigger(afterAddEvent, [$newRow, newRowIndex]);
     };
 
     var removeInput = function ($btn) {
@@ -396,10 +394,9 @@
             data      = $wrapper.data('multipleInput'),
             settings  = data.settings;
 
-        var currentIndex = getCurrentRowsCount($wrapper);
-        if (currentIndex > settings.min) {
+        if (getRowsCount($wrapper) > settings.min) {
             var event = $.Event(events.beforeDeleteRow);
-            $wrapper.trigger(event, [$toDelete, currentIndex]);
+            $wrapper.trigger(event, [$toDelete, data.currentIndex]);
 
             if (event.result === false) {
                 return;
@@ -415,7 +412,7 @@
                 $(this).remove();
 
                 event = $.Event(events.afterDeleteRow);
-                $wrapper.trigger(event, [$toDelete, currentIndex]);
+                $wrapper.trigger(event, [$toDelete, rowsCount]);
             });
         }
     };
@@ -505,12 +502,29 @@
         return id;
     };
 
-    var getCurrentRowsCount = function($wrapper) {
+    var getRowsCount = function($wrapper) {
+        return findRows($wrapper).length;
+    };
+
+    var findRows = function($wrapper) {
         return $wrapper
             .find('.multiple-input-list .multiple-input-list__item')
             .filter(function(){
                 return $(this).parents('.multiple-input').first().attr('id') === $wrapper.attr('id');
-            }).length;
+            });
+    }
+
+    var findMaxRowIndex = function($wrapper) {
+        let maxIndex = 0;
+
+        findRows($wrapper).each(function(key, element) {
+            let index = $(element).data('index');
+            if (index > maxIndex) {
+                maxIndex = index;
+            }
+        });
+
+        return maxIndex;
     };
 
     var replaceAll = function (search, replace, subject) {

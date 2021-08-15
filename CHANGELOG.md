@@ -1,8 +1,13 @@
 Yii2 multiple input change log
 ==============================
 
-2.26.0 (in development)
+2.27.0 (in development)
 =======================
+
+2.26.0
+======
+- fix calculation of the current row index
+- fix incrementing the current row index after adding a new row 
 
 2.25.0
 ======
