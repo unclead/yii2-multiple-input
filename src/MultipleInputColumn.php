@@ -123,7 +123,7 @@ class MultipleInputColumn extends BaseColumn
             return null;
         }
 
-        if ($this->isRendererHasOneColumn()) {
+        if ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name)) {
             $attribute = $this->name . '[' . $index . ']';
         } else {
             $attribute = $this->context->attribute . '[' . $index . '][' . $this->name . ']';
