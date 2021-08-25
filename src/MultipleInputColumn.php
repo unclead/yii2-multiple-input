@@ -49,12 +49,10 @@ class MultipleInputColumn extends BaseColumn
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
 
-        $elementName = $this->isRendererHasOneColumn()
-            ? '[' . $this->name . '][' . $index . ']'
-            : '[' . $index . '][' . $this->name . ']';
-
-        if (!$withPrefix) {
-            return $elementName;
+        if ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name)) {
+            $elementName = '[' . $index . ']';
+        } else {
+            $elementName = '[' . $index . '][' . $this->name . ']';
         }
 
         $prefix = $this->getInputNamePrefix();
@@ -87,7 +85,7 @@ class MultipleInputColumn extends BaseColumn
         $model = $this->context->model;
         if ($model instanceof Model) {
             if (empty($this->renderer->columns) || ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name))) {
-                return $model->formName();
+                return Html::getInputName($this->context->model, $this->name);
             }
 
             return Html::getInputName($this->context->model, $this->context->attribute);
@@ -128,7 +126,7 @@ class MultipleInputColumn extends BaseColumn
         if ($this->isRendererHasOneColumn()) {
             $attribute = $this->name . '[' . $index . ']';
         } else {
-            $attribute = $this->context->attribute . $this->getElementName($index, false);
+            $attribute = $this->context->attribute . '[' . $index . '][' . $this->name . ']';
         }
 
         $model = $this->context->model;
