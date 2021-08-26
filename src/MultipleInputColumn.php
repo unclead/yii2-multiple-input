@@ -49,7 +49,7 @@ class MultipleInputColumn extends BaseColumn
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
 
-        if ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name)) {
+        if (empty($this->renderer->columns) || ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name))) {
             $elementName = '[' . $index . ']';
         } else {
             $elementName = '[' . $index . '][' . $this->name . ']';
@@ -123,7 +123,7 @@ class MultipleInputColumn extends BaseColumn
             return null;
         }
 
-        if ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name)) {
+        if (empty($this->renderer->columns) || ($this->isRendererHasOneColumn() && $this->hasModelAttribute($this->name))) {
             $attribute = $this->name . '[' . $index . ']';
         } else {
             $attribute = $this->context->attribute . '[' . $index . '][' . $this->name . ']';
