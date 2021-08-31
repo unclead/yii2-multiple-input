@@ -232,25 +232,25 @@ abstract class BaseColumn extends BaseObject
 
     /**
      * Prepares the value of column.
+     *
      * @param array $contextParams the params who passed to closure:
      * string $id the id of input element
      * string $name the name of input element
-     * string $indexPlaceholder The index placeholder of multiple input. The {$indexPlaceholder} template will be replace by $index
+     * string $indexPlaceholder The index placeholder of multiple input. The {$indexPlaceholder} template will be replaced by $index
      * int $index The index of multiple input
      * int $columnIndex The index of current model attributes
+     *
      * @return mixed
      */
-    protected function prepareValue($contextParams = [])
+    protected function resolveValue(array $contextParams = [])
     {
         $data = $this->getModel();
         if ($this->value instanceof \Closure) {
-            $value = call_user_func($this->value, $data, $contextParams);
-        } else {
-            $valuePreparer = new ValuePreparer($this->name, $this->defaultValue);
-            $value = $valuePreparer->prepare($data);
+            return call_user_func($this->value, $data, $contextParams);
         }
 
-        return $value;
+        $resolver = new ValueResolver();
+        return $resolver->resolve($this->name, $data, $this->defaultValue);
     }
 
     /**
@@ -315,7 +315,7 @@ abstract class BaseColumn extends BaseObject
 
         $value = null;
         if ($this->type !== self::TYPE_DRAGCOLUMN) {
-            $value = $this->prepareValue($contextParams);
+            $value = $this->resolveValue($contextParams);
         }
 
         if (isset($options['items'])) {

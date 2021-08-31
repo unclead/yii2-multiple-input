@@ -1,6 +1,11 @@
 Yii2 multiple input change log
 ==============================
 
+3.0.0 (in development)
+=======================
+- rename ValuePreparer to ValueResolver
+
+
 2.27.0 (in development)
 =======================
 
