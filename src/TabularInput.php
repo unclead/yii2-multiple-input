@@ -211,6 +211,10 @@ class TabularInput extends Widget
      */
     public function init()
     {
+        if (count($this->columns) === 0) {
+            throw new InvalidConfigException('You must specify at least one column');
+        }
+
         if (empty($this->models) && !$this->modelClass) {
             throw new InvalidConfigException('You must at least specify "models" or "modelClass"');
         }

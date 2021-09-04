@@ -222,6 +222,10 @@ class MultipleInput extends InputWidget
      */
     public function init()
     {
+        if (count($this->columns) === 0) {
+            throw new InvalidConfigException('You must specify at least one column');
+        }
+
         if ($this->form !== null && !$this->form instanceof ActiveForm) {
             throw new InvalidConfigException('Property "form" must be an instance of yii\widgets\ActiveForm');
         }
@@ -229,8 +233,6 @@ class MultipleInput extends InputWidget
         if ($this->showGeneralError && $this->field === null) {
             $this->showGeneralError = false;
         }
-
-        $this->guessColumns();
         $this->initData();
 
         parent::init();
@@ -266,25 +268,6 @@ class MultipleInput extends InputWidget
             foreach ($data as $index => $value) {
                 $this->data[$index] = $value;
             }
-        }
-    }
-
-    /**
-     * This function tries to guess the columns to show from the given data
-     * if [[columns]] are not explicitly specified.
-     */
-    protected function guessColumns()
-    {
-        if (empty($this->columns)) {
-            $column = [
-                'name' => $this->hasModel() ? $this->attribute : $this->name,
-                'type' => MultipleInputColumn::TYPE_TEXT_INPUT
-            ];
-
-            if ($this->enableGuessTitle && $this->hasModel()) {
-                $column['title'] = $this->model->getAttributeLabel($this->attribute);
-            }
-            $this->columns[] = $column;
         }
     }
 
