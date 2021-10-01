@@ -212,10 +212,13 @@
                 // If after a second system could not detect ActiveForm it means
                 // that widget is used without ActiveForm and we should just complete initialization of the widget
                 if (form.length === 0 || i > 10) {
-                    $wrapper.data('multipleInput').currentIndex = findMaxRowIndex($wrapper);
+                    clearInterval(intervalID);
                     isActiveFormEnabled = false;
 
-                    clearInterval(intervalID);
+                    if (typeof $wrapper.data('multipleInput') !== 'undefined') {
+                        $wrapper.data('multipleInput').currentIndex = findMaxRowIndex($wrapper);
+                    }
+
                     $wrapper.trigger(event);
                 }
             }, 100);
