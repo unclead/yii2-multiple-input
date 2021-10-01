@@ -4,6 +4,10 @@ Yii2 multiple input change log
 2.27.0 (in development)
 =======================
 
+2.26.2
+======
+- prevent error loop in case of undefined $wrapper.data('multipleInput') (cebe)
+
 2.26.1
 ======
 - remove version from composer.json
