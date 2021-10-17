@@ -110,6 +110,24 @@ function($data) {}
 
 **tabindex** _integer_: use it to customize a form element `tabindex`
 
+**columnOptions** _array|\Closure_ the HTML attributes for the indivdual table body column. This can be either an array specifying the common HTML attributes for indivdual body column, or an anonymous function that returns an array of the HTML attributes. 
+
+It should have the following signature:
+```php
+function ($model, $index, $context)
+```
+* `$model`: the current data model being rendered
+* `$index`: the zero-based index of the data model in the model array
+* `$context`: the widget object
+
+_Supported versions >= 2.18.0_
+
+**inputTemplate** _string_ the template of input for customize view. Defailt is `{input}`.
+
+**Example**
+
+`<div class="input-group"><span class="input-group-addon"><i class="fas fa-mobile-alt"></i></span>{input}</div>`
+
 ## Input types
 
 Each column in a row can has their own type. Widget supports:
