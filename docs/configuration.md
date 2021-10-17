@@ -128,7 +128,7 @@ function ($model, $index, $context)
 
 _Supported versions >= 2.18.0_
 
-**inputTemplate** _string_: the template of input for customize view. Defailt is `{input}`.
+**inputTemplate** _string_: the template of input for customize view. Default is `{input}`.
 
 **Example**
 
