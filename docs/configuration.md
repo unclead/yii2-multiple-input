@@ -25,11 +25,15 @@ Default value is `bs`
 
 **removeButtonOptions** _array_: the HTML options for `remove` button. Can contains `class` and `label` keys
 
+**cloneButton** _bool_: whether need to enable clone buttons or not
+
+**cloneButtonOptions** _array_: the HTML options for `remove` button. Can contains `class` and `label` keys
+
 **data** _array_: array of values in case you use widget without model
 
 **models** _array_: the list of models. Required in case you use `TabularInput` widget
 
-**allowEmptyList** _boolean_: whether to allow the empty list
+**allowEmptyList** _boolean_: whether to allow the empty list. **Deprecateed** use the `min` option instead
 
 **columnClass** _string_: the name of column class. You can specify your own class to extend base functionality. Defaults to `unclead\multipleinput\MultipleInputColumn` for `MultipleInput` and `unclead\multipleinput\TabularColumn` for `TabularInput`.
 
@@ -50,8 +54,6 @@ function ($model, $index, $context)
 **sortable** _bool_: whether need to enable sorting or not
 
 **modelClass** _string_: a class of model which is used to render `TabularInput`. You must specify this property when a list of `models` is empty. If this property is not specified the widget will detect it based on a class of `models`
-
-**cloneButton** _bool_: whether need to enable clone buttons or not
 
 **extraButtons** _string\|\Closure_: the HTML content that will be rendered after the buttons. It can be either string or an anonymous function that returns a string which will be treated as HTML content. It should have the following signature:
 
@@ -110,7 +112,11 @@ function($data) {}
 
 **tabindex** _integer_: use it to customize a form element `tabindex`
 
-**columnOptions** _array|\Closure_ the HTML attributes for the indivdual table body column. This can be either an array specifying the common HTML attributes for indivdual body column, or an anonymous function that returns an array of the HTML attributes. 
+**attributeOptions** _array_: client-side options of the attribute, e.g. enableAjaxValidation. You can use this property for custom configuration of the column (attribute). By default, the column will use options which are defined on widget level.
+
+_Supported versions >= 2.1.0
+
+**columnOptions** _array|\Closure_: the HTML attributes for the indivdual table body column. This can be either an array specifying the common HTML attributes for indivdual body column, or an anonymous function that returns an array of the HTML attributes. 
 
 It should have the following signature:
 ```php
@@ -122,7 +128,7 @@ function ($model, $index, $context)
 
 _Supported versions >= 2.18.0_
 
-**inputTemplate** _string_ the template of input for customize view. Defailt is `{input}`.
+**inputTemplate** _string_: the template of input for customize view. Defailt is `{input}`.
 
 **Example**
 
