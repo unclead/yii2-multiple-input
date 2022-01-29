@@ -24,7 +24,6 @@ use unclead\multipleinput\MultipleInput;
 use unclead\multipleinput\TabularInput;
 use unclead\multipleinput\assets\MultipleInputAsset;
 use unclead\multipleinput\assets\MultipleInputSortableAsset;
-use unclead\multipleinput\components\JsCollector;
 use unclead\multipleinput\components\BaseColumn;
 
 /**
@@ -356,12 +355,6 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         return $content;
     }
 
-    /**
-     * @return mixed
-     *
-     * @throws InvalidConfigException
-     * @throws NotSupportedException
-     */
     public function render()
     {
         $this->initColumns();
@@ -369,22 +362,57 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         $view = $this->context->getView();
         MultipleInputAsset::register($view);
 
-        $jsCollector = new JsCollector($view);
+        // Collect all js scripts which were added before rendering of our widget
+        $jsBefore= [];
+        if (is_array($view->js)) {
+            foreach ($view->js as $position => $scripts) {
+                foreach ((array)$scripts as $key => $js) {
+                    if (!isset($jsBefore[$position])) {
+                        $jsBefore[$position] = [];
+                    }
+                    $jsBefore[$position][$key] = $js;
+                }
+            }
+        }
 
-        $jsCollector->onBeforeRender();
+        $content  = $this->internalRender();
 
-        $content = $this->internalRender();
-        $jsCollector->onAfterRender();
+        // Collect all js scripts which has to be appended to page before initialization widget
+        $jsInit = [];
+        if (is_array($view->js)) {
+            foreach ($this->jsPositions as $position) {
+                foreach (ArrayHelper::getValue($view->js, $position, []) as $key => $js) {
+                    if (isset($jsBefore[$position][$key])) {
+                        continue;
+                    }
+                    $jsInit[$key] = $js;
+                    $jsBefore[$position][$key] = $js;
+                    unset($view->js[$position][$key]);
+                }
+            }
+        }
 
         $template = $this->prepareTemplate();
-        $jsCollector->onAfterPrepareTemplate();
+
+        $jsTemplates = [];
+        if (is_array($view->js)) {
+            foreach ($this->jsPositions as $position) {
+                foreach (ArrayHelper::getValue($view->js, $position, []) as $key => $js) {
+                    if (isset($jsBefore[$position][$key])) {
+                        continue;
+                    }
+                    $jsTemplates[$key] = $js;
+                    unset($view->js[$position][$key]);
+                }
+            }
+        }
 
         $options = Json::encode(array_merge([
             'id'                => $this->id,
             'inputId'           => $this->context->options['id'],
             'template'          => $template,
-            'jsInit'            => $jsCollector->getJsInit(),
-            'jsTemplates'       => $jsCollector->getJsTemplates(),
+            'jsInit'            => $jsInit,
+            'jsTemplates'       => $jsTemplates,
             'max'               => $this->max,
             'min'               => $this->min,
             'attributes'        => $this->prepareJsAttributes(),
@@ -416,7 +444,7 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     /**
      * Returns an array of JQuery sortable plugin options.
      * You can override this method extend plugin behaviour.
-     *
+     * 
      * @return array
      */
     protected function getJsSortableOptions()
