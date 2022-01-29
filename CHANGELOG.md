@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-2.27.0 (in development)
+2.28.0 (in development)
 =======================
+
+2.27.0
+======
+- #367 (fix) ajax validation doesn't work for newly added/cloned inputs
 
 2.26.2
 ======

@@ -363,17 +363,21 @@
                     }
                 }
             }
-
-
-            if (isActiveFormEnabled) {
-                addActiveFormAttribute($element);
-            }
         });
 
         if (settings.prepend) {
             $newRow.hide().prependTo(inputList).fadeIn(300);
         } else {
             $newRow.hide().appendTo(inputList).fadeIn(300);
+        }
+
+        // in order to initialize an active form attribute we need to find an input wrapper and we can do it
+        // only after adding a new rows to dom tree
+        if (isActiveFormEnabled) {
+            $newRow.find('input, select, textarea').each(function (index, element) {
+                let $element = $(element);
+                addActiveFormAttribute($element);
+            });
         }
 
         let jsTemplate = null;
@@ -437,7 +441,6 @@
         var ele = $('#' + id),
             wrapper = ele.closest('.multiple-input').first(),
             form = ele.closest('form');
-
 
         // do not add attribute which are not the part of widget
         if (wrapper.length === 0) {
