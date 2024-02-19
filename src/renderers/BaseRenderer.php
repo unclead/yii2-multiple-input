@@ -437,7 +437,8 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
 
         // todo override when ListRenderer will use div markup
         $options = Json::encode($this->getJsSortableOptions());
-        $js = "$('#{$this->id} .multiple-input-list').sorting($options);";
+        $js = "var sortableEl{$this->id} = document.getElementById('{$this->id}').querySelector('.multiple-input-list tbody');";
+        $js .= "var sortable{$this->id} = new Sortable(sortableEl{$this->id}, {$options});";
         $view->registerJs($js);
     }
 
@@ -450,18 +451,14 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
     protected function getJsSortableOptions()
     {
         return [
-            'containerSelector' => 'table',
-            'itemPath'          => '> tbody',
-            'itemSelector'      => 'tr',
-            'placeholder'       => '<tr class="placeholder">',
-            'handle'            => '.drag-handle',
-            'onDrop'            => new \yii\web\JsExpression("
-                function(item, container, _super, event) {
-                    _super(item, container, _super, event);
-
-                    var wrapper = item.closest('.multiple-input').first();
-                    event = $.Event('afterDropRow');
-                    wrapper.trigger(event, [item]);
+            'handle' => '.drag-handle',
+            'draggable' => '.multiple-input-list__item',
+            'onEnd'  => new \yii\web\JsExpression("
+                function(event) {
+                    var item = $(event.item),
+                        wrapper = item.closest('.multiple-input').first(),
+                        trigeredEvent = $.Event('afterDropRow');
+                    wrapper.trigger(trigeredEvent, [item]);
                 }
             ")
         ];
