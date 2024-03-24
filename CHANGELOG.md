@@ -1,8 +1,12 @@
 Yii2 multiple input change log
 ==============================
 
-2.28.0 (in development)
+2.29.0 (in development)
 =======================
+
+2.28.0
+=======================
+- replace outdated jquery-sortable.js with a modern alternative (sortable.js) (sankam-nikolya)
 
 2.27.0
 ======
