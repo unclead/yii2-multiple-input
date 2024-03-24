@@ -1,0 +1,915 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yii2 widget to handle multiple inputs for an attribute of a model">
+      
+      
+        <meta name="author" content="Eugene Tupikov">
+      
+      
+      
+        <link rel="prev" href="../icons/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Usage - Yii2 multiple input</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Yii2 multiple input" class="md-header__button md-logo" aria-label="Yii2 multiple input" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yii2 multiple input
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/unclead/yii2-multiple-input" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unclead/yii2-multiple-input
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Yii2 multiple input" class="md-nav__button md-logo" aria-label="Yii2 multiple input" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Yii2 multiple input
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/unclead/yii2-multiple-input" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unclead/yii2-multiple-input
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../renderers/" class="md-nav__link">
+        Renderers
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../javascript-events/" class="md-nav__link">
+        JS events
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clonning/" class="md-nav__link">
+        Clonning
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips-and-tricks/" class="md-nav__link">
+        Tips and Tricks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../icons/" class="md-nav__link">
+        Custom icons
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Usage
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#one-column" class="md-nav__link">
+    One column
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-columns" class="md-nav__link">
+    Multiple columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabular-input" class="md-nav__link">
+    Tabular input
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#one-column" class="md-nav__link">
+    One column
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-columns" class="md-nav__link">
+    Multiple columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabular-input" class="md-nav__link">
+    Tabular input
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="usage">Usage</h1>
+<p>You can find the source code of examples <a href="https://github.com/unclead/yii2-multiple-input/tree/master/examples">here</a></p>
+<h2 id="one-column">One column</h2>
+<p><img alt="Single column example" src="https://raw.githubusercontent.com/unclead/yii2-multiple-input/master/resources/images/single-column.gif" /></p>
+<p>For example, your application contains the model <code>User</code> that has the related model <code>UserEmail</code> You can add virtual attribute <code>emails</code> for collect emails from a form and then you can save them to the database.</p>
+<p>In this case, you can use <code>yii2-multiple-input</code> widget for supporting multiple inputs how to describe below.</p>
+<p>First of all, we have to declare a virtual attribute in the model</p>
+<pre><code class="language-php">class ExampleModel extends Model
+{
+    /**
+     * @var array virtual attribute for keeping emails
+     */
+    public $emails;
+</code></pre>
+<p>Then we have to use <code>MultipleInput</code> widget for rendering form field in the view file</p>
+<pre><code class="language-php">use yii\bootstrap\ActiveForm;
+use unclead\multipleinput\MultipleInput;
+use unclead\multipleinput\examples\models\ExampleModel;
+use yii\helpers\Html;
+
+/* @var $this \yii\base\View */
+/* @var $model ExampleModel */
+?&gt;
+
+&lt;?php $form = ActiveForm::begin([
+    'enableAjaxValidation'      =&gt; true,
+    'enableClientValidation'    =&gt; false,
+    'validateOnChange'          =&gt; false,
+    'validateOnSubmit'          =&gt; true,
+    'validateOnBlur'            =&gt; false,
+]);?&gt;
+
+&lt;?= $form-&gt;field($model, 'emails')-&gt;widget(MultipleInput::className(), [
+    'max' =&gt; 4,
+ ]);
+?&gt;
+&lt;?= Html::submitButton('Update', ['class' =&gt; 'btn btn-success']);?&gt;
+&lt;?php ActiveForm::end();?&gt;
+</code></pre>
+<p>Options <code>max</code> means that a user is able to input only 4 emails</p>
+<p>For validation emails, you can use the following code</p>
+<pre><code class="language-php">    /**
+     * Email validation.
+     *
+     * @param $attribute
+     */
+    public function validateEmails($attribute)
+    {
+        $items = $this-&gt;$attribute;
+
+        if (!is_array($items)) {
+            $items = [];
+        }
+
+        foreach ($items as $index =&gt; $item) {
+            $validator = new EmailValidator();
+            $error = null;
+            $validator-&gt;validate($item, $error);
+            if (!empty($error)) {
+                $key = $attribute . '[' . $index . ']';
+                $this-&gt;addError($key, $error);
+            }
+        }
+    }
+</code></pre>
+<h2 id="multiple-columns">Multiple columns</h2>
+<p><img alt="Multiple columns example" src="https://raw.githubusercontent.com/unclead/yii2-multiple-input/master/resources/images/multiple-column.gif" /></p>
+<p>For example, you want to have an interface for manage a user schedule. For simplicity, we will store the schedule in json string.</p>
+<p>In this case, you can use <code>yii2-multiple-input</code> widget for supporting multiple inputs how to describe below.</p>
+<p>Our test model can look like as the following snippet</p>
+<pre><code class="language-php">class ExampleModel extends Model
+{
+    public $schedule;
+
+    public function init()
+    {
+        parent::init();
+
+        $this-&gt;schedule = [
+            [
+                'day'       =&gt; '27.02.2015',
+                'user_id'   =&gt; 1,
+                'priority'  =&gt; 1
+            ],
+            [
+                'day'       =&gt; '27.02.2015',
+                'user_id'   =&gt; 2,
+                'priority'  =&gt; 2
+            ],
+        ];
+    }
+</code></pre>
+<p>Then we have to use <code>MultipleInput</code> widget for rendering form field in the view file</p>
+<pre><code class="language-php">use yii\bootstrap\ActiveForm;
+use unclead\multipleinput\MultipleInput;
+use unclead\multipleinput\examples\models\ExampleModel;
+use yii\helpers\Html;
+
+/* @var $this \yii\base\View */
+/* @var $model ExampleModel */
+?&gt;
+
+&lt;?php $form = ActiveForm::begin([
+    'enableAjaxValidation'      =&gt; true,
+    'enableClientValidation'    =&gt; false,
+    'validateOnChange'          =&gt; false,
+    'validateOnSubmit'          =&gt; true,
+    'validateOnBlur'            =&gt; false,
+]);?&gt;
+
+&lt;?= $form-&gt;field($model, 'schedule')-&gt;widget(MultipleInput::className(), [
+    'max' =&gt; 4,
+    'columns' =&gt; [
+        [
+            'name'  =&gt; 'user_id',
+            'type'  =&gt; 'dropDownList',
+            'title' =&gt; 'User',
+            'defaultValue' =&gt; 1,
+            'items' =&gt; [
+                1 =&gt; 'User 1',
+                2 =&gt; 'User 2'
+            ]
+        ],
+        [
+            'name'  =&gt; 'day',
+            'type'  =&gt; \kartik\date\DatePicker::className(),
+            'title' =&gt; 'Day',
+            'value' =&gt; function($data) {
+                return $data['day'];
+            },
+            'items' =&gt; [
+                '0' =&gt; 'Saturday',
+                '1' =&gt; 'Monday'
+            ],
+            'options' =&gt; [
+                'pluginOptions' =&gt; [
+                    'format' =&gt; 'dd.mm.yyyy',
+                    'todayHighlight' =&gt; true
+                ]
+            ]
+        ],
+        [
+            'name'  =&gt; 'priority',
+            'title' =&gt; 'Priority',
+            'enableError' =&gt; true,
+            'options' =&gt; [
+                'class' =&gt; 'input-priority'
+            ]
+        ]
+    ]
+ ]);
+?&gt;
+&lt;?= Html::submitButton('Update', ['class' =&gt; 'btn btn-success']);?&gt;
+&lt;?php ActiveForm::end();?&gt;
+</code></pre>
+<p>For validation of the schedule you can use the following code</p>
+<pre><code class="language-php">    public function validateSchedule($attribute)
+    {
+        $requiredValidator = new RequiredValidator();
+
+        foreach($this-&gt;$attribute as $index =&gt; $row) {
+            $error = null;
+            $requiredValidator-&gt;validate($row['priority'], $error);
+            if (!empty($error)) {
+                $key = $attribute . '[' . $index . '][priority]';
+                $this-&gt;addError($key, $error);
+            }
+        }
+    }
+</code></pre>
+<p>For example, you keep some data in json format in an attribute of a model. Imagine that it is an abstract user schedule with keys: user_id, day, priority</p>
+<p>On the edit page, you want to be able to manage this schedule and you can you yii2-multiple-input widget like in the following code</p>
+<pre><code class="language-php">use unclead\multipleinput\MultipleInput;
+
+...
+
+&lt;?= $form-&gt;field($model, 'schedule')-&gt;widget(MultipleInput::className(), [
+    'max' =&gt; 4,
+    'columns' =&gt; [
+        [
+            'name'  =&gt; 'user_id',
+            'type'  =&gt; 'dropDownList',
+            'title' =&gt; 'User',
+            'defaultValue' =&gt; 1,
+            'items' =&gt; [
+                1 =&gt; 'User 1',
+                2 =&gt; 'User 2'
+            ]
+        ],
+        [
+            'name'  =&gt; 'day',
+            'type'  =&gt; \kartik\date\DatePicker::className(),
+            'title' =&gt; 'Day',
+            'value' =&gt; function($data) {
+                return $data['day'];
+            },
+            'items' =&gt; [
+                '0' =&gt; 'Saturday',
+                '1' =&gt; 'Monday'
+            ],
+            'options' =&gt; [
+                'pluginOptions' =&gt; [
+                    'format' =&gt; 'dd.mm.yyyy',
+                    'todayHighlight' =&gt; true
+                ]
+            ],
+            'headerOptions' =&gt; [
+                'style' =&gt; 'width: 250px;',
+                'class' =&gt; 'day-css-class'
+            ]
+        ],
+        [
+            'name'  =&gt; 'priority',
+            'enableError' =&gt; true,
+            'title' =&gt; 'Priority',
+            'options' =&gt; [
+                'class' =&gt; 'input-priority'
+            ]
+        ],
+        [
+            'name'  =&gt; 'comment',
+            'type'  =&gt; 'static',
+            'value' =&gt; function($data) {
+                return Html::tag('span', 'static content', ['class' =&gt; 'label label-info']);
+            },
+            'headerOptions' =&gt; [
+                'style' =&gt; 'width: 70px;',
+            ]
+        ]
+    ]
+ ]);
+?&gt;
+</code></pre>
+<h2 id="tabular-input">Tabular input</h2>
+<p>For example, you want to have an interface for manage some abstract items via tabular input.</p>
+<p>In this case, you can use <code>yii2-multiple-input</code> widget for supporting tabular input how to describe below.</p>
+<p>Our test model can look like as the following snippet</p>
+<pre><code class="language-php">namespace unclead\multipleinput\examples\models;
+
+use Yii;
+use yii\base\Model;
+// you have to install https://github.com/vova07/yii2-fileapi-widget
+use vova07\fileapi\behaviors\UploadBehavior;
+
+/**
+ * Class Item
+ * @package unclead\multipleinput\examples\models
+ */
+class Item extends Model
+{
+    public $title;
+    public $description;
+    public $file;
+    public $date;
+
+    public function behaviors()
+    {
+        return [
+            'uploadBehavior' =&gt; [
+                'class' =&gt; UploadBehavior::className(),
+                'attributes' =&gt; [
+                    'file' =&gt; [
+                        'path' =&gt; Yii::getAlias('@webroot') . '/images/',
+                        'tempPath' =&gt; Yii::getAlias('@webroot') . '/images/tmp/',
+                        'url' =&gt; '/images/'
+                    ],
+                ]
+            ]
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            [['title', 'description'], 'required'],
+            ['file', 'safe']
+        ];
+    }
+}
+</code></pre>
+<p>Then we have to use <code>TabularInput</code> widget for rendering form field in the view file</p>
+<p>Since version <strong>2.18.0</strong> you can configure <code>columnOptions</code> also.</p>
+<pre><code class="language-php">&lt;?php
+
+use yii\bootstrap\ActiveForm;
+use unclead\multipleinput\TabularInput;
+use yii\helpers\Html;
+use \unclead\multipleinput\examples\models\Item;
+
+/* @var $this \yii\web\View */
+/* @var $models Item[] */
+?&gt;
+
+&lt;?php $form = \yii\bootstrap\ActiveForm::begin([
+    'id'                        =&gt; 'tabular-form',
+    'enableAjaxValidation'      =&gt; true,
+    'enableClientValidation'    =&gt; false,
+    'validateOnChange'          =&gt; false,
+    'validateOnSubmit'          =&gt; true,
+    'validateOnBlur'            =&gt; false,
+    'options' =&gt; [
+        'enctype' =&gt; 'multipart/form-data'
+    ]
+]) ?&gt;
+
+&lt;?= TabularInput::widget([
+    'models' =&gt; $models,
+    'attributeOptions' =&gt; [
+        'enableAjaxValidation'      =&gt; true,
+        'enableClientValidation'    =&gt; false,
+        'validateOnChange'          =&gt; false,
+        'validateOnSubmit'          =&gt; true,
+        'validateOnBlur'            =&gt; false,
+    ],
+    'columns' =&gt; [
+        [
+            'name'  =&gt; 'title',
+            'title' =&gt; 'Title',
+            'type'  =&gt; \unclead\multipleinput\MultipleInputColumn::TYPE_TEXT_INPUT,
+        ],
+        [
+            'name'  =&gt; 'description',
+            'title' =&gt; 'Description',
+        ],
+        [
+            'name'  =&gt; 'file',
+            'title' =&gt; 'File',
+            'type'  =&gt; \vova07\fileapi\Widget::className(),
+            'options' =&gt; [
+                'settings' =&gt; [
+                    'url' =&gt; ['site/fileapi-upload']
+                ]
+            ],
+            'columnOptions' =&gt; [
+                'style' =&gt; 'width: 250px;',
+                'class' =&gt; 'custom-css-class'
+            ]
+        ],
+        [
+            'name'  =&gt; 'date',
+            'type'  =&gt; \kartik\date\DatePicker::className(),
+            'title' =&gt; 'Day',
+            'options' =&gt; [
+                'pluginOptions' =&gt; [
+                    'format' =&gt; 'dd.mm.yyyy',
+                    'todayHighlight' =&gt; true
+                ]
+            ],
+            'headerOptions' =&gt; [
+                'style' =&gt; 'width: 250px;',
+                'class' =&gt; 'day-css-class'
+            ]
+        ],
+    ],
+]) ?&gt;
+
+
+&lt;?= Html::submitButton('Update', ['class' =&gt; 'btn btn-success']);?&gt;
+&lt;?php ActiveForm::end();?&gt;
+</code></pre>
+<p>Your action can look like the following code</p>
+<pre><code class="language-php">/**
+ * Class TabularInputAction
+ * @package unclead\multipleinput\examples\actions
+ */
+class TabularInputAction extends Action
+{
+    public function run()
+    {
+        Yii::setAlias('@unclead-examples', realpath(__DIR__ . '/../'));
+
+        $models = [new Item()];
+        $request = Yii::$app-&gt;getRequest();
+        if ($request-&gt;isPost &amp;&amp; $request-&gt;post('ajax') !== null) {
+            $data = Yii::$app-&gt;request-&gt;post('Item', []);
+            foreach (array_keys($data) as $index) {
+                $models[$index] = new Item();
+            }
+            Model::loadMultiple($models, Yii::$app-&gt;request-&gt;post());
+            Yii::$app-&gt;response-&gt;format = Response::FORMAT_JSON;
+            $result = ActiveForm::validateMultiple($models);
+            return $result;
+        }
+
+        if (Model::loadMultiple($models, Yii::$app-&gt;request-&gt;post())) {
+            // your magic
+        }
+
+
+        return $this-&gt;controller-&gt;render('@unclead-examples/views/tabular-input.php', ['models' =&gt; $models]);
+    }
+}
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
