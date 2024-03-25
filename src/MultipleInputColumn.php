@@ -49,9 +49,16 @@ class MultipleInputColumn extends BaseColumn
             $index = '{' . $this->renderer->getIndexPlaceholder() . '}';
         }
 
-        $elementName = $this->isRendererHasOneColumn()
-            ? '[' . $this->name . '][' . $index . ']'
-            : '[' . $index . '][' . $this->name . ']';
+        if ($this->isRendererHasOneColumn()) {
+            $prefix = $this->getInputNamePrefix();
+            if ($prefix === '') {
+                $elementName = $this->name . '[' . $index . ']';
+            } else {
+                $elementName = '[' . $this->name . '][' . $index . ']';
+            }
+        } else {
+            $elementName = '[' . $index . '][' . $this->name . ']';
+        }
 
         if (!$withPrefix) {
             return $elementName;
@@ -73,7 +80,7 @@ class MultipleInputColumn extends BaseColumn
         $columns = \array_filter($this->renderer->columns, function(self $column) {
             return $column->type !== self::TYPE_DRAGCOLUMN;
         });
-        
+
         return count($columns) === 1;
     }
 
