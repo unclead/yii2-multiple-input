@@ -464,8 +464,8 @@
         } else {
             // fallback in case of using flatten widget - just remove all digital indexes
             // and check whether attribute exists or not.
-            bareId = replaceAll(/-\d-/, '-', bareId);
-            bareId = replaceAll(/-\d/, '', bareId);
+            bareId = replaceAll(/-\d+-/, '-', bareId);
+            bareId = replaceAll(/-\d+/, '', bareId);
             if (data.settings.attributes.hasOwnProperty(bareId)) {
                 attributeOptions = data.settings.attributes[bareId];
             }
