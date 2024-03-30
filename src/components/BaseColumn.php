@@ -280,7 +280,7 @@ abstract class BaseColumn extends BaseObject
      * @return mixed
      */
     private function normalize($name) {
-        return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name);
+        return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], strtolower($name));
     }
 
     /**
