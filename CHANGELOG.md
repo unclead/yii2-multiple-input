@@ -5,6 +5,7 @@ Yii2 multiple input change log
 =======================
 - fix addind active form fields doesn't work properly in case of 10 rows and more (unclead)
 - revert changes in normalize method because it affected ajax validation
+- fix addind active form fields in nested columns (unclead) 
 
 2.28.0
 =======================
