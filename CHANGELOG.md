@@ -1,7 +1,10 @@
 Yii2 multiple input change log
 ==============================
 
-2.29.0 (in development)
+2.30.0 (in development)
+=======================
+
+2.29.0
 =======================
 - fix addind active form fields doesn't work properly in case of 10 rows and more (unclead)
 - revert changes in normalize method because it affected ajax validation
