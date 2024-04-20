@@ -102,27 +102,7 @@ class ListRenderer extends BaseRenderer
      */
     protected function renderBody()
     {
-        $rows = [];
-
-        if ($this->data) {
-            $j = 0;
-            foreach ($this->data as $index => $item) {
-                if ($j++ <= $this->max) {
-                    $rows[] = $this->renderRowContent($index, $item);
-                } else {
-                    break;
-                }
-            }
-            for ($i = $j; $i < $this->min; $i++) {
-                $rows[] = $this->renderRowContent($i);
-            }
-        } elseif ($this->min > 0) {
-            for ($i = 0; $i < $this->min; $i++) {
-                $rows[] = $this->renderRowContent($i);
-            }
-        }
-
-        return Html::tag('tbody', implode("\n", $rows));
+        return Html::tag('tbody', implode("\n", $this->renderRows()));
     }
 
     /**
@@ -133,7 +113,7 @@ class ListRenderer extends BaseRenderer
      * @return mixed
      * @throws InvalidConfigException
      */
-    private function renderRowContent($index = null, $item = null)
+    protected function renderRowContent($index = null, $item = null, $rowIndex = null)
     {
         $elements = [];
 
@@ -146,8 +126,8 @@ class ListRenderer extends BaseRenderer
 
         $content = [];
         $content[] = Html::tag('td', implode("\n", $elements));
-        if ($this->max !== $this->min) {
-            $content[] = $this->renderActionColumn($index);
+        if (!$this->isFixedNumberOfRows()) {
+            $content[] = $this->renderActionColumn($index, $item, $rowIndex);
         }
 
         if ($this->cloneButton) {
@@ -290,12 +270,13 @@ class ListRenderer extends BaseRenderer
      *
      * @param null|int $index
      * @param null|ActiveRecordInterface|array $item
+     * @param null|int $rowIndex
      * @return string
      * @throws \Exception
      */
-    private function renderActionColumn($index = null, $item = null)
+    private function renderActionColumn($index = null, $item = null, $rowIndex = null)
     {
-        $content = $this->getActionButton($index) . $this->getExtraButtons($index, $item);
+        $content = $this->getActionButton($index, $rowIndex) . $this->getExtraButtons($index, $item);
 
         return Html::tag('td', $content, [
             'class' => 'list-cell__button',
@@ -315,18 +296,20 @@ class ListRenderer extends BaseRenderer
         ]);
     }
 
-    private function getActionButton($index)
+    private function getActionButton($index, $rowIndex)
     {
         if ($index === null || $this->min === 0) {
             return $this->renderRemoveButton();
         }
 
-        $index++;
-        if ($index < $this->min) {
+        // rowIndex is zero-based, so we have to increment it to properly cpmpare it with min number of rows
+        $rowIndex++;
+
+        if ($rowIndex < $this->min) {
             return '';
         }
 
-        if ($index === $this->min) {
+        if ($rowIndex === $this->min) {
             return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
         }
 

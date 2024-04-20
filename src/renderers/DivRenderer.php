@@ -98,27 +98,7 @@ class DivRenderer extends BaseRenderer
      */
     protected function renderBody()
     {
-        $rows = [];
-
-        if ($this->data) {
-            $j = 0;
-            foreach ($this->data as $index => $item) {
-                if ($j++ <= $this->max) {
-                    $rows[] = $this->renderRowContent($index, $item);
-                } else {
-                    break;
-                }
-            }
-            for ($i = $j; $i < $this->min; $i++) {
-                $rows[] = $this->renderRowContent($i);
-            }
-        } elseif ($this->min > 0) {
-            for ($i = 0; $i < $this->min; $i++) {
-                $rows[] = $this->renderRowContent($i);
-            }
-        }
-
-        return implode("\n", $rows);
+        return implode("\n", $this->renderRows());
     }
 
     /**
@@ -128,14 +108,16 @@ class DivRenderer extends BaseRenderer
      * @param ActiveRecordInterface|array $item
      * @return mixed
      */
-    private function renderRowContent($index = null, $item = null)
+    protected function renderRowContent($index = null, $item = null, $rowIndex = null)
     {
         $elements = [];
+
         $columnIndex = 0;
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $column->setModel($item);
-            $elements[] = $this->renderCellContent($column, $index, $columnIndex++);
+            $elements[] = $this->renderCellContent($column, $index, $columnIndex, $rowIndex);
+            $columnIndex++;
         }
 
         $content = Html::tag('div', implode("\n", $elements), $this->prepareRowOptions($index, $item));
@@ -174,10 +156,11 @@ class DivRenderer extends BaseRenderer
      * @param BaseColumn $column
      * @param int|null $index
      * @param int|null $columnIndex
+     * @param int|null $rowIndex
      * @return string
      * @throws \Exception
      */
-    public function renderCellContent($column, $index, $columnIndex = null)
+    public function renderCellContent($column, $index = null, $columnIndex = null, $rowIndex = null)
     {
         $id = $column->getElementId($index);
         $name = $column->getElementName($index);
@@ -263,9 +246,10 @@ class DivRenderer extends BaseRenderer
 
         // first line
         if ($columnIndex == 0) {
-            if ($this->max !== $this->min) {
-                $content .= $this->renderActionColumn($index);
+            if (!$this->isFixedNumberOfRows()) {
+                $content .= $this->renderActionColumn($index, $column->getModel(), $rowIndex);
             }
+
             if ($this->cloneButton) {
                 $content .= $this->renderCloneColumn();
             }
@@ -287,14 +271,15 @@ class DivRenderer extends BaseRenderer
      * @param null|ActiveRecordInterface|array $item
      * @return string
      */
-    private function renderActionColumn($index = null, $item = null)
+    private function renderActionColumn($index = null, $item = null, $rowIndex = null)
     {
-        $content = $this->getActionButton($index) . $this->getExtraButtons($index, $item);
+        $content = $this->getActionButton($index, $rowIndex) . $this->getExtraButtons($index, $item);
 
         $options = ['class' => 'list-cell__button'];
         $layoutConfig = array_merge([
             'buttonActionClass' => $this->isBootstrapTheme() ? 'col-sm-offset-0 col-sm-2' : '',
         ], $this->layoutConfig);
+
         Html::addCssClass($options, $layoutConfig['buttonActionClass']);
 
         return Html::tag('div', $content, $options);
@@ -317,18 +302,20 @@ class DivRenderer extends BaseRenderer
         return Html::tag('div', $this->renderCloneButton(), $options);
     }
 
-    private function getActionButton($index)
+    private function getActionButton($index, $rowIndex)
     {
         if ($index === null || $this->min === 0) {
             return $this->renderRemoveButton();
         }
 
-        $index++;
-        if ($index < $this->min) {
+        // rowIndex is zero-based, so we have to increment it to properly cpmpare it with min number of rows
+        $rowIndex++;
+
+        if ($rowIndex < $this->min) {
             return '';
         }
 
-        if ($index === $this->min) {
+        if ($rowIndex === $this->min) {
             return $this->isAddButtonPositionRow() ? $this->renderAddButton() : '';
         }
 
