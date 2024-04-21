@@ -57,6 +57,10 @@ class TableRenderer extends BaseRenderer
     public function renderHeader()
     {
         $cells = [];
+        if ($this->isAddButtonPositionRowBegin()) {
+            $cells[] = $this->renderButtonHeaderCell();
+        }
+
         foreach ($this->columns as $column) {
             /* @var $column BaseColumn */
             $cells[] = $this->renderHeaderCell($column);
@@ -94,6 +98,10 @@ class TableRenderer extends BaseRenderer
         }
 
         if ($this->cloneButton) {
+            $columnsCount++;
+        }
+
+        if ($this->isAddButtonPositionRowBegin()) {
             $columnsCount++;
         }
 

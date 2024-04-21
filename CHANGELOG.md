@@ -3,6 +3,7 @@ Yii2 multiple input change log
 
 2.30.0 (in development)
 =======================
+- #363 fix rendering header and footer in case of using POS_ROWS_BEGIN in TableRenderer (unclead)
 
 2.30.0
 =======================
