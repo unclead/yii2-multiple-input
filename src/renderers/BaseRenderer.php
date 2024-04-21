@@ -514,6 +514,11 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         return in_array(self::POS_ROW_BEGIN, $this->addButtonPosition);
     }
 
+    protected function isFixedNumberOfRows()
+    {
+        return $this->max === $this->min;
+    }
+
     private function prepareIndexPlaceholder()
     {
         $this->indexPlaceholder = 'multiple_index_' . $this->id;
@@ -579,4 +584,31 @@ abstract class BaseRenderer extends BaseObject implements RendererInterface
         return $this->theme === self::THEME_BS;
     }
 
+    protected function renderRows()
+    {
+        $rows = [];
+
+        $rowIndex = 0;
+        if ($this->data) {
+            foreach ($this->data as $index => $item) {
+                if ($rowIndex <= $this->max) {
+                    $rows[] = $this->renderRowContent($index, $item, $rowIndex);
+                } else {
+                    break;
+                }
+                $rowIndex++;
+            }
+            for (; $rowIndex < $this->min; $rowIndex++) {
+                $rows[] = $this->renderRowContent($rowIndex, null, $rowIndex);
+            }
+        } elseif ($this->min > 0) {
+            for (; $rowIndex < $this->min; $rowIndex++) {
+                $rows[] = $this->renderRowContent($rowIndex, null, $rowIndex);
+            }
+        }
+
+        return $rows;
+    }
+
+    abstract protected function renderRowContent($index = null, $item = null, $rowIndex = null);
 }
